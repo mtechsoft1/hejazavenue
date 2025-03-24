@@ -1,0 +1,438 @@
+* {
+  box-sizing: border-box;
+}
+.contact-info .inner-div .icon-box,
+.contact-info .inner-div h3,
+.contact-info .inner-div .social-icon-three a,
+.fa-credit-card,
+.fa-ticket,
+h3,
+.menu-dashboard a:hover,
+.menu-dashboard a:hover span,
+.menu-dashboard a:active,
+.menu-dashboard a:active span,
+.booking-form .form-group i {
+  color: #008000;
+}
+.tour-tag,
+.timeline-icon,
+.submit {
+  background-color: #008000;
+}
+.tour-img {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 400px;
+  overflow: hidden;
+  position: relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.tour-img-overlay {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Dark overlay */
+  z-index: 1;
+}
+.tour-text {
+  position: relative;
+  z-index: 2; /* Keeps text above overlay */
+}
+.contact-img {
+  background-image: url(./../img/beautiful\ nature.jpg);
+}
+.tour-img,
+.signup-img,
+.login-img {
+  background-image: url(./../img/tour.jpg);
+}
+
+.contact-img,
+.login-img,
+.signup-img {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 400px;
+  overflow: hidden;
+  position: relative;
+    display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.row {
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.contact-info {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-bottom: 30px;
+  min-height: 245px;
+}
+.contact-info .inner-div {
+  padding: 35px 20px;
+  text-align: center;
+  min-height: 230px;
+  font-size: 17px;
+  color: #656565;
+  box-shadow: 0 0 2px rgb(0 0 0 / 20%);
+  border: 1px solid #e8e9ec;
+}
+.contact-section {
+  margin-top: 30px;
+}
+
+.contact-info .inner-div .icon-box {
+  position: relative;
+
+  font-size: 42px;
+  line-height: 1em;
+}
+.contact-info .inner-div h3 {
+  position: relative;
+  font-size: 19px;
+  font-weight: 500;
+  margin: 12px 0px;
+}
+a {
+  text-decoration: none;
+}
+.contact-info .inner-div .social-icon-three a {
+  margin: 0px 2px;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  border: 2px solid #008000;
+  border-radius: 100%;
+  display: inline-block;
+}
+.contact-form .heading {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  letter-spacing: -1px;
+  font-size: 20px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #000;
+}
+.col-md-7 .col-sm-12 .col-xs-12 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.contact-info .inner-div .text {
+  font-size: 15px;
+  color: #656565;
+  font-weight: 500;
+  line-height: 1.75;
+}
+content {
+  position: relative;
+  width: 100%;
+  padding: 60px 0;
+}
+.link-div {
+  padding: 5px 10px;
+  display: table;
+  margin: 0px auto;
+}
+.card-header {
+  background-color: #fff;
+}
+.img-text,
+.img-text a,
+.contact-text,
+.contact-text a,
+.contact-text h2,
+.login-text,
+.login-text a,
+.login-text h2,
+.signup-text,
+.signup-text a,
+.signup-text h2,
+.tour-text,
+.tour-text a,
+.tour-text h2 {
+  color: #fff;
+}
+
+.img-text h2 {
+  font-size: 40px;
+  font-weight: 700;
+}
+.contact-text h2,
+.login-text h2,
+.signup-text h2,
+.tour-text h2 {
+  margin-bottom: 25px;
+  font-weight: 700;
+  display: table;
+  text-align: center;
+  margin: 10px auto;
+  padding: 11px;
+}
+.img-text,
+.contact-text,
+.login-text,
+.signup-text,
+.tour-text {
+  text-align: center;
+  letter-spacing: 3px;
+}
+
+.table {
+  border: 2px solid rgb(233, 232, 232);
+  padding: 50px;
+}
+
+.tour-tag {
+  color: #fff;
+  font-size: 16px;
+  padding: 10px 20px;
+  font-weight: 500;
+  float: right;
+}
+.tourcity {
+  padding: 30px 100px;
+  background-color: #f7f7f7;
+}
+.container-fluid {
+  margin: 0px;
+  padding: 0px;
+}
+h2 {
+  font-size: 17px;
+  line-height: 28px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  position: relative;
+  padding-top: 20px;
+  color: #333;
+}
+.know {
+  background-color: #fff8f8;
+  padding: 20px;
+}
+.login-box,
+.register-box {
+  margin: 30px auto;
+}
+.login-form .form-control,
+.register-form .form-control {
+  display: inline;
+}
+/* .separator-border {
+        border: 1px solid;
+        border-color: #008000;
+        width: 80px;
+        border-top-width: 3px;
+        flex-grow: 4;
+        height: auto;
+        border-bottom-width: 0;
+      } */
+.tour-service div[class^="col-"]:first-child {
+  padding-left: 0px;
+}
+.fa-credit-card,
+.fa-ticket {
+  font-size: 33px;
+}
+.tour-box > a {
+  float: left;
+  width: 100%;
+  text-align: center;
+  padding-bottom: 20px;
+  width: 100%;
+  text-decoration: none;
+}
+.tour-box {
+  width: 100%;
+}
+.fa-credit-card,
+.fa-ticket {
+  margin: 20px 0px 0px;
+}
+.tour-box span {
+  color: #656565;
+}
+.tour-box p {
+  color: #727272;
+  margin: 3px 0px 0px;
+}
+.border {
+  border: 1px solid grey;
+}
+
+.single-timeline:before {
+  content: "";
+  width: 2px;
+  height: 80%;
+  background: #ddd;
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  left: 20px;
+  z-index: -1;
+}
+.single-timeline .timeline .left {
+  margin-left: 40px;
+}
+
+.single-timeline .timeline .timeline-content {
+  padding: 0 50px;
+  transition: all 0.3s ease 0s;
+  width: 100%;
+}
+.single-timeline .timeline .timeline-content h4 {
+  transition: all ease-in-out 0.5s;
+  color: #454545;
+  font-size: 15px;
+  font-weight: 600;
+}
+.single-timeline .timeline:before,
+.single-timeline .timeline:after {
+  content: "";
+  display: block;
+  width: 100%;
+  clear: both;
+}
+.timeline-icon {
+  border-radius: 100%;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  height: 40px;
+  left: 0;
+  line-height: 30px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 40px;
+  z-index: 1;
+  transition: all ease-in-out 0.5s;
+  border: 5px solid #008000;
+}
+.booking-form .form-group i {
+  font-size: 21px;
+  position: absolute;
+  font-weight: 500;
+  position: absolute;
+  left: 30px;
+  top: 15px;
+  font-weight: 500;
+  padding-right: 10px !important;
+  width: 30px;
+  border-right: 1px solid #e2e2e2 !important;
+}
+.booking-form .form-group input[type="text"],
+.booking-form .form-group input[type="datetime"],
+.booking-form .form-group input[type="date"],
+.booking-form .form-group input[type="number"],
+.booking-form .form-group input[type="email"],
+.booking-form .form-group input[type="url"],
+.booking-form .form-group input[type="tel"] {
+  padding-left: 55px;
+  height: 53px;
+  color: #999;
+  transition: box-shadow 0.2s !important;
+  font-size: 14px !important;
+  font-weight: 500;
+  background-color: #fff;
+}
+.booking-form .form-group select,
+.booking-form .form-group textarea {
+  background-color: #fff;
+  color: #999;
+  font-weight: 500;
+}
+h3 {
+  font-size: 1.4rem;
+  margin: 10px 20px;
+}
+
+.single-timeline .timeline {
+  margin-top: 30px;
+  position: relative;
+}
+.single-timeline {
+  position: relative;
+  z-index: 1;
+}
+.submit {
+  color: #fff;
+  padding: 10px 80px;
+  border: none;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.login-title {
+  font-size: 24px;
+  color: #484848;
+}
+
+.contact-content h3 {
+  position: relative;
+  font-size: 35px;
+  font-weight: 700;
+  line-height: 1.2em;
+  margin-bottom: 25px;
+  color: #000;
+}
+.contact-content .text p span {
+  color: #25292f;
+  font-weight: 700;
+}
+
+.booknow_text,
+.contact-form,
+.register-box {
+  border: 2px solid #eee;
+  border-radius: 8px;
+  background: #fff;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+.login-title {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.login-title small a {
+  text-transform: capitalize;
+  font-weight: 400;
+  color: #333;
+  display: block;
+  font-size: 14px;
+}
+.register-box {
+  padding: 20px;
+}
+.bg-img {
+  background-image: url(./../img/bg.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  margin: 0px -15px;
+  opacity: 0.7;
+}
+
+/* .contactform .form-group .form-control {
+  width: 100%;
+  height: 53px;
+  color: #999;
+  transition: box-shadow 0.2s !important;
+  font-size: 14px !important;
+  font-weight: 500;
+  background-color: #fff;
+} */
