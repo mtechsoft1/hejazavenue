@@ -14,7 +14,7 @@ Route::middleware(['unauthorized'])->group(function () {
 	Route::get('/tour_details/{id}/booking_details', [TourController::class, 'tourBookingsDetails'])->name('booking_details');
 	Route::get('/tour_details/{id}/booking_details/make-payment', [TourController::class, 'makePayment'])->name('make-payment');
 	Route::get('/tour_details/{id}/booking_details/make-payment/payment', [TourController::class, 'bookNowPayment'])->name('payment');
-	Route::post('/tour_details/{id}/booking_details/make-payment/payment', [TourController::class, 'processTourBooking'])->name('payment');
+	Route::post('/tour_details/{id}/booking_details/make-payment/payment', [TourController::class, 'processTourBooking'])->name('payments');
 
 });
 

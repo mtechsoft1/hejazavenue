@@ -242,7 +242,7 @@ label {
             <h2 class="text-2xl font-bold text-start">
             Offers
             </h2>
-                <p class="block text-md text-[#595959] text-start ">Most popular choices for Tourest from Pakistan</p>
+                <p class="block text-md text-[#595959] text-start ">Most saliha choices for Tourest from Pakistan</p>
 
             </div>
         </div>

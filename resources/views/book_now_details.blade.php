@@ -49,8 +49,8 @@ Booking Details
                       </div>
                   </div>
                   <div class="my-2">
-                      <h3 class="font-bold text-md text-[#1a1a1a]">Trip To Azad Kashmir</h3>
-                      <p class="font-normal text-sm mt-2">Azad Kashmir is abundant in tourists from the ancient Buddhist University’s remains in Sharda.</p>
+                      <h3 class="font-bold text-md text-[#1a1a1a]">{{$tour->trip_name}}</h3>
+                      <p class="font-normal text-sm mt-2">{{\Illuminate\Support\Str::limit($tour->trip_description,120)}}</p>
                       <p class="mt-2 text-[#008000] text-xs">Great Location... 8.1</p>
                   </div>
                   <div class="my-2 flex items-center gap-2">
@@ -59,33 +59,33 @@ Booking Details
                   </div>
              </div>
                 <!-- BOX 2-->
-             <div class="border-[1px] border-gray-300 p-3 mt-3">
+             <div  class="border-[1px] border-gray-300 p-3 mt-3">
                 <h3 class="font-bold text-md text-[#1a1a1a]">Your booking details</h3>
                  <div class="grid grid-cols-2 gap-2 mt-3">
                      <div>
                          <p class="text-sm text-[#1a1a1a]">Departure</p>
-                         <p class="text-md font-bold text-[#1a1a1a]">Mar 12, 2025</p>
+                         <p class="text-md font-bold text-[#1a1a1a]">{{\Carbon\Carbon::parse($tour->trip_start_date)->format('M d,Y')}}</p>
                      </div>
                      <div>
-                         <p class="text-sm text-[#1a1a1a]">Arrive</p>
-                         <p class="text-md font-bold text-[#1a1a1a]">Mar 13, 2025</p>
+                         <p class="text-sm text-[#1a1a1a]">Return</p>
+                         <p class="text-md font-bold text-[#1a1a1a]">{{\Carbon\Carbon::parse($tour->trip_end_date)->format('M d,Y')}}</p>
                      </div>
                  </div>
                  <p class="text-sm font-semibold text-[#1a1a1a] mt-3">Total length of stay:</p>
-                 <p class="text-sm font-bold text-[#1a1a1a] mt-2">2 days 1 night </p>
+                 <p class="text-sm font-bold text-[#1a1a1a] mt-2">{{$tour->trip_duration}} </p>
              </div>
                <!-- BOX 3-->
-            <div class="border-[1px] border-gray-300 p-3">
+            <div x-show="open == 'finish'" class="border-[1px] border-gray-300 p-3">
                 <p class="font-semibold text-sm text-[#1a1a1a]">You Selected</p>
                 <p class="font-bold text-md text-[#1a1a1a]">Single 2 kids ( Below 3 years )</p>
-                <p class="font-normal text-sm text-[#008000] mt-2">Change your selection</p>
+                <p @click="open = 'your_details'" class="font-normal text-sm text-[#008000] mt-2 cursor-pointer">Change your selection</p>
              </div>
                <!-- BOX 4-->
-            <div class="border-[1px] border-gray-300 p-3 mt-3">
+            <div x-show="open == 'finish'"  class="border-[1px] border-gray-300 p-3 mt-3">
                 <p class="font-bold text-md text-[#1a1a1a]">Your Price Summary</p>
                 <div class="grid grid-cols-12 gap-2 mt-2">
                     <div class="col-span-9"><p class="font-normal text-sm text-[#1a1a1a]">Original Price</p></div>
-                    <div class="col-span-3"><p class="font-normal text-sm text-[#1a1a1a] ps-2">PKR 6,000</p></div>
+                    <div class="col-span-3"><p class="font-normal text-sm text-[#1a1a1a] ps-2" x-text="total_price"></p></div>
                 </div>
                 <div class="grid grid-cols-12 gap-2 mt-2">
                     <div class="col-span-9">
@@ -103,22 +103,22 @@ Booking Details
                 </div>
              </div>
                <!-- BOX 5-->
-            <div class="border-[1px] border-gray-300 bg-blue-50 p-3 ">
+            <div x-show="open == 'finish'"  class="border-[1px] border-gray-300 bg-blue-50 p-3 ">
                     <div class="grid grid-cols-2">
                         <div class="flex items-center">
                           <p class="text-2xl text-[#1a1a1a] font-bold">Price</p>
                         </div>
                         <div>
                             <div class="text-end">
-                             <del class="text-red-500 text-[#1a1a1a] ms-auto">PKR 6,000</del>
+                             <del class="text-red-500 ms-auto">PKR 6,000</del>
                             </div>
-                            <p class="text-2xl font-bold text-[#1a1a1a] text-end">PKR 3,960</p>
+                            <p class="text-2xl font-bold text-[#1a1a1a] text-end">PKR <span x-text="total_price"></span></p>
                             <p class="text-sm font-normal text-[#6b6b6b] text-end">+PKR 634 taxes and fees</p>
                         </div>
                     </div>
              </div>
                <!-- BOX 6-->
-            <div class="border-[1px] border-gray-300 p-3 ">
+            <div x-show="open == 'finish'" class="border-[1px] border-gray-300 p-3 ">
                     <h3 class="font-bold text-md text-[#1a1a1a]">Price information</h3>
                     <div class="flex items-center mt-3 gap-3">
                       <p class="font-semibold text-md">PKR</p>
@@ -150,17 +150,23 @@ Booking Details
          
          <!--  Detail Section Start-->
          <div class="col-span-8">
-            <form id="form" >
+            <form id="form" action="{{route('payments',$id)}}" method="POST" enctype="multipart/form-data"> 
+                @csrf
                  <!-- Section 1 START -->
                  <div x-show="open == 'your_details'">
                      <!--Box 1-->
                      <div class="border-[1px] p-3 border-gray-300 flex items-center gap-3">
                          <div>
-                             <img src="#" alt="img" class="rounded-full border-[2px] border-[#008000]" />
+                            
+                             <img src="{{ asset(auth()->user()->profile_image)}}" alt="img" class="rounded-full border-[2px] border-[#008000]" />
                          </div>
                          <div>
+                            @auth()
+                                
+                           
                              <h3 class="text-md font-bold text-[#1a1a1a]">You are signed in</h3>
-                             <p class="text-sm font-normal text-[#6b6b6b]">test@gmail.com</p>
+                             <p class="text-sm font-normal text-[#6b6b6b]">{{auth()->user()->email}}</p>
+                             @endauth
                          </div>
                      </div>
                      <!--Box 2-->
@@ -174,40 +180,57 @@ Booking Details
                                     <!-- First Name -->
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700">First Name</label>
-                                        <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="John">
+                                        <input type="text" name="name" value="{{$booking->name ?? auth()->user()->name}}" class="w-full border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="John">
                                     </div>
                             
-                                    <!-- Last Name -->
+                                    <!-- Email -->
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700">Last Name</label>
-                                        <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Doe">
+                                        <label class="block text-sm font-medium text-gray-700">Email</label>
+                                        <input type="email" name="email"  value="{{$booking->email ?? auth()->user()->email}}" class="w-full border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Doe">
                                     </div>
                                 </div>
                         
                                 <!-- Email Address -->
-                                <div class="flex flex-col">
+                                {{-- <div class="flex flex-col" >
                                     <label class="block text-sm font-medium text-gray-700">Email Address</label>
-                                    <input type="email" class="md:w-[49%] border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="example@email.com">
-                                </div>
+                                    <input type="email" name="email"  value="{{$booking->email ?? auth()->user()->email}}" class="md:w-[49%] border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="example@email.com">
+                                </div> --}}
                         
                                 <!-- Country/Region Select -->
                                 <div class="flex flex-col">
                                     <label class="block text-sm font-medium text-gray-700">Country/Region</label>
-                                    <select class="md:w-[49%] border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                    <select class="md:w-[49%] border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" name="country">
                                         <option value="">Select your country</option>
-                                        <option selected value="us">Pakistan</option>
+                                        <option selected value="pk">Pakistan</option>
                                     </select>
                                 </div>
                         
                                 <!-- Phone Number -->
                                 <div class="flex flex-col">
                                     <label class="block text-sm font-medium text-gray-700">Phone Number</label>
-                                    <input type="tel" class="md:w-[49%] border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="+92">
+                                    <input type="tel" class="md:w-[49%] border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" name="phone" value="{{$booking->phone ?? auth()->user()->phone}}" placeholder="+92">
                                 </div>
-                        
+                                <script>
+                                    window.pickupPoints = @json($tourPickupPoint);
+                                </script>
+                                
+                                <!-- Pickup Point -->
+                                <div class="flex flex-col">
+                                    <label class="block text-sm font-medium text-gray-700">Pickup Point</label>
+                                    <select class="md:w-[49%] border border-gray-300 p-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                                            name="pickup_point_id" 
+                                            x-model="selectedPickupPoint" 
+                                            @change="updatePickupFare()">
+                                        <option value="" disabled selected>Select your Pickup Point</option>
+                                        @foreach ($tourPickupPoint as $point)
+                                        <option value="{{ $point->id }}">{{ $point->pickup_city }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                
                                 <!-- Checkbox -->
                                 <div class="flex items-center gap-2">
-                                    <input type="checkbox" id="agree" class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-2 focus:ring-green-500">
+                                    <input type="checkbox" id="agree" name="agree" class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-2 focus:ring-green-500" required>
                                     <label for="agree" class="text-sm text-gray-700 p-0 m-0">I agree to the terms and conditions</label>
                                 </div>
                         
@@ -222,7 +245,7 @@ Booking Details
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <i class="material-icons rounded-full border-[1px] border-[#008000] text-[#008000] px-1 text-sm">check</i>
-                                    <p class="text-sm font-normal text-[#1a1a1a]">Stay flexible: You can cancel for free before 6:00 PM on March 12, 2025, so lock in this great price today.</p>
+                                    <p class="text-sm font-normal text-[#1a1a1a]">{{$tour->cancellation_policy}}</p>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <i class="material-icons rounded-full border-[1px] border-[#008000] text-[#008000] px-1 text-sm">check</i>
@@ -236,52 +259,70 @@ Booking Details
                                 <h3 class="text-lg font-bold text-gray-800">Select Package</h3>
                                       <div class="flex items-center gap-3">
                                         <div class="flex items-center gap-2 p-0">
-                                            <input type="radio" x-model="package" selected value="Single" class="w-4 h-4 text-green-600 border-gray-300 focus:ring-2 focus:ring-green-500">
+                                            <input type="radio" name="package_type" x-model="package" @if (empty($booking->package_type)) selected
+                                                
+                                            @else
+                                                
+                                            @if ($booking->package_type == 'single') selected
+                                            @endif  
+                                            @endif value="Single" class="w-4 h-4 text-green-600 border-gray-300 focus:ring-2 focus:ring-green-500">
                                             <span class="text-gray-700">Single</span>
                                         </div>
                                         <div class="flex items-center gap-2 p-0">
-                                            <input type="radio" x-model="package" value="Couple" class="w-4 h-4 text-green-600 border-gray-300 focus:ring-2 focus:ring-green-500">
+                                            <input type="radio" name="package_type" @click="resetTotal() , calculateCouplePirce()" x-model="package" @if (!empty($booking->package_type)) 
+                                             @if ($booking->package_type == 'couple') selected
+                                            @endif  
+                                            @endif value="Couple" class="w-4 h-4 text-green-600 border-gray-300 focus:ring-2 focus:ring-green-500">
                                             <span class="text-gray-700">Couple</span>
                                         </div>
                                         <div class="flex items-center gap-2 p-0">
-                                            <input type="radio" x-model="package" value="Family" class="w-4 h-4 text-green-600 border-gray-300 focus:ring-2 focus:ring-green-500">
+                                            <input type="radio" name="package_type" @click="resetTotal() , calculateFamilyPirce()" x-model="package"  @if (!empty($booking->package_type)) 
+                                            @if ($booking->package_type == 'family') selected
+                                           @endif  
+                                           @endif value="Family" class="w-4 h-4 text-green-600 border-gray-300 focus:ring-2 focus:ring-green-500">
                                             <span class="text-gray-700">Family</span>
                                         </div>
                                     </div>
                             
                                 <!-- Select Persons -->
-                                <h3 class="text-lg font-bold text-gray-800">Select Persons</h3>
-                                <div  class="space-y-4">
-                                    <!-- Below 3 Years -->
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-gray-700">Below 3 Years</span>
-                                        <div class="flex items-center gap-3">
-                                            <button type="button" @click="below_three--" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full">-</button>
-                                            <span class="text-lg font-semibold" x-text="below_three"></span>
-                                            <button type="button" @click="below_three++" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full">+</button>
-                                        </div>
-                                    </div>
-                            
-                                    <!-- Between 3-8 Years -->
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-gray-700">Between 3 - 8 Years</span>
-                                        <div class="flex items-center gap-3">
-                                            <button type="button" @click="between_three_eight--" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full">-</button>
-                                            <span class="text-lg font-semibold" x-text="between_three_eight"></span>
-                                            <button type="button" @click="between_three_eight++" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full">+</button>
-                                        </div>
-                                    </div>
-                            
-                                    <!-- Above 8 Years -->
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-gray-700">Above 8 Years</span>
-                                        <div class="flex items-center gap-3">
-                                            <button type="button" @click="above_eight--" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full">-</button>
-                                            <span class="text-lg font-semibold" x-text="above_eight"></span>
-                                            <button type="button" @click="above_eight++" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full">+</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                 <div x-show="package == 'Single'">
+                                     <h3 class="text-lg font-bold text-gray-800">Select Persons</h3>
+                                     <div  class="space-y-4">
+                                         <!-- Below 3 Years -->
+                                         <div class="flex items-center justify-between">
+                                             <span class="text-gray-700">Below 3 Years</span>
+                                             <div class="flex items-center gap-3">
+                                             <button type="button" 
+                                                     @click="if (below_three > 0) { below_three--; updateTotalPrice(); }"
+                                                     class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full">-
+                                                 </button>                                            <span class="text-lg font-semibold" x-text="below_three"></span>
+                                                 <button type="button" 
+                                                     @click="below_three++; updateTotalPrice();"
+                                                     class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full">+
+                                                 </button>                                        </div>
+                                         </div>
+                                 
+                                         <!-- Between 3-8 Years -->
+                                         <div class="flex items-center justify-between">
+                                             <span class="text-gray-700">Between 3 - 8 Years</span>
+                                             <div class="flex items-center gap-3">
+                                                 <button type="button" @click="between_three_eight-- , updateTotalPrice();" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full">-</button>
+                                                 <span class="text-lg font-semibold" x-text="between_three_eight"></span>
+                                                 <button type="button" @click="between_three_eight++ , updateTotalPrice();" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full">+</button>
+                                             </div>
+                                         </div>
+                                 
+                                         <!-- Above 8 Years -->
+                                         <div class="flex items-center justify-between">
+                                             <span class="text-gray-700">Above 8 Years</span>
+                                             <div class="flex items-center gap-3">
+                                                 <button type="button" @click="above_eight-- , updateTotalPrice();" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full">-</button>
+                                                 <span class="text-lg font-semibold" x-text="above_eight"></span>
+                                                 <button type="button" @click="above_eight++ , updateTotalPrice();" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full">+</button>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
                             </div>
                                     <button @click="open = 'finish'; $nextTick(() => window.scrollTo({ top: 0, behavior: 'smooth' }))" 
                                             type="button" 
@@ -314,18 +355,24 @@ Booking Details
                          </div>
                         <div class=" rounded-lg flex flex-col gap-2 justify-center pt-2 border-t-[3px]">
                             <div class="flex items-center">
-                                <input id="default-radio-1" type="radio" value="" name="payment-type"
+                                <input id="default-radio-1" type="radio" value="20" name="payment_type"
                                     class="w-4 h-4 text-[#008000] bg-gray-100 border-gray-300 focus:ring-[#008000] dark:focus:ring-[#008000] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                 <label for="default-radio-1"
                                     class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pay 20% for confirm
                                     booking</label>
                             </div>
                             <div class="flex items-center">
-                                <input checked id="default-radio-2" type="radio" value="" name="payment-type"
+                                <input checked id="default-radio-2" type="radio" value="full" name="payment_type"
                                     class="w-4 h-4 text-[#008000] bg-gray-100 border-gray-300 focus:ring-[#008000] dark:focus:ring-[#008000] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                 <label for="default-radio-2"
                                     class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Make Full
                                     Payment</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input  id="default-radio-2" type="radio" value="cash" name="payment_type"
+                                    class="w-4 h-4 text-[#008000] bg-gray-100 border-gray-300 focus:ring-[#008000] dark:focus:ring-[#008000] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                <label for="default-radio-2"
+                                    class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Payment on Cash</label>
                             </div>
                          </div>
                      </div>
@@ -354,18 +401,45 @@ Booking Details
                                 paymentMethod === 'easypaisa' ? 'Please provide your EasyPaisa account number' :
                                 'Please provide your Bank Account Number'
                             "></label>
-                            <input type="text" placeholder="Enter account number" class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
+                            <input type="hidden" name="payment_method" x-model="paymentMethod">
+                            <input type="text" placeholder="Enter account number" name="account_no" value="{{$booking->payment_amount ?? ''}}" class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500">
+                        </div>
+                        <div class="block bg-white w-96 p-6 rounded-lg shadow-lg">
+                            <div class="flex justify-between items-center border-b pb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">Upload Payment Receipt</h3>
+                               
+                            </div>
+                            <label for="file-upload" class="border contents border-gray-300 p-4 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:border-green-500 transition duration-200 bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mb-2 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 12v4m0 0v4m0-4h4m-4 0h-4"></path>
+                                    <path d="M5 20h14a2 2 0 002-2V7a2 2 0 00-2-2h-3l-2-2h-4l-2 2H5a2 2 0 00-2 2v11a2 2 0 002 2z"></path>
+                                </svg>
+                                <input type="file" id="file-upload" name="deposit_receipt" class="hidden">
+                                <input type="hidden"  name="user_id" value="{{auth()->user()->id}}">
+                                <input type="hidden"  name="tour_id" value="{{$id}}">
+                                <span class="text-sm text-gray-600">Click to upload or drag & drop</span>
+                            </label>
                         </div>
                         <div class="flex items-center gap-3">
                             <input type="checkbox" class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-2 focus:ring-green-500" />
                             <p class="text-sm font-normal text-[#1a1a1a]">Your booking is directly with Gold Crest Lahore and by completing this booking you agree to the <span class="text-[#008000]"> booking conditions </span>, <span class="text-[#008000]"> general terms </span>, and <span class="text-[#008000]">privacy policy</span>.</p>
                         </div>
+                        <input type="hidden" name="total_price" :value="total_price">
+                       <!-- Below 3 Years Input -->
+                      <input type="hidden" name="under_3year" x-model="below_three">
+
+                       <!-- Between 3 - 8 Years Input -->
+                      <input type="hidden" name="between_3_8" x-model="between_three_eight">
+
+                      <!-- Above 8 Years Input -->
+                      <input type="hidden" name="above_8" x-model="above_eight">
+
                         <div class="w-full flex justify-center">
                             <div class="w-[200px] flex justify-center">
                                 <!--<a href="{{ route('payment', $id) }}" class="w-full text-decoration-none">-->
                                     <button
-                                         type="button"
-                                         @click="open_model = true"
+                                         type="submit"
+                                      
                                         class="focus:outline-none text-center text-white bg-[#008000] hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-full w-full text-base lg:text-xl px-4 lg:px-5 py-2 lg:py-2.5 my-3">
                                         Make Payment
                                     </button>
@@ -414,7 +488,6 @@ Booking Details
                     <span class="text-sm text-gray-600">Click to upload or drag & drop</span>
                 </label>
             </div>
-
             <!-- Submit Button -->
             <div class="flex justify-end gap-3 mt-4">
                 <button class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Submit</button>
@@ -426,19 +499,65 @@ Booking Details
      
      <!-- Modal End-->
 </section>
-
 <script>
-    
-    function handleBookingSections(){
+    function handleBookingSections() {
         return {
-            open : 'your_details',
-            open_model : false,
+            open: 'your_details',
+            open_model: false,
             package: 'Single',
-            below_three : '0',
-            between_three_eight : '0',
-            above_eight : '0'
-        }
+            below_three: '0',
+            below_three_price: 0,
+            between_three_eight: '0',
+            between_three_eight_price: 0,
+            above_eight: '0',
+            above_eight_price: 0,
+            total_price: '0',
+            couple_price: '5000',
+            family_price: '7000',
+            selectedPickupPoint: '',
+    
+            updateTotalPrice() {
+                this.total_price = 
+                    (this.below_three * this.below_three_price) +
+                    (this.between_three_eight * this.between_three_eight_price) +
+                    (this.above_eight * this.above_eight_price);
+            },
+    
+            resetTotal() {
+                this.total_price = 0;
+                this.below_three = 0;
+                this.between_three_eight = 0;
+                this.above_eight = 0;
+            },
+    
+            calculateCouplePirce() {
+                this.total_price = this.couple_price;
+            },
+    
+            calculateFamilyPirce() {
+                this.total_price = this.family_price;
+            },
+    
+            updatePickupFare() {
+                // Find the selected pickup point object from the global list
+                const point = window.pickupPoints.find(
+                    p => p.id == this.selectedPickupPoint
+                );
+    
+                if (point) {
+                    // Assign the fare values based on the selected pickup point
+                    this.below_three_price = point.kids_under_3_years || 0;
+                    this.between_three_eight_price = point.kids_between_3_to_8 || 0;
+                    this.above_eight_price = point.kids_above_8_years || 0;
+                    this.couple_price = point.couple_package_fare || 0;
+                    this.family_price = point.family_package_fare || 0;
+                    // Recalculate total price with updated fares
+                    this.updateTotalPrice();
+                }
+            },
+        };
     }
-</script>
+    </script>
+
 
 @endsection

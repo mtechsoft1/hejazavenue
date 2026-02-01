@@ -30,7 +30,13 @@ class CreateToursTable extends Migration
             $table->string('kids_above_8_years')->nullable();
             $table->text('attractions')->nullable();
             $table->string('trip_duration')->nullable();
-            $table->string('status')->default('active');                   
+            $table->string('status')->default('active');
+            $table->string('whats_included',512)->default('');
+            $table->string('departure_and_return',512)->default('');
+            $table->string('accessibility',512)->default('');
+            $table->string('additional_information',512)->default('');
+            $table->string('cancellation_policy',512)->default('');
+            $table->string('faq',512)->default('');                 
             $table->timestamps();
         });
     }

@@ -12,6 +12,7 @@ use App\Mail\BookTripMail;
 use App\Mail\AdminBookingAlert;
 use App\Destination;
 use App\Tour;
+use App\Benefit;
 use App\TourBooking;
 use App\Notification;
 use App\TourPickupPoint;
@@ -46,11 +47,12 @@ class TourController extends Controller
     
     public function store(Request $request)
     {
-        try{           
+        
+        try{         
             // dd($request);
             // dd(json_decode(json_encode($request->pickup_city[0])));
             // die();
-
+           
             $agency = User::find($request->agency_id);
 
             if(empty($agency))
@@ -93,6 +95,12 @@ class TourController extends Controller
             $tour->trip_end_date = $request->trip_end_date;
             $tour->trip_total_days = $request->trip_total_days;
             $tour->attractions = $request->attractions;
+            $tour->whats_included = $request->whats_included;
+            $tour->departure_and_return = $request->departure_and_return;
+            $tour->accessibility = $request->accessibility;
+            $tour->cancellation_policy = $request->cancellation_policy;
+            $tour->additional_information = $request->additional_information;
+            $tour->faq = $request->faq;
             $tour->trip_duration = $request->trip_duration;
             $tour->kids_under_3_years = $request->kids_under_3_years;
             $tour->kids_between_3_to_8_years = $request->kids_between_3_to_8_years;
@@ -123,7 +131,13 @@ class TourController extends Controller
                     $point->pickup_time = $request->pickup_time[$i];               
                     $point->save();
                 }
-               
+               for($i =0; $i < count($request->services); $i++)
+               {
+                 $benfits = new Benefit;
+                 $benfits->tour_id = $tour->id;
+                    $benfits->benefit_name = $request->services[$i];
+                    $benfits->save();
+               }
                 if($request->hasFile('gallery_images'))
                 {                
                     $images = $request->file('gallery_images');
@@ -150,7 +164,7 @@ class TourController extends Controller
         {
             return response()->json([
                 'status' => 400,
-                'message' => 'There is some trouble to prceed your action!',
+                'message' => $e->getMessage(),
                 'data' => [],
             ], 200);
         }

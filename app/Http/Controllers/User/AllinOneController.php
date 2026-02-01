@@ -12,6 +12,7 @@ use App\Mail\BookTripMail;
 use App\Mail\AdminBookingAlert;
 use App\Destination;
 use App\Tour;
+use App\Benefit;
 use App\TourBooking;
 use App\Notification;
 use App\TourPickupPoint;
@@ -52,6 +53,7 @@ class AllinOneController extends Controller
         $admin = User::where('id', 1)->where('type', 0)->first();
         $tour = Tour::where('id', $id)->first();
         $pickup_points = TourPickupPoint::where('tour_id', $id)->get();
+        $benefits = Benefit::where('tour_id', $id)->get();
         $gallery_images = Gallary::where('tour_id', $id)->get();
         $destinations = Destination::orderBy('id', 'desc')->get();
         $agency = User::find($tour->agency_id);
@@ -105,9 +107,20 @@ class AllinOneController extends Controller
 
         }
 
-        // dd($gallery_images);
-
-        return view('tourdetails', compact('tour', 'pickup_points', 'gallery_images', 'agency', 'admin', 'allCities','reviews','destinations','tours'));
+        $fares = [];
+       
+foreach ($pickup_points as $point) {
+    $fares[$point['pickup_city']] = [
+        'perSeatFare' => $point['per_seat_fare'] . " " . strtoupper($point['per_seat_fare_currency']),
+        'coupleFare' => $point['couple_package_fare'] . " " . strtoupper($point['per_seat_fare_currency']),
+        'familyFare' => $point['family_package_fare'] . " " . strtoupper($point['family_package_fare_currency']),
+        'honeymoonFare' => $point['honeymoon_package_fare'] . " " . strtoupper($point['family_package_fare_currency']),
+        'pickupDate' => $point['pickup_date'],
+        'pickupTime' => $point['pickup_time'],
+        'pickupPoint' => $point['pickup_point'],
+    ];
+}
+        return view('tourdetails', compact('tour', 'pickup_points','fares', 'gallery_images','benefits', 'agency', 'admin', 'allCities','reviews','destinations','tours'));
     }
 
 
@@ -221,6 +234,7 @@ class AllinOneController extends Controller
     public function my_bookings()
     {
         $user_id = Auth::user()->id;
+        
         $user = User::where('id', $user_id)->first('id');
 
         $tours = TourBooking::where('user_id', $user_id)->get();
@@ -233,7 +247,7 @@ class AllinOneController extends Controller
                 $tour->pickup_point = TourPickupPoint::where('id', $tour->pickup_point_id)->first();
             }
         }
-
+       
         return view('user.my_bookings', compact('tours'));
     }
 

@@ -19,4 +19,9 @@ class Tour extends Model
     {
         return $this->hasMany(TourPickupPoint::class);
     }
+    public function benefit()
+    {
+        return $this->hasMany(Benefit::class);
+    }
+   
 }

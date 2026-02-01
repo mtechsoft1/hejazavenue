@@ -37,7 +37,16 @@ input.invalid {
 .tab {
   display: none;
 }
-
+.selected-service {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .service-name { font-weight: bold; }
 .button {
   background-color: #04AA6D;
   color: #ffffff;
@@ -290,6 +299,32 @@ input.invalid {
                         </div>
                     </div>
               </div>
+              
+              <div class="tab">
+                <div class="input_fields_wrap">
+                    <h1 class="text-2xl font-bold mb-4">Add Benifits</h1>
+                    <div class="row">
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label class="block text-sm font-medium text-gray-600" for="services">Services</label>
+                            <select class="w-full px-4 py-2 mt-1 text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600" name="" id="services" required>
+                                <option value="">--Select Service--</option>
+                                <option value="Wonderful Breakfast">Wonderful Breakfast</option>
+                                <option value="Restaurant">Restaurant</option>
+                                <option value="Spa">Spa</option>
+                                <option value="Outdoor swimming pool">Outdoor swimming pool</option>
+                                <option value="Airport shuttle">Airport shuttle</option>
+                                <option value="Paid private parking">Paid private parking</option>
+                                <option value="Fitness Center">Fitness Center</option>
+                                <option value="Concierge Service">Concierge Service</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="selectedServicesContainer">
+                        <h3>Selected Services:</h3>
+                        <!-- Selected services will be displayed here dynamically -->
+                    </div>
+                </div>
+            </div>
 
               <div class="tab">
                 <div class="input_fields_wrap">
@@ -495,6 +530,7 @@ input.invalid {
                 <span class="step"></span>
                 <span class="step"></span>
                 <span class="step"></span>
+                <span class="step"></span>
               </div>
             </form>
 
@@ -576,6 +612,62 @@ function fixStepIndicator(n) {
   //... and adds the "active" class on the current step:
   x[n].className += " active";
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const serviceSelect = document.getElementById("services");
+    const selectedServicesContainer = document.getElementById("selectedServicesContainer");
+    let selectedServices = []; // This will store the values to be submitted
+
+    serviceSelect.addEventListener("change", function () {
+        const selectedText = serviceSelect.options[serviceSelect.selectedIndex].text;
+        const selectedValue = serviceSelect.value;
+
+        // Check if the selected service is already in the array
+        if (selectedValue && !selectedServices.includes(selectedValue)) {
+            selectedServices.push(selectedValue);
+
+            // Create a visual block for the selected service
+            const serviceContainer = document.createElement("div");
+            serviceContainer.classList.add("selected-service");
+            serviceContainer.setAttribute("data-service-value", selectedValue);
+
+            serviceContainer.innerHTML = `
+                <span class="service-name">${selectedText}</span>
+                <button type="button" class="remove-service-button">Remove</button>
+            `;
+
+            // Handle service removal
+            serviceContainer.querySelector(".remove-service-button").addEventListener("click", function () {
+                serviceContainer.remove();
+                selectedServices = selectedServices.filter(service => service !== selectedValue);
+                updateHiddenInputs(); // Update hidden inputs when a service is removed
+            });
+
+            selectedServicesContainer.appendChild(serviceContainer);
+            updateHiddenInputs();
+        }
+
+        serviceSelect.value = "";
+    });
+
+    function updateHiddenInputs() {
+        // Remove old hidden inputs to avoid duplication
+        const oldInputs = document.querySelectorAll('.hidden-service-input');
+        oldInputs.forEach(input => input.remove());
+
+        // Add hidden inputs for selected services
+        selectedServices.forEach(service => {
+            const hiddenInput = document.createElement("input");
+            hiddenInput.type = "hidden";
+            hiddenInput.name = "services[]"; // Name must match backend expectation
+            hiddenInput.value = service;
+            hiddenInput.classList.add("hidden-service-input");
+            document.getElementById("regForm").appendChild(hiddenInput);
+        });
+    }
+});
+
+
 </script>
 
 
@@ -590,7 +682,7 @@ function fixStepIndicator(n) {
 		e.preventDefault();
 		if(x < max_fields){ //max input box allowed
 			x++; //text box increment
-			$(wrapper).append('<div><h1>Add Departure Cities</h1>'+
+			$(wrapper).append('<div><h1 class="text-2xl font-bold mb-4">Add Departure Cities</h1>'+
                                 '<div class="row">'+
                                     '<div class="form-group col-md-6 col-sm-12">'+
                                       '<label for="cname">City Name</label>'+

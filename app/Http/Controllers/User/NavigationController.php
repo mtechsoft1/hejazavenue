@@ -106,7 +106,9 @@ class NavigationController extends Controller
     
     public function destination_tour($id)
     {
+        
         $tours = Tour::where('destination_id', $id)->orderBy('created_at', 'desc')->get();
+        
         if(!empty($tours))
         {
             foreach($tours as $tour)

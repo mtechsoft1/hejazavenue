@@ -125,57 +125,39 @@ p {
 
 
 <script>
-function faqHandler() {
+    
+    function faqHandler() {
+    // Initialize window.tours with backend data
+    window.tours = @json($tour);
+
     return {
-            openSection: null,
-            sections: [
-                { title: "What’s Included", content: "This package includes meals, transportation, and guided tours." },
-                { title: "Departure & Return", content: "Departure is at 8 AM from the main station, and return is at 6 PM." },
-                { title: "Accessibility", content: "The tour is wheelchair accessible and pet-friendly." },
-                { title: "Additional Information", content: "Guests are encouraged to bring comfortable shoes and sunscreen." },
-                { title: "Cancellation Policy", content: "Free cancellation up to 24 hours before departure." },
-                { title: "FAQ", content: "For more details, visit our help center." }
-            ],
-            toggleSection(index) {
-                this.openSection = this.openSection === index ? null : index;
-            }
+        openSection: null,
+        sections: [
+            { title: "What’s Included", content: window.tours.whats_included || "N/A" },
+            { title: "Departure & Return", content: window.tours.departure_and_return || "N/A" },
+            { title: "Accessibility", content: window.tours.accessibility || "N/A" },
+            { title: "Additional Information", content: window.tours.additional_information || "N/A" },
+            { title: "Cancellation Policy", content: window.tours.cancellation_policy || "N/A" },
+            { title: "FAQ", content: window.tours.faq || "N/A" }
+        ],
+        toggleSection(index) {
+            this.openSection = this.openSection === index ? null : index;
+        }
     };
 }
 
+
 document.addEventListener('alpine:init', () => {
-    Alpine.data('bookingDetails', () => ({
-        selectedCity: 'Lahore',
-        fares: {
-            "Lahore": {
-                perSeatFare: "PKR 50",
-                coupleFare: "PKR 90",
-                familyFare: "PKR 150",
-                honeymoonFare: "PKR 200",
-                pickupDate: "2025-03-15",
-                pickupTime: "10:00 AM",
-                pickupPoint: "Lahore"
-            },
-            "Kashmir": {
-                perSeatFare: "PKR 40",
-                coupleFare: "PKR 80",
-                familyFare: "PKR 130",
-                honeymoonFare: "PKR 180",
-                pickupDate: "2025-03-16",
-                pickupTime: "11:00 AM",
-                pickupPoint: "Lahore"
-            },
-            "Murree": {
-                perSeatFare: "PKR 45",
-                coupleFare: "PKR 85",
-                familyFare: "PKR 140",
-                honeymoonFare: "PKR 190",
-                pickupDate: "2025-03-17",
-                pickupTime: "09:30 AM",
-                pickupPoint: "Lahore"
-            }
+    Alpine.data('bookingDetails', (fares) => ({
+        selectedCity: '', // Default value for dropdown
+        fares: fares, // Dynamic data from backend
+        
+        init() {
+            console.log("Booking Details Initialized!", this.fares);
         }
     }));
 });
+
 </script>
 
 <!--  -->
@@ -460,7 +442,7 @@ document.addEventListener('alpine:init', () => {
                             @foreach($reviews as $review)
                             @if ($loop->first)
                             <div class="flex justify-center h-[80px] m-0">
-                                <p id="testimonial-text" class="text-sm text-[#4d636e] px-2">
+                                <p id="testimonial-text" class="text-sm text-[#4d636e] px-2"> 
                                     {{ \Illuminate\Support\Str::limit($review->review, 150, $end='...') }}
                                 </p>
                             </div>
@@ -500,60 +482,73 @@ document.addEventListener('alpine:init', () => {
 
             <!-- Services -->
             <div class="w-full flex flex-wrap justify-between p-2 mt-5">
+                @foreach ($benefits as $benefit )
+                    
+              @if($benefit->benefit_name == 'Wonderful Breakfast')
+              <div class="border border-black flex gap-1 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[15%]">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
+                </svg>
+                <span class="text-sm">{{$benefit->benefit_name}}</span>
+            </div>
+                @endif
+                @if($benefit->benefit_name == 'Restaurant')
                 <div
-                    class="border border-black flex gap-2 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[15%]">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
-                    </svg>
-                    <span class="text-sm">Wonderful Breakfast</span>
-                </div>
-                <div
-                    class="border border-black flex gap-2 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[15%]">
+                    class="border border-black flex gap-1 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[15%]">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
                     </svg>
-                    <span class="text-sm">Restaurant</span>
+                    <span class="text-sm">{{$benefit->benefit_name}}</span>
                 </div>
+                @endif
+                @if($benefit->benefit_name == 'Spa')
                 <div
-                    class="border border-black flex gap-2 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[15%]">
+                    class="border border-black flex gap-1 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[15%]">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
                     </svg>
-                    <span class="text-sm">Spa</span>
+                    <span class="text-sm">{{$benefit->benefit_name}}</span>
                 </div>
+                @endif
+                @if($benefit->benefit_name == 'Outdoor swimming pool')
                 <div
-                    class="border border-black flex gap-2 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[15%]">
+                    class="border border-black flex gap-1 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[15%]">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
                     </svg>
-                    <span class="text-sm">Outdoor swimming pool</span>
+                    <span class="text-sm">{{$benefit->benefit_name}}</span>
                 </div>
+                @endif
+                @if($benefit->benefit_name == 'Airport shuttle')
                 <div
-                    class="border border-black flex gap-2 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[15%]">
+                    class="border border-black flex gap-1 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[15%]">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
                     </svg>
-                    <span class="text-sm">Airport shuttle</span>
+                    <span class="text-sm">{{$benefit->benefit_name}}</span>
                 </div>
+                @endif
+                @if($benefit->benefit_name == 'Paid private parking')
                 <div
-                    class="border border-black flex gap-2 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[15%]">
+                    class="border border-black flex gap-1 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[15%]">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-3A2.25 2.25 0 0 0 8.25 5.25V9m7.5 0H8.25m7.5 0h2.25A2.25 2.25 0 0 1 20.25 11.25v9A2.25 2.25 0 0 1 18 22.5H6a2.25 2.25 0 0 1-2.25-2.25v-9A2.25 2.25 0 0 1 6 9h2.25m7.5 0v9.75a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75V9m3 4.5h.008v.008H11.25V13.5Z" />
                     </svg>
-                    <span class="text-sm">Paid private parking</span>
+                    <span class="text-sm">{{$benefit->benefit_name}}</span>
                 </div>
+                @endif
+                @endforeach
             </div>
 
 
@@ -568,6 +563,9 @@ document.addEventListener('alpine:init', () => {
                     </div>
                     <div class="flex flex-col gap-3 mt-3">
                         <div class="flex flex-wrap gap-2">
+                            @foreach ($benefits as $benefit )
+                                 
+                           @if($benefit->benefit_name == 'Wonderful Breakfast')
                             <div
                                 class="border border-black flex gap-2 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[32%]">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -575,8 +573,10 @@ document.addEventListener('alpine:init', () => {
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
                                 </svg>
-                                <span class="text-sm">Wonderful Breakfast</span>
+                                <span class="text-sm">{{$benefit->benefit_name}}</span>
                             </div>
+                            @endif
+                            @if($benefit->benefit_name == 'Restaurant')
                             <div
                                 class="border border-black flex gap-2 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[32%]">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -584,8 +584,10 @@ document.addEventListener('alpine:init', () => {
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
                                 </svg>
-                                <span class="text-sm">Restaurant</span>
+                                <span class="text-sm">{{$benefit->benefit_name}}</span>
                             </div>
+                            @endif
+                            @if($benefit->benefit_name == 'Spa')
                             <div
                                 class="border border-black flex gap-2 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[32%]">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -593,10 +595,20 @@ document.addEventListener('alpine:init', () => {
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
                                 </svg>
-                                <span class="text-sm">Spa</span>
+                                <span class="text-sm">{{$benefit->benefit_name}}</span>
                             </div>
+                            @endif
+                            @endforeach
+
                         </div>
+                        
+                            
+                     
                         <div class="flex flex-wrap gap-2">
+                            @foreach ($benefits as $benefit)
+                                
+                         
+                            @if ($benefit->benefit_name == 'swimming pool')
                             <div
                                 class="border border-black flex gap-2 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[32%]">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -604,8 +616,10 @@ document.addEventListener('alpine:init', () => {
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
                                 </svg>
-                                <span class="text-sm">Outdoor Pool</span>
+                                <span class="text-sm"> {{$benefit->benefit_name}}</span>
                             </div>
+                            @endif
+                            @if ($benefit->benefit_name == 'Fitness Center')
                             <div
                                 class="border border-black flex gap-2 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[32%]">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -615,6 +629,10 @@ document.addEventListener('alpine:init', () => {
                                 </svg>
                                 <span class="text-sm">Fitness Center</span>
                             </div>
+                            @endif
+                            @if ($benefit->benefit_name == 'Concierge Service')
+                                
+                           
                             <div
                                 class="border border-black flex gap-2 items-center p-2 rounded-lg w-full sm:w-[48%] md:w-[30%] lg:w-[32%]">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -622,8 +640,10 @@ document.addEventListener('alpine:init', () => {
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9.75 3.75h4.5a6 6 0 0 1 6 6v7.5h1.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1 0-1.5H5.25v-7.5a6 6 0 0 1 6-6Z" />
                                 </svg>
-                                <span class="text-sm">Concierge Service</span>
+                                <span class="text-sm"> {{$benefit->benefit_name}}</span>
                             </div>
+                            @endif
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -685,13 +705,14 @@ document.addEventListener('alpine:init', () => {
             <div class="border-b border-gray-200 w-full mt-4 mb-4"></div>
 
             <!-- Booking Detail -->
-            <div x-data="bookingDetails()" class="w-full flex flex-col lg:flex-row gap-2" id="facilities">
+            <div x-data="bookingDetails({{ json_encode($fares) }})" class="w-full flex flex-col lg:flex-row gap-2" id="facilities">
+
                 <div class="lg:w-[70%] w-full flex flex-col gap-2">
                     <h1 class="m-0 p-0 md:text-2xl text-xl font-bold">Booking Details</h1>
                     <div class="w-full mt-3">
                         <div class="flex w-full">
                             <select x-model="selectedCity" class="city-dropdown w-full rounded-md">
-                                <option value="" disabled selected>Select City</option>
+                                <option value="" disabled selected>Select Pickup Points</option>
                                 <template x-for="(fare, city) in fares" :key="city">
                                     <option :value="city" x-text="city"></option>
                                 </template>
