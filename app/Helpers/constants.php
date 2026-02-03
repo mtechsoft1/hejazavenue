@@ -10,6 +10,6 @@
 	{
 		define('IMAGE_URL', 'http://127.0.0.1:8000/');
 	}else{
-		define('IMAGE_URL', 'https://compassmytrip.com/public/');
+		define('IMAGE_URL', 'https://hejazavenue.com/public/');
 	}
 ?>

@@ -36,9 +36,9 @@
         <div class="w-[90vw] text-white flex justify-center flex-col items-center gap-2">
             <div class="flex lg:justify-end justify-between w-full items-center">
                 <div class="hidden lg:flex items-center gap-2">
-                    <a class=" text-sm  py-2 px-4 me-3  border text-decoration-none cursor-pointer rounded">
+                    {{-- <a class=" text-sm  py-2 px-4 me-3  border text-decoration-none cursor-pointer rounded">
                         <p class="text-white">List our tours </p>
-                    </a>
+                    </a> --}}
                     @auth
                     <a href="{{ route('home') }}"
                         class="bg-white text-[#009900] text-sm p-2 rounded text-decoration-none cursor-pointer hover:text-[#009900]">
@@ -62,8 +62,8 @@
 
                 <div class="lg:hidden">
                     <a href="/" class="text-white text-decoration-none text-xl font-bold flex items-center">
-                        <div class="w-14 h-14 "> <img class="w-full h-full" src="{{ asset('./img/logo.png') }}"
-                                alt="logo" /></div>
+                        <div class="w-[60px] h-[100px] "> <img class="w-full h-full object-contain" src="{{ asset('./img/logo.png') }}"
+                                 alt="logo" /></div>
                     </a>
                 </div>
 
@@ -86,7 +86,7 @@
             <div id="mobile-menu" class="lg:hidden hidden w-full mt-4 transition-all duration-300">
                 <ul class="flex flex-col p-0">
                     <li>
-                        <a href="https://compassmytrip.com/compass/public"
+                        <a href="https://hejazavenue.com/compass/public"
                             class="p-2 rounded-full text-decoration-none border-1 border-white text-sm flex gap-1 hover:text-white items-center ">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-4 h-4">
@@ -103,10 +103,10 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                             </svg>
-                            <span>Tours</span>
+                            <span>Properties</span>
                         </a>
                     </li>
-                    <li>
+                                                            <li>
                         <a href="{{ route('contact') }}"
                             class="p-2 rounded-full text-decoration-none hover:bg-green-700  text-sm flex gap-1 hover:text-white items-center ">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -114,7 +114,18 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a2.25 2.25 0 0 0 3.182-3.183L6.5 7.568V5.25a2.25 2.25 0 0 0-2.25-2.25h4.318a2.25 2.25 0 0 1 2.25 2.25v4.318a2.25 2.25 0 0 0 2.25 2.25h4.318a2.25 2.25 0 0 0 2.25-2.25v-4.318a2.25 2.25 0 0 0-2.25-2.25h-4.318A2.25 2.25 0 0 1 9.568 3Z" />
                             </svg>
-                            <span>Contact Us</span>
+                            <span>Apartments</span>
+                        </a>
+                    </li>
+                                                            <li>
+                        <a href="{{ route('contact') }}"
+                            class="p-2 rounded-full text-decoration-none hover:bg-green-700  text-sm flex gap-1 hover:text-white items-center ">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a2.25 2.25 0 0 0 3.182-3.183L6.5 7.568V5.25a2.25 2.25 0 0 0-2.25-2.25h4.318a2.25 2.25 0 0 1 2.25 2.25v4.318a2.25 2.25 0 0 0 2.25 2.25h4.318a2.25 2.25 0 0 0 2.25-2.25v-4.318a2.25 2.25 0 0 0-2.25-2.25h-4.318A2.25 2.25 0 0 1 9.568 3Z" />
+                            </svg>
+                            <span>Maps</span>
                         </a>
                     </li>
                     <li>
@@ -126,6 +137,17 @@
                                     d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a2.25 2.25 0 0 0 3.182-3.183L6.5 7.568V5.25a2.25 2.25 0 0 0-2.25-2.25h4.318a2.25 2.25 0 0 1 2.25 2.25v4.318a2.25 2.25 0 0 0 2.25 2.25h4.318a2.25 2.25 0 0 0 2.25-2.25v-4.318a2.25 2.25 0 0 0-2.25-2.25h-4.318A2.25 2.25 0 0 1 9.568 3Z" />
                             </svg>
                             <span>About Us</span>
+                        </a>
+                    </li>
+                                        <li>
+                        <a href="{{ route('contact') }}"
+                            class="p-2 rounded-full text-decoration-none hover:bg-green-700  text-sm flex gap-1 hover:text-white items-center ">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a2.25 2.25 0 0 0 3.182-3.183L6.5 7.568V5.25a2.25 2.25 0 0 0-2.25-2.25h4.318a2.25 2.25 0 0 1 2.25 2.25v4.318a2.25 2.25 0 0 0 2.25 2.25h4.318a2.25 2.25 0 0 0 2.25-2.25v-4.318a2.25 2.25 0 0 0-2.25-2.25h-4.318A2.25 2.25 0 0 1 9.568 3Z" />
+                            </svg>
+                            <span>Contact Us</span>
                         </a>
                     </li>
                 </ul>
@@ -163,13 +185,13 @@
                 <div>
                     <a href="{{ route('home') }}"
                         class="text-white text-decoration-none text-xl font-bold flex items-center">
-                        <div class="w-14 h-14 "> <img class="w-full h-full" src="{{ asset('./img/logo.png') }}"
-                                alt="logo" /></div>
+                        <div class="w-[60px] h-[100px] "> <img class="w-full h-full object-contain" src="{{ asset('./img/logo.jpeg') }}"
+                                 alt="logo" /></div>
                     </a>
                 </div>
                 <ul class="flex items-center gap-2 p-0">
                     <li>
-                        <a href="https://compassmytrip.com/compass/public"
+                        <a href="https://hejaz avenue.com/compass/public"
                             class="p-2 rounded-full text-decoration-none border-1 border-white text-sm flex gap-1 hover:text-white items-center ">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-4 h-4">
@@ -186,7 +208,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                             </svg>
-                            <span>Tours</span>
+                            <span>Properties</span>
                         </a>
                     </li>
                     <li>
@@ -197,9 +219,21 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a2.25 2.25 0 0 0 3.182-3.183L6.5 7.568V5.25a2.25 2.25 0 0 0-2.25-2.25h4.318a2.25 2.25 0 0 1 2.25 2.25v4.318a2.25 2.25 0 0 0 2.25 2.25h4.318a2.25 2.25 0 0 0 2.25-2.25v-4.318a2.25 2.25 0 0 0-2.25-2.25h-4.318A2.25 2.25 0 0 1 9.568 3Z" />
                             </svg>
-                            <span>Contact Us</span>
+                            <span>Apartments</span>
                         </a>
                     </li>
+                                        <li>
+                        <a href="{{ route('contact') }}"
+                            class="p-2 rounded-full text-decoration-none hover:bg-green-700  text-sm flex gap-1 hover:text-white items-center ">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a2.25 2.25 0 0 0 3.182-3.183L6.5 7.568V5.25a2.25 2.25 0 0 0-2.25-2.25h4.318a2.25 2.25 0 0 1 2.25 2.25v4.318a2.25 2.25 0 0 0 2.25 2.25h4.318a2.25 2.25 0 0 0 2.25-2.25v-4.318a2.25 2.25 0 0 0-2.25-2.25h-4.318A2.25 2.25 0 0 1 9.568 3Z" />
+                            </svg>
+                            <span>Maps</span>
+                        </a>
+                    </li>
+
                     <li>
                         <a href="{{ route('about_us') }}"
                             class="p-2 rounded-full text-decoration-none hover:bg-green-700  text-sm flex gap-1 hover:text-white items-center ">
@@ -209,6 +243,17 @@
                                     d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a2.25 2.25 0 0 0 3.182-3.183L6.5 7.568V5.25a2.25 2.25 0 0 0-2.25-2.25h4.318a2.25 2.25 0 0 1 2.25 2.25v4.318a2.25 2.25 0 0 0 2.25 2.25h4.318a2.25 2.25 0 0 0 2.25-2.25v-4.318a2.25 2.25 0 0 0-2.25-2.25h-4.318A2.25 2.25 0 0 1 9.568 3Z" />
                             </svg>
                             <span>About Us</span>
+                        </a>
+                    </li>
+                                        <li>
+                        <a href="{{ route('contact') }}"
+                            class="p-2 rounded-full text-decoration-none hover:bg-green-700  text-sm flex gap-1 hover:text-white items-center ">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a2.25 2.25 0 0 0 3.182-3.183L6.5 7.568V5.25a2.25 2.25 0 0 0-2.25-2.25h4.318a2.25 2.25 0 0 1 2.25 2.25v4.318a2.25 2.25 0 0 0 2.25 2.25h4.318a2.25 2.25 0 0 0 2.25-2.25v-4.318a2.25 2.25 0 0 0-2.25-2.25h-4.318A2.25 2.25 0 0 1 9.568 3Z" />
+                            </svg>
+                            <span>Contact Us</span>
                         </a>
                     </li>
                     <li>
@@ -328,6 +373,7 @@
                 </div>
 
                 <!-- Partners Section -->
+                {{--
                 <div>
                     <h1 class="lg:text-lg text-md font-semibold">Partners</h1>
                     <ul class="list-none space-y-2 px-0 pt-2 lg:text-md text-sm">
@@ -337,6 +383,7 @@
                         <li><a href="/" class="text-gray-900 hover:text-gray-900">Become an affiliate</a></li>
                     </ul>
                 </div>
+                --}}
 
                 <!-- About Section -->
                 <div>
@@ -355,9 +402,9 @@
 
                 <div>
                     <p class="text-xs text-center mt-5">
-                        Compassmytrip.com is a part of MTech Soft LLc. the world leader in online travel and related
+                        hejaz avenue.com is a part of MTech Soft LLc. the world leader in online travel and related
                         services.</p>
-                    <p class="text-xs text-center mt-1">Copyright © compassmytrip.com™. All rights reserved.</p>
+                    <p class="text-xs text-center mt-1">Copyright © hejaz avenue.com™. All rights reserved.</p>
                 </div>
 
         </div>

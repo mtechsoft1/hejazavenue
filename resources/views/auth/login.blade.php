@@ -3,6 +3,10 @@
 Login
 @endsection
 @section('content')
+@section('hide_navbar', true)
+@include('components.video_header', ['title' => 'Login', 'breadcrumb' => 'Home/Login'])
+
+{{--
 <div class="container-fluid">
     <div class="tour-img">
         <div class="tour-img-overlay"></div>
@@ -12,10 +16,12 @@ Login
         </div>
     </div>
     <!-------------End Header------------->
+</div>
+--}}
     <div class="bg-gray-100 py-12">
         <div class="lg:w-[50vw] w-[90vw] mx-auto  p-6 bg-white rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold w-full text-left">Sign in or create an account</h2>
-            <p class="text-md text-left mt-2 w-full">You can sign in using your Booking.com account to access our services.</p>
+            <p class="text-md text-left mt-2 w-full">You can sign in using your hejaz.com account to access our services.</p>
             
             <form action="{{ route('login') }}" method="POST" class="w-full mt-4">
                 @csrf
@@ -74,7 +80,10 @@ Login
                     <a href="#" class="text-green-600 hover:underline">Terms & Conditions</a> and
                     <a href="#" class="text-green-600 hover:underline">Privacy Statement</a>
                 </p>
-                <p class="text-sm text-center mt-3">All rights reserved. <br> Copyright (2006-2025) – Booking.com™</p>
+                <div class="text-center mt-3">
+                    <p class="text-md">Don't have an account? <a href="{{ route('register') }}" class="text-green-600 font-bold hover:underline">Create an account</a></p>
+                </div>
+                <p class="text-sm text-center mt-3">All rights reserved. <br> Copyright (2006-2025) – hejaz.com™</p>
             
             </div>
             

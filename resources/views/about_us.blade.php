@@ -3,6 +3,9 @@
 About Us
 @endsection
 @section('content')
+@section('hide_navbar', true)
+@include('components.video_header', ['title' => 'About Us', 'breadcrumb' => 'Home/About Us'])
+
 <style>
         .content {
           max-width: 1247px;
@@ -25,7 +28,7 @@ About Us
             </div>
             
             <div class="row">
-                <p class="md:text-md text-sm text-center max-w-[700px] mx-auto">Compassmytrip offering Tours and Travels in Pakistan. The Pakistan travel packages range from northern area tour packages, Summer Tour Packages to Winter Tour Packages and also including City tours and Historical area Tours.</p><br>
+                <p class="md:text-md text-sm text-center max-w-[700px] mx-auto">hejaz avenue offering Tours and Travels in Pakistan. The Pakistan travel packages range from northern area tour packages, Summer Tour Packages to Winter Tour Packages and also including City tours and Historical area Tours.</p><br>
             </div>
             
         </div>

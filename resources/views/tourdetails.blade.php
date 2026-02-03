@@ -366,7 +366,7 @@ document.addEventListener('alpine:init', () => {
             </div>
 
             <!-- Description -->
-            <div class="flex flex-col mt-3">
+            {{-- <div class="flex flex-col mt-3">
                 <!--<h2 class="font-bold text-xl py-2 my-1">{{ $tour->trip_description }}</h2>-->
                 <div class="lg:w-1/3 w-full  flex flex-col md:flex-row items-center justify-between gap-3">
                     <div class="flex">
@@ -389,7 +389,7 @@ document.addEventListener('alpine:init', () => {
                         </p>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <!-- Description end -->
 
             <!-- galler images and slider -->
@@ -553,7 +553,7 @@ document.addEventListener('alpine:init', () => {
 
 
             <!-- Reseve -->
-            <div class=" m-0  flex flex-col lg:flex-row gap-5 mt-4" id="info">
+            <!-- <div class=" m-0  flex flex-col lg:flex-row gap-5 mt-4" id="info">
                 <div class=" w-full sm:w-[90%] md:w-[80%] lg:w-[70%] mx-auto">
                     <div class="flex flex-col">
                         <h1 class="text-base md:text-lg text-md font-bold">Get the celebrity treatment with world-class service
@@ -700,7 +700,7 @@ document.addEventListener('alpine:init', () => {
                             </div>
                         </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="border-b border-gray-200 w-full mt-4 mb-4"></div>
 

@@ -181,73 +181,291 @@ label {
 <div class="container-fluid">
     <div class=" w-full min-h-[550px] relative flex flex-col">
         <!-- Background image section -->
-        <div class="row background-img relative flex justify-center w-full">
-        </div>
+        <!-- <div class="row background-img relative flex justify-center w-full">
+        </div> -->
 
-        <!-- Search Bar Container -->
-        <div class="lg:max-w-[1110px] w-[90vw] mx-auto text-white font-bold  flex items-center justify-center relative lg:bottom-5 bottom-14">
-            <div class="w-full border-2 rounded-lg border-[#ffb700] bg-white bg-opacity-10">
-                <!-- Search Form -->
-                <form action="{{ route('search_tours') }}" method="post" enctype="multipart/form-data">
+        <!-- Hero Video Background -->
+        <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
+            <source src="{{ asset('gallary_videos/Video2.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+    </div>
+
+    <!-- Booking.com Style Search Bar -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    <div class="w-full relative z-30 -mt-10 mb-12" x-data="bookingSearch()">
+        <div class="lg:max-w-[1110px] w-[90vw] mx-auto">
+            <div class="bg-[#ffb700] p-1 rounded-[4px] shadow-2xl">
+                <form action="{{ route('search_tours') }}" method="post" class="grid grid-cols-1 lg:grid-cols-12 gap-1">
                     @csrf
-                    <div class="lg:grid lg:grid-cols-12 w-full">
-                        <!-- Destination input -->
-                        <div class="w-full col-span-5 border-2 border-[#ffb700]">
-                            <div class="relative flex items-center px-4">
-                                <span class="text-gray-500">
-                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                </span>
-                                <input type="text" name="destination" id="going"
-                                    class="py-2 md:text-md text-sm focus:ring-0 w-full font-normal text-gray-900 border-0"
-                                    placeholder="Where are you going?" />
-                            </div>
+                    
+                    <!-- Destination Input -->
+                    <div class="lg:col-span-4 relative bg-white rounded-[4px]" @click.outside="destOpen = false">
+                        <div class="flex items-center px-3 h-14 border-2 border-transparent focus-within:border-[#ffb700] rounded-[4px] bg-white transition-colors">
+                            <i class="fa fa-bed text-gray-400 text-lg mr-3"></i>
+                            <input type="text" x-model="search" @focus="destOpen = true"  name="destination" 
+                                class="w-full h-full border-none outline-none focus:ring-0 text-gray-900 placeholder-gray-600 font-medium bg-transparent text-sm"
+                                placeholder="Where are you going?" autocomplete="off">
+                                <input type="hidden" name="destination_id" x-model="destId">
+                            <i x-show="search.length > 0" @click="search = ''; destId = ''" class="fa fa-times text-gray-400 cursor-pointer p-2 rounded-full hover:bg-gray-100"></i>
                         </div>
 
-                        <!-- Location select -->
-                        <div class="w-full col-span-5 border-2 border-[#ffb700]">
-                            <div class="relative flex items-center px-4">
-                                <span class="text-gray-500">
-                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                </span>
-                                <select
-                                    class="py-2 font-normal  w-full text-black border-0 focus:ring-0 md:text-md text-sm"
-                                    name="destination_id" id="single-filter">
-                                    <option value="">Location</option>
-                                    @foreach ($destinations as $destination)
-                                    <option value="{{ $destination->id }}">{{ $destination->destination_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <!-- Destination Dropdown -->
+                        <div x-show="destOpen" x-transition.opacity 
+                             class="absolute top-full left-0 w-full bg-white shadow-xl rounded-md mt-2 py-2 z-50 max-h-80 overflow-y-auto border border-gray-100">
+                             <h4 class="px-4 py-2 text-xs font-bold text-gray-800 uppercase tracking-wider">Trending destinations</h4>
+                             <ul class="list-none p-0 m-0">
+                                @foreach ($destinations as $destination)
+                                    <li @click="search = '{{ $destination->destination_name }}'; destId = '{{ $destination->id }}'; destOpen = false" 
+                                        class="px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-3 border-b border-gray-50 last:border-0 group">
+                                        <i class="fa fa-map-marker text-gray-400 group-hover:text-[#008000]"></i>
+                                        <div>
+                                            <div class="font-bold text-gray-900">{{ $destination->destination_name }}</div>
+                                            <div class="text-xs text-gray-500">Pakistan</div>
+                                        </div>
+                                    </li>
+                                @endforeach
+                             </ul>
                         </div>
+                    </div>
 
-                        <!-- Search button -->
-                        <div class="w-full col-span-2">
-                            <button
-                                class="w-full h-full py-2 md:text-md text-sm rounded-sm bg-[#008000] hover:bg-green-600 text-white">
-                                <i class="fa fa-binoculars"></i> Search
-                            </button>
+                    <!-- Date Range Picker -->
+                    <div class="lg:col-span-4 bg-white rounded-[4px]">
+                        <div class="flex items-center px-3 h-14 border-2 border-transparent focus-within:border-[#ffb700] rounded-[4px] bg-white transition-colors cursor-pointer" onclick="document.getElementById('date-range')._flatpickr.open()">
+                             <i class="fa fa-calendar text-gray-400 text-lg mr-3"></i>
+                             <input type="text" id="date-range" name="dates" 
+                                class="w-full h-full border-none outline-none focus:ring-0 text-gray-900 placeholder-gray-600 font-medium cursor-pointer bg-transparent text-sm"
+                                placeholder="Check-in Date — Check-out Date">
                         </div>
+                    </div>
+
+                    <!-- Guests & Rooms -->
+                    <div class="lg:col-span-3 relative bg-white rounded-[4px]" @click.outside="guestOpen = false">
+                        <div class="flex items-center px-3 h-14 border-2 border-transparent focus-within:border-[#ffb700] rounded-[4px] bg-white transition-colors cursor-pointer" @click="guestOpen = !guestOpen">
+                            <i class="fa fa-user text-gray-400 text-lg mr-3"></i>
+                            <div class="flex flex-col justify-center">
+                                <span class="text-gray-900 font-medium text-sm truncate" x-text="`${adults} adults · ${children} children · ${rooms} room`">2 adults · 0 children · 1 room</span>
+                            </div>
+                            <i class="fa fa-chevron-down ml-auto text-xs text-gray-400"></i>
+                        </div>
+                        
+                        <!-- Guest Dropdown -->
+                        <div x-show="guestOpen" x-transition 
+                             style="display: none;"
+                             class="absolute top-full left-0 w-[400px] bg-white shadow-xl rounded-md mt-2 p-6 z-50 border border-gray-100 text-[#1a1a1a]">
+                             
+                             <!-- Adults -->
+                             <div class="flex items-center justify-between mb-4">
+                                <label class="text-sm font-medium text-gray-900">Adults</label>
+                                <div class="flex items-center border border-gray-300 rounded-[4px] overflow-hidden">
+                                    <button type="button" @click="if(adults > 1) adults--" class="w-10 h-9 flex items-center justify-center text-[#0071c2] hover:bg-blue-50 focus:outline-none focus:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors" :disabled="adults <= 1"><i class="fa fa-minus text-xs"></i></button>
+                                    <span class="w-10 text-center font-medium text-gray-900 text-sm" x-text="adults"></span>
+                                    <button type="button" @click="adults++" class="w-10 h-9 flex items-center justify-center text-[#0071c2] hover:bg-blue-50 focus:outline-none focus:bg-blue-100 transition-colors"><i class="fa fa-plus text-xs"></i></button>
+                                </div>
+                             </div>
+
+                             <!-- Children -->
+                             <div class="flex items-center justify-between mb-2">
+                                <label class="text-sm font-medium text-gray-900">Children</label>
+                                <div class="flex items-center border border-gray-300 rounded-[4px] overflow-hidden">
+                                    <button type="button" @click="removeChild()" class="w-10 h-9 flex items-center justify-center text-[#0071c2] hover:bg-blue-50 focus:outline-none focus:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors" :disabled="children <= 0"><i class="fa fa-minus text-xs"></i></button>
+                                    <span class="w-10 text-center font-medium text-gray-900 text-sm" x-text="children"></span>
+                                    <button type="button" @click="addChild()" class="w-10 h-9 flex items-center justify-center text-[#0071c2] hover:bg-blue-50 focus:outline-none focus:bg-blue-100 transition-colors"><i class="fa fa-plus text-xs"></i></button>
+                                </div>
+                             </div>
+
+                             <!-- Children Ages Dropdowns -->
+                             <div x-show="children > 0" class="grid grid-cols-2 gap-3 mb-4">
+                                <template x-for="(age, index) in childrenAges" :key="index">
+                                    <div class="mt-2">
+                                        <select class="w-full p-2 text-sm border border-gray-300 rounded-[4px] focus:border-[#0071c2] focus:ring-1 focus:ring-[#0071c2] outline-none text-gray-700 bg-white">
+                                            <option value="" disabled selected>Age needed</option>
+                                            @for($i=0; $i<=17; $i++)
+                                                <option value="{{ $i }}">{{ $i }} years old</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                </template>
+                             </div>
+                             
+                             <div x-show="children > 0" class="text-xs text-gray-500 mb-4">
+                                To find you a place to stay that fits your entire group along with correct prices, we need to know how old your child will be at check-out
+                             </div>
+
+
+                             <!-- Rooms -->
+                             <div class="flex items-center justify-between mb-6">
+                                <label class="text-sm font-medium text-gray-900">Rooms</label>
+                                <div class="flex items-center border border-gray-300 rounded-[4px] overflow-hidden">
+                                    <button type="button" @click="if(rooms > 1) rooms--" class="w-10 h-9 flex items-center justify-center text-[#0071c2] hover:bg-blue-50 focus:outline-none focus:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors" :disabled="rooms <= 1"><i class="fa fa-minus text-xs"></i></button>
+                                    <span class="w-10 text-center font-medium text-gray-900 text-sm" x-text="rooms"></span>
+                                    <button type="button" @click="rooms++" class="w-10 h-9 flex items-center justify-center text-[#0071c2] hover:bg-blue-50 focus:outline-none focus:bg-blue-100 transition-colors"><i class="fa fa-plus text-xs"></i></button>
+                                </div>
+                             </div>
+                             
+                             <!-- Pets Toggle -->
+                             <div class="flex items-center justify-between mb-4 pt-4 border-t border-gray-100">
+                                 <div>
+                                     <div class="text-sm font-medium text-gray-900">Travelling with pets?</div>
+                                     <div class="text-xs text-gray-500 mt-1">Assistance animals aren't considered pets.</div>
+                                     <a href="#" class="text-xs text-[#0071c2] mt-0.5 block hover:underline">Read more about travelling with assistance animals</a>
+                                 </div>
+                                 <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                                     <input type="checkbox" name="toggle" id="pets-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearence-none cursor-pointer border-gray-300"/>
+                                     <label for="pets-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                 </div>
+                             </div>
+
+                             <div class="mt-4 pt-4 text-center">
+                                <button type="button" @click="guestOpen = false" class="w-full text-[#0071c2] border border-[#0071c2] px-4 py-2 rounded-[4px] hover:bg-blue-50 transition-colors text-sm font-bold">Done</button>
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Search Button -->
+                    <div class="lg:col-span-1">
+                        <button type="submit" class="w-full h-14 bg-[#0071c2] hover:bg-[#005999] text-white text-xl font-bold rounded-[4px] transition-colors shadow-sm">
+                            Search
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    
+    <style>
+        /* Custom Toggle Style */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #0071c2;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #0071c2;
+        }
+        .toggle-checkbox {
+            right: 0;
+            z-index: 10;
+        }
+        .toggle-label {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Calendar Buttons Styling */
+        .flatpickr-calendar .calendar-footer-buttons {
+            display: flex;
+            gap: 8px;
+            padding: 10px;
+            border-top: 1px solid #e6e6e6;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .flatpickr-calendar .cal-btn {
+            background: #fff;
+            border: 1px solid #e7e7e7;
+            border-radius: 4px; /* Booking.com rounded pill style roughly or square */
+            padding: 5px 10px;
+            font-size: 12px;
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            border-radius: 20px;
+            flex: 1;
+            text-align: center;
+        }
+        .flatpickr-calendar .cal-btn:hover {
+            background: #f0f6fd;
+            border-color: #0071c2;
+            color: #0071c2;
+        }
+        .flatpickr-calendar .cal-btn.active {
+            background: #0071c2;
+            color: white;
+            border-color: #0071c2;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            flatpickr("#date-range", {
+                mode: "range",
+                minDate: "today",
+                dateFormat: "Y-m-d",
+                altInput: true,
+                altFormat: "D, M d",
+                showMonths: 2,
+                onReady: function(selectedDates, dateStr, instance) {
+                    const footer = document.createElement("div");
+                    footer.className = "calendar-footer-buttons";
+                    footer.innerHTML = `
+                        <button type="button" class="cal-btn active">Exact dates</button>
+                        <button type="button" class="cal-btn">± 1 day</button>
+                        <button type="button" class="cal-btn">± 2 days</button>
+                        <button type="button" class="cal-btn">± 3 days</button>
+                        <button type="button" class="cal-btn">± 7 days</button>
+                    `;
+                    
+                    // Add click handlers for visually toggling active state
+                    const btns = footer.querySelectorAll('.cal-btn');
+                    btns.forEach(btn => {
+                        btn.addEventListener('click', function(e) {
+                            e.stopPropagation(); // Prevent calendar from closing
+                            btns.forEach(b => b.classList.remove('active'));
+                            this.classList.add('active');
+                        });
+                    });
+
+                    instance.calendarContainer.appendChild(footer);
+                }
+            });
+        });
+
+        // Register Alpine Data
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('bookingSearch', () => ({
+                destOpen: false,
+                guestOpen: false,
+                search: '',
+                destId: '',
+                adults: 2,
+                children: 0,
+                rooms: 1,
+                childrenAges: [],
+                
+                addChild() {
+                    this.children++;
+                    this.childrenAges.push('');
+                },
+                
+                removeChild() {
+                    if (this.children > 0) {
+                        this.children--;
+                        this.childrenAges.pop();
+                    }
+                }
+            }));
+        });
+    </script>
 
     <!--new code of our best services-->
     <!-- Include Swiper.js CDN -->
 
+    <!--
     <div id="service" class="services py-10  relative">
         <div class="service-div text-center mb-2">
             <div class="max-w-[1110px] w-[90vw] mx-auto ps-2">
             <h2 class="text-2xl font-bold text-start">
             Offers
             </h2>
-                <p class="block text-md text-[#595959] text-start ">Most saliha choices for Tourest from Pakistan</p>
+                <p class="block text-md text-[#595959] text-start ">Most popular choices for Tourest from Pakistan</p>
 
             </div>
         </div>
 
-        <!-- Swiper Container for Carousel -->
         <div class="mx-auto lg:max-w-[1110px] w-[90vw]">
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
@@ -255,7 +473,6 @@ label {
                     <div class="swiper-slide @if($index = 1) flex justify-between items-center @endif">
                         <div
                             class="w-full gap-5 shadow-md bg-white flex flex-col md:flex-row justify-between items-center p-2 rounded-lg border border-1">
-                            <!--Text Content -->
                             <div class="w-full md:w-3/4">
                                 <h3 class="text-xl font-semibold text-[#1a1a1a]">{{ $destination->destination_name }}
                                 </h3>
@@ -267,7 +484,6 @@ label {
                                 </div>
                             </div>
 
-                            <!--Image Section -->
                             <div class="w-full md:w-1/5 flex justify-center md:justify-end">
                                 <img class="w-auto md:h-[100px] h-[100px] rounded-xl  object-cover"
                                     src="{{ asset(str_replace('public/', '', $destination->destination_image)) }}"
@@ -280,18 +496,81 @@ label {
                 </div>
             </div>
 
-            <!-- Add Pagination Dots Below the Swiper -->
             <div class="swiper-pagination mt-6 flex justify-center absolute bottom-10"></div>
         </div>
 
     </div>
+    -->
+
+        <!------------------Our Complete Services------------------>
+        <div class="py-16 bg-white relative">
+            <div class="lg:max-w-[1110px] w-[90vw] mx-auto text-center">
+                
+                <!-- Heading Section -->
+                <div class="mb-12">
+                    <h2 class="text-4xl font-serif font-bold text-[#1a1a1a] mb-4">Our Complete Services</h2>
+                    <p class="text-[#595959] text-lg max-w-2xl mx-auto font-light">
+                        Everything you need for a blessed pilgrimage, thoughtfully arranged and delivered with excellence.
+                    </p>
+                </div>
+
+                <!-- Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <!-- Card 1: Airport Pickup -->
+                    <div class="group bg-white p-6 rounded-2xl border border-gray-100 hover:border-transparent hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all duration-300 transform hover:-translate-y-2 cursor-pointer flex flex-col items-start text-left h-full">
+                        <div class="w-14 h-14 bg-[#ecfdf5] rounded-2xl flex items-center justify-center mb-6 text-[#008000] group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa fa-plane text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-serif font-bold text-[#1a1a1a] mb-3 group-hover:text-[#008000] transition-colors">Airport Pickup & Drop-off</h3>
+                        <p class="text-[#595959] text-sm leading-relaxed">
+                            Seamless transfers from arrival to departure with professional drivers
+                        </p>
+                    </div>
+
+                    <!-- Card 2: Apartments & Villas -->
+                    <div class="group bg-white p-6 rounded-2xl border border-gray-100 hover:border-transparent hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all duration-300 transform hover:-translate-y-2 cursor-pointer flex flex-col items-start text-left h-full">
+                        <div class="w-14 h-14 bg-[#ecfdf5] rounded-2xl flex items-center justify-center mb-6 text-[#008000] group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa fa-home text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-serif font-bold text-[#1a1a1a] mb-3 group-hover:text-[#008000] transition-colors">Apartments & Villas</h3>
+                        <p class="text-[#595959] text-sm leading-relaxed">
+                            Premium accommodations near holy sites with all amenities
+                        </p>
+                    </div>
+
+                    <!-- Card 3: Maid & Optional Chef -->
+                    <div class="group bg-white p-6 rounded-2xl border border-gray-100 hover:border-transparent hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all duration-300 transform hover:-translate-y-2 cursor-pointer flex flex-col items-start text-left h-full">
+                        <div class="w-14 h-14 bg-[#ecfdf5] rounded-2xl flex items-center justify-center mb-6 text-[#008000] group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa fa-users text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-serif font-bold text-[#1a1a1a] mb-3 group-hover:text-[#008000] transition-colors">Maid & Optional Chef</h3>
+                        <p class="text-[#595959] text-sm leading-relaxed">
+                            Dedicated housekeeping and optional culinary services
+                        </p>
+                    </div>
+
+                    <!-- Card 4: Car Rentals -->
+                    <div class="group bg-white p-6 rounded-2xl border border-gray-100 hover:border-transparent hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all duration-300 transform hover:-translate-y-2 cursor-pointer flex flex-col items-start text-left h-full">
+                        <div class="w-14 h-14 bg-[#ecfdf5] rounded-2xl flex items-center justify-center mb-6 text-[#008000] group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa fa-car text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-serif font-bold text-[#1a1a1a] mb-3 group-hover:text-[#008000] transition-colors">Car Rentals with Drivers</h3>
+                        <p class="text-[#595959] text-sm leading-relaxed">
+                            Comfortable vehicles with experienced, licensed drivers
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     <!--end-->
 
     <!----------------Popular Destinations------------------>
 
     <div class="locations">
         <div class="lg:max-w-[1110px] w-[90vw] mx-auto">
-            <div class="location-div">
+            <div class="location-div text-center mb-6">
                 <h2 class="text-2xl font-bold ps-2">
                     Popular Destinations
                 </h2>
@@ -345,7 +624,7 @@ label {
                     @endforeach
             </div>
 
-            <div class="mt-3">
+            {{-- <div class="mt-3">
                 <h2 class="font-bold text-2xl ps-2">Explore Pakistan</h2>
                 <p class="text-md text-[#595959] mt-2 ps-2">These popular destinations have a lot to offer</p>
             </div>
@@ -383,13 +662,13 @@ label {
                     aria-label="Next">
                     →
                 </button>
-            </div>
+            </div> --}}
         </div>
         
         <!-- Planner Section -->
         
         <div x-data="handlePlanner()" class="max-w-[1110px] w-[90vw] mx-auto">
-            <div class="mt-3">
+            {{-- <div class="mt-3">
                 <h2 class="font-bold text-2xl ps-2">Quick and easy trip planner</h2>
                 <p class="text-md text-[#595959] mt-2 ps-2">Pick a vibe and explore the top destinations in Pakistan</p>
             </div>
@@ -409,7 +688,7 @@ label {
                         <p :class="{'text-[#008000]': activeTab === 'womens'}" class="text-md py-1">Womens</p>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             
             <div class="relative overflow-hidden mt-2">
                 <div x-show="activeTab === 'city'" class="swiper-container">
@@ -495,17 +774,19 @@ label {
         <!-- Planner Section-->
 
 
+
+
         <!---------------Our Best Packages-------------->
             <div id="package" class="packages lg:max-w-[1110px] w-[90vw] mx-auto mt-3">
                 <div>
-                    <div class="flex justify-between">
+                    <div class="flex flex-col items-center justify-center text-center">
                     <div class="package-div">
-                        <h2 class="text-2xl font-bold ps-2 pt-2">Our Most Popular Packages</h2>
-                        <p class="text-md font-normal mt-2 text-[#595959] ps-2 mb-2">Browse through our most popular tours!</p>
+                        <h2 class="text-2xl font-bold pt-2">Our Most Popular Packages</h2>
+                        <p class="text-md font-normal mt-2 text-[#595959] mb-4">Browse through our most popular tours!</p>
                     </div>
-                    <div class="flex items-end">
+                    <div class="mb-4">
                         <a href="{{route('tours')}}">
-                            <button class="text-sm font-normal border-0 px-4 py-1  text-[#008000] rounded-lg">See All</button>
+                            <button class="text-sm font-normal border border-[#008000] px-4 py-1 text-[#008000] rounded-lg hover:bg-green-50 transition-colors">See All</button>
                         </a>
                     </div>
                     </div>
@@ -573,17 +854,16 @@ label {
         <!--------------------Deals Tours--------------------->
                     <div id="featured" class="packages lg:max-w-[1110px] w-[90vw] mx-auto mt-3">
                 <div>
-                    <div class="flex justify-between">
+                    <div class="flex flex-col items-center justify-center text-center">
                     <div class="featured-div">
-                        <h2 class="text-2xl font-bold ps-2 pt-2">Deals of the weekend</h2>
-                        <p class="text-md font-normal mt-2 text-[#595959] ps-2 mb-2">Save on stays for 14 March - 16 March</p>
+                        <h2 class="text-2xl font-bold pt-2">Deals of the weekend</h2>
+                        <p class="text-md font-normal mt-2 text-[#595959] mb-4">Save on stays for 14 March - 16 March</p>
                     </div>
-                    <div class="flex items-end">
+                    <div class="mb-4">
                         <a href="{{route('tours')}}">
-                            <button class="text-sm font-normal border-0 px-4 py-1  text-[#008000] rounded-lg">See All</button>
+                            <button class="text-sm font-normal border border-[#008000] px-4 py-1 text-[#008000] rounded-lg hover:bg-green-50 transition-colors">See All</button>
                         </a>
                     </div>
-                        
                     </div>
             
                     <!-- Swiper Container -->
@@ -653,14 +933,14 @@ label {
         <!--------------------Perfect Stay Tours--------------------->
                     <div id="featured" class="packages lg:max-w-[1110px] w-[90vw] mx-auto mt-3">
                 <div>
-                    <div class="flex justify-between">
+                    <div class="flex flex-col items-center justify-center text-center">
                         <div>
-                        <h2 class="text-2xl font-bold ps-2 pt-2">Looking for the perfect stay</h2>
-                        <p class="text-md font-normal mt-2 text-[#595959] ps-2 mb-2">Travellers with similar searches booked these trips </p>
+                        <h2 class="text-2xl font-bold pt-2">Looking for the perfect stay</h2>
+                        <p class="text-md font-normal mt-2 text-[#595959] mb-4">Travellers with similar searches booked these trips </p>
                         </div>
-                    <div class="flex items-end">
+                    <div class="mb-4">
                         <a href="{{route('tours')}}">
-                            <button class="text-sm font-normal border-0 px-4 py-1  text-[#008000] rounded-lg">See All</button>
+                             <button class="text-sm font-normal border border-[#008000] px-4 py-1 text-[#008000] rounded-lg hover:bg-green-50 transition-colors">See All</button>
                         </a>
                     </div>
     
@@ -729,14 +1009,14 @@ label {
                     <!--------------------Unique Tours--------------------->
                     <div id="featured" class="packages lg:max-w-[1110px] w-[90vw] mx-auto mt-3">
                 <div>
-                    <div class="flex justify-between">
+                    <div class="flex flex-col items-center justify-center text-center">
                     <div class="featured-div">
-                        <h2 class="text-2xl font-bold ps-2 pt-2">Stay at our top unique tours</h2>
-                        <p class="text-md font-normal mt-2 text-[#595959] ps-2 mb-2">Our Featured Tours can help you find the trip that's perfect for you! </p>
+                        <h2 class="text-2xl font-bold pt-2">Stay at our top unique tours</h2>
+                        <p class="text-md font-normal mt-2 text-[#595959] mb-4">Our Featured Tours can help you find the trip that's perfect for you! </p>
                     </div>
-                    <div class="flex items-end">
+                    <div class="mb-4">
                         <a href="{{route('tours')}}">
-                            <button class="text-sm font-normal border-0 px-4 py-1  text-[#008000] rounded-lg">See All</button>
+                            <button class="text-sm font-normal border border-[#008000] px-4 py-1 text-[#008000] rounded-lg hover:bg-green-50 transition-colors">See All</button>
                         </a>
                     </div>
                         
@@ -803,13 +1083,13 @@ label {
                     <!--------------------Get inspiration Tours--------------------->
                     <div id="featured" style="border-top:5px ; border:black" class="packages lg:max-w-[1110px] w-[90vw] mx-auto mt-3">
                 <div>
-                    <div class="flex justify-between">
+                    <div class="flex flex-col items-center justify-center text-center">
                     <div class="featured-div">
-                        <h2 class="text-2xl font-bold ps-2 pb-2 pt-0">Get inspiration for your next trip</h2>
+                        <h2 class="text-2xl font-bold pb-2 pt-0">Get inspiration for your next trip</h2>
                     </div>
-                    <div class="flex items-end">
+                    <div class="mb-4">
                         <a href="{{route('tours')}}">
-                            <button class="text-sm font-normal border-0 px-4 py-1  text-[#008000] rounded-lg">More</button>
+                            <button class="text-sm font-normal border border-[#008000] px-4 py-1 text-[#008000] rounded-lg hover:bg-green-50 transition-colors">More</button>
                         </a>
                     </div>
                         
@@ -823,7 +1103,7 @@ label {
                                     <div class="relative flex flex-col shadow-md rounded-lg transition duration-300">
                                         <a href="#" class="rounded-lg text-decoration-none text-surface hover:text-black">
                                             <img class="rounded-lg w-full h-[310px] object-cover"
-                                                src="https://compassmytrip.com/compass/public/tour_images/1442528471.jpg" alt="Placeholder Image" />
+                                                src="https://hejazavenue.com/compass/public/tour_images/1442528471.jpg" alt="Placeholder Image" />
                                         </a>
                                     </div>
                                 </div>
@@ -1093,21 +1373,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 //popular destination slider
+//popular destination slider
 document.addEventListener('DOMContentLoaded', function() {
     const slider = document.getElementById('image-slider');
+    if (!slider) return;
+
     const images = document.querySelectorAll('.image-item');
     const totalImages = images.length;
-    let cardWidth = images[0].offsetWidth;
+    let cardWidth = images.length > 0 ? images[0].offsetWidth : 0;
     let currentIndex = 0;
     let itemsToShow = getItemsToShow();
 
     const prevButton = document.getElementById('prev');
     const nextButton = document.getElementById('next');
 
+    if (!prevButton || !nextButton) return;
+
     // Initially hide the Previous button
     prevButton.style.display = 'none';
 
     function updateSlider() {
+        if (!slider) return;
         const offset = currentIndex * cardWidth;
         slider.style.transform = `translateX(-${offset}px)`;
 
@@ -1139,7 +1425,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update the cardWidth when resizing the window
     window.addEventListener('resize', () => {
         itemsToShow = getItemsToShow();
-        cardWidth = images[0].offsetWidth;
+        if (images.length > 0) {
+            cardWidth = images[0].offsetWidth;
+        }
         updateSlider();
     });
 

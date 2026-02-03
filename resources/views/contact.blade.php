@@ -3,6 +3,10 @@
 Compass Tour
 @endsection
 @section('content')
+@section('hide_navbar', true)
+@include('components.video_header', ['title' => 'Contact Us', 'breadcrumb' => 'Home/Contact Us'])
+
+{{--
 <div class="container-fluid">
     <div class="contact-img">
         <div class="tour-img-overlay"></div>
@@ -12,6 +16,8 @@ Compass Tour
         </div>
     </div>
     <!----End Header--->
+</div>
+--}}
 
 
     <div id="content" class="main lg:max-w-[1110px] w-[90vw] mx-auto my-12">

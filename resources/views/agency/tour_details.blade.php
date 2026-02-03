@@ -33,7 +33,7 @@ label{
         style="background-color: #000"
       >
         <a class="navbar-brand" style="color: #fff" href="index.html"
-          ><img src="img/logo.png" alt="brand logo" width="85" height="70"
+          ><img src="img/logo.png" alt="brand logo" width="60" height="100"
         /></a>
         <button
           class="navbar-toggler"

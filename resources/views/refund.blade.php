@@ -29,7 +29,7 @@ Refund
             </div>
             <div class="row">
                 <ul type="square" class="md:text-md text-sm space-y-2 mt-3 md:text-start">
-                    <li>Compassmytrip follows property’s cancellation policy.</li>
+                    <li>hejaz avenue follows property’s cancellation policy.</li>
                     <li>To Cancel a booking, customer must go to ‘My booking’ > ’Cancel’ and confirm the cancellation.</li>
                     <li>Cancellation fee may apply depending on the property and the time of cancellation.</li>
                     <li>Date change is not possible for any hotel booking. Customer needs to cancel the previous booking and rebook with the new date.</li>
@@ -47,7 +47,7 @@ Refund
             </div>
             <div class="row">
                 <ul style="list-style-type: square;" class="md:text-md text-sm space-y-2 mt-3 md:text-start">
-                    <li>Compassmytrip follows property’s cancellation policy.</li>
+                    <li>hejaz avenue follows property’s cancellation policy.</li>
                     <li>To Cancel a booking, customer must go to ‘My booking’ > ’Cancel’ and confirm the cancellation.</li>
                     <li>Cancellation fee may apply depending on the property and the time of cancellation.</li>
                     <li>Please check the given policy under each tour before booking.</li>

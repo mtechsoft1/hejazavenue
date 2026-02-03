@@ -3,7 +3,11 @@
 Register
 @endsection
 @section('content')
+@section('hide_navbar', true)
+@include('components.video_header', ['title' => 'Sign Up', 'breadcrumb' => 'Home/Sign Up'])
+
 <div class="">
+{{--
 <div class="tour-img">
 <div class="tour-img-overlay"></div>
         <div class="tour-text">
@@ -12,6 +16,7 @@ Register
         </div>
     </div>
     <!-------------End Header------------->
+--}}
     <div class="bg-gray-100 py-12">
         <div class="lg:w-[70vw] w-[90vw] mx-auto  p-6 bg-white rounded-lg shadow-lg">
             <form method="POST" action="{{ route('register') }}" class="space-y-6">
@@ -98,7 +103,7 @@ Register
                         </a>
                     </div>
                     <p class="text-sm mt-5">By signing in or creating an account, you agree with our <span class="text-green-600">Terms & Conditions</span> and <span class="text-green-600">Privacy Statement</span></p>
-                    <p class="text-sm mt-3">All rights reserved. <br> Copyright (2006-2025) – Booking.com™</p>
+                    <p class="text-sm mt-3">All rights reserved. <br> Copyright (2006-2025) – hejaz.com™</p>
                 </div>
             </form>
         </div>

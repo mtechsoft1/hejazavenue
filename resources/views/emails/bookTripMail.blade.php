@@ -145,7 +145,7 @@
 																	<tr>
 																		<td class="img m-center" style="width:100%; height: 100px; font-size:0pt; line-height:0pt; text-align:left;">
 
-																			<img src="https://compassmytrip.com/img/logo.png" width="40%" border="0" alt="" /></td>
+																			<img src="https://hejaz avenue.com/img/logo.png" width="30%" border="0" alt="" /></td>
 																	</tr>
 																</table>
 															</th>
@@ -175,7 +175,7 @@
 												<td class="p30-15" style="padding: 20px 30px 50px 30px;">
 													<table width="100%" border="0" cellspacing="0" cellpadding="0">
 														<tr>
-															<td class="h3 center pb10" style="color:#000000; font-family:'Ubuntu', Arial,sans-serif; font-size:30px; line-height:60px; text-align:center; padding-bottom:10px;">{{ $content['name'] }} Thank You For Your Booking On Compassmytrip.com</td>
+															<td class="h3 center pb10" style="color:#000000; font-family:'Ubuntu', Arial,sans-serif; font-size:30px; line-height:60px; text-align:center; padding-bottom:10px;">{{ $content['name'] }} Thank You For Your Booking On hejaz avenue.com</td>
 														</tr>
 														<tr>
 															<td class="h5 center blue pb30" style="font-family:'Ubuntu', Arial,sans-serif; font-size:20px; line-height:26px; text-align:center; color:#2e57ae; padding-bottom:30px;">Your Booking ID: {{ $content['booking_id'] }} </td>
@@ -201,8 +201,8 @@
 					                      </ul>  
 					                    </div>
 										<div class="foot-upper">
-											<p>send by Compassmytrip Admin</p>
-											<p>copyright @ 2022 Compassmytrip All right reserved</p>
+											<p>send by hejaz avenue Admin</p>
+											<p>copyright @ 2022 hejaz avenue All right reserved</p>
 										</div>
 										
 										

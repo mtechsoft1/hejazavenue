@@ -136,16 +136,13 @@ ul > li {
   border: 1px solid grey;
   border-radius: 5px;
 }
-.background-img {
+/* .background-img {
   background-image: url(./../img/Slide2.jpg);
   background-position: center;
   background-repeat: no-repeat;
-  /* border-width: 0px 0px 0px 0px;
-  border-color: #e2e2e2;
-  border-style: solid; */
   background-size: cover;
   min-height: 500px;
-}
+} */
 .outside-div {
   background-color: black;
   opacity: 0.9;
