@@ -1,2 +1,10 @@
-node_modules/
+/vendor
+/node_modules
+
+/bootstrap/cache/*.php
+
 .env
+.env.*
+
+.DS_Store
+Thumbs.db
