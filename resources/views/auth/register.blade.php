@@ -5,7 +5,6 @@ Register
 @section('content')
 @section('hide_navbar', true)
 @include('components.video_header', ['title' => 'Sign Up', 'breadcrumb' => 'Home/Sign Up'])
-
 <div class="">
 {{--
 <div class="tour-img">
@@ -19,50 +18,73 @@ Register
 --}}
     <div class="bg-gray-100 py-12">
         <div class="lg:w-[70vw] w-[90vw] mx-auto  p-6 bg-white rounded-lg shadow-lg">
-            <form method="POST" action="{{ route('register') }}" class="space-y-6">
+            <form method="POST" action="{{ route('register') }}" class="space-y-6 needs-validation" novalidate>
                 @csrf
         
                 <div class="grid md:grid-cols-2 gap-4">
-                    <div>
+                    <div class="mb-3">
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                         <input id="name" type="text" name="name" value="{{ old('name') }}" required 
-                            class="w-full p-2 border bg-gray-100 border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none">
+                            class="w-full p-2 border bg-gray-100 border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none form-control @error('name') is-invalid @enderror" 
+                            placeholder="Enter your full name">
                         @error('name')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                        @if(!old('name'))
+                        <div class="invalid-feedback d-none" id="name-feedback">Name must be at least 2 characters long.</div>
+                        @endif
                     </div>
         
-                    <div>
+                    <div class="mb-3">
                         <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                        <input id="phone" type="text" name="phone" value="{{ old('phone') }}" required 
-                            class="w-full p-2 border bg-gray-100 border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none">
+                        <input id="phone" type="tel" name="phone" value="{{ old('phone') }}" required 
+                            class="w-full p-2 border bg-gray-100 border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none form-control @error('phone') is-invalid @enderror" 
+                            pattern="[0-9]{10,15}" 
+                            placeholder="Enter your phone number">
                         @error('phone')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                        @if(!old('phone'))
+                        <div class="invalid-feedback d-none" id="phone-feedback">Please enter a valid phone number (10-15 digits).</div>
+                        @endif
                     </div>
         
-                    <div>
+                    <div class="mb-3">
                         <label for="email" class="block text-sm font-medium text-gray-700">E-Mail Address</label>
                         <input id="email" type="email" name="email" value="{{ old('email') }}" required 
-                            class="w-full p-2 border bg-gray-100 border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none">
+                            class="w-full p-2 border bg-gray-100 border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none form-control @error('email') is-invalid @enderror" 
+                            placeholder="Enter your email address">
                         @error('email')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                        @if(!old('email'))
+                        <div class="invalid-feedback d-none" id="email-feedback">Please enter a valid email address.</div>
+                        @endif
                     </div>
         
-                    <div>
+                    <div class="mb-3">
                         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                         <input id="password" type="password" name="password" required 
-                            class="w-full p-2 border bg-gray-100 border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none">
+                            class="w-full p-2 border bg-gray-100 border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none form-control @error('password') is-invalid @enderror" 
+                            minlength="8" 
+                            placeholder="Enter your password (min 8 characters)">
                         @error('password')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                        @if(!old('password'))
+                        <div class="invalid-feedback d-none" id="password-feedback">Password must be at least 8 characters long.</div>
+                        @endif
                     </div>
         
-                    <div class="md:col-span-2">
+                    <div class="md:col-span-2 mb-3">
                         <label for="password-confirm" class="block text-sm font-medium text-gray-700">Confirm Password</label>
                         <input id="password-confirm" type="password" name="password_confirmation" required 
-                            class="w-full p-2 border bg-gray-100 border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none">
+                            class="w-full p-2 border bg-gray-100 border-gray-300 rounded-md focus:ring focus:ring-green-300 focus:outline-none form-control" 
+                            placeholder="Confirm your password">
+                        @error('password_confirmation')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <div class="invalid-feedback d-none" id="password-confirm-feedback">Passwords do not match.</div>
                     </div>
                 </div>
         
@@ -109,11 +131,187 @@ Register
         </div>
         
     </div>
-
-
 </div>
 </div>
 @endsection
-
 @section('script')
+<script>
+// Bootstrap form validation
+(function () {
+    'use strict'
+    
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+    
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            var isValid = true;
+            var formSubmitted = true;
+            
+            // Custom validation for each field
+            var name = document.getElementById('name');
+            if (name) {
+                if (name.value.trim().length < 2) {
+                    name.classList.add('is-invalid');
+                    name.classList.remove('is-valid');
+                    // Show error message only on form submission
+                    var errorMsg = document.getElementById('name-feedback');
+                    if (errorMsg) errorMsg.classList.remove('d-none');
+                    isValid = false;
+                } else {
+                    name.classList.add('is-valid');
+                    name.classList.remove('is-invalid');
+                    // Hide error message
+                    var errorMsg = document.getElementById('name-feedback');
+                    if (errorMsg) errorMsg.classList.add('d-none');
+                }
+            }
+            
+            var email = document.getElementById('email');
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email) {
+                if (!email.value || !emailRegex.test(email.value)) {
+                    email.classList.add('is-invalid');
+                    email.classList.remove('is-valid');
+                    var errorMsg = document.getElementById('email-feedback');
+                    if (errorMsg) errorMsg.classList.remove('d-none');
+                    isValid = false;
+                } else {
+                    email.classList.add('is-valid');
+                    email.classList.remove('is-invalid');
+                    var errorMsg = document.getElementById('email-feedback');
+                    if (errorMsg) errorMsg.classList.add('d-none');
+                }
+            }
+            
+            var phone = document.getElementById('phone');
+            var phoneRegex = /^[0-9]{10,15}$/;
+            if (phone) {
+                var cleanPhone = phone.value.replace(/\s/g, '');
+                if (!phone.value || !phoneRegex.test(cleanPhone)) {
+                    phone.classList.add('is-invalid');
+                    phone.classList.remove('is-valid');
+                    var errorMsg = document.getElementById('phone-feedback');
+                    if (errorMsg) errorMsg.classList.remove('d-none');
+                    isValid = false;
+                } else {
+                    phone.classList.add('is-valid');
+                    phone.classList.remove('is-invalid');
+                    var errorMsg = document.getElementById('phone-feedback');
+                    if (errorMsg) errorMsg.classList.add('d-none');
+                }
+            }
+            
+            var password = document.getElementById('password');
+            if (password) {
+                if (password.value.length < 8) {
+                    password.classList.add('is-invalid');
+                    password.classList.remove('is-valid');
+                    var errorMsg = document.getElementById('password-feedback');
+                    if (errorMsg) errorMsg.classList.remove('d-none');
+                    isValid = false;
+                } else {
+                    password.classList.add('is-valid');
+                    password.classList.remove('is-invalid');
+                    var errorMsg = document.getElementById('password-feedback');
+                    if (errorMsg) errorMsg.classList.add('d-none');
+                }
+            }
+            
+            // Password confirmation validation
+            var passwordConfirm = document.getElementById('password-confirm');
+            if (passwordConfirm && password) {
+                if (password.value !== passwordConfirm.value) {
+                    passwordConfirm.classList.add('is-invalid');
+                    passwordConfirm.classList.remove('is-valid');
+                    var errorMsg = document.getElementById('password-confirm-feedback');
+                    if (errorMsg) errorMsg.classList.remove('d-none');
+                    isValid = false;
+                } else if (passwordConfirm.value) {
+                    passwordConfirm.classList.add('is-valid');
+                    passwordConfirm.classList.remove('is-invalid');
+                    var errorMsg = document.getElementById('password-confirm-feedback');
+                    if (errorMsg) errorMsg.classList.add('d-none');
+                }
+            }
+            
+            if (!form.checkValidity() || !isValid) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            
+            form.classList.add('was-validated')
+        }, false)
+    })
+    
+    // Real-time validation (but don't show error messages until form is submitted)
+    document.getElementById('name')?.addEventListener('input', function() {
+        if (this.value.trim().length >= 2) {
+            this.classList.add('is-valid');
+            this.classList.remove('is-invalid');
+        } else {
+            this.classList.add('is-invalid');
+            this.classList.remove('is-valid');
+        }
+    });
+    
+    document.getElementById('email')?.addEventListener('input', function() {
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(this.value)) {
+            this.classList.add('is-valid');
+            this.classList.remove('is-invalid');
+        } else {
+            this.classList.add('is-invalid');
+            this.classList.remove('is-valid');
+        }
+    });
+    
+    document.getElementById('phone')?.addEventListener('input', function() {
+        var phoneRegex = /^[0-9]{10,15}$/;
+        var cleanPhone = this.value.replace(/\s/g, '');
+        if (phoneRegex.test(cleanPhone)) {
+            this.classList.add('is-valid');
+            this.classList.remove('is-invalid');
+        } else {
+            this.classList.add('is-invalid');
+            this.classList.remove('is-valid');
+        }
+    });
+    
+    document.getElementById('password')?.addEventListener('input', function() {
+        if (this.value.length >= 8) {
+            this.classList.add('is-valid');
+            this.classList.remove('is-invalid');
+        } else {
+            this.classList.add('is-invalid');
+            this.classList.remove('is-valid');
+        }
+        
+        // Also validate password confirmation if it has a value
+        var passwordConfirm = document.getElementById('password-confirm');
+        if (passwordConfirm && passwordConfirm.value) {
+            if (this.value === passwordConfirm.value) {
+                passwordConfirm.classList.add('is-valid');
+                passwordConfirm.classList.remove('is-invalid');
+            } else {
+                passwordConfirm.classList.add('is-invalid');
+                passwordConfirm.classList.remove('is-valid');
+            }
+        }
+    });
+    
+    // Real-time password confirmation validation
+    document.getElementById('password-confirm')?.addEventListener('input', function() {
+        var password = document.getElementById('password');
+        if (password && this.value === password.value) {
+            this.classList.add('is-valid');
+            this.classList.remove('is-invalid');
+        } else {
+            this.classList.add('is-invalid');
+            this.classList.remove('is-valid');
+        }
+    });
+})()
+</script>
 @endsection

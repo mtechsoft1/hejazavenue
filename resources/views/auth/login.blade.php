@@ -5,7 +5,6 @@ Login
 @section('content')
 @section('hide_navbar', true)
 @include('components.video_header', ['title' => 'Login', 'breadcrumb' => 'Home/Login'])
-
 {{--
 <div class="container-fluid">
     <div class="tour-img">
@@ -23,17 +22,27 @@ Login
             <h2 class="text-2xl font-bold w-full text-left">Sign in or create an account</h2>
             <p class="text-md text-left mt-2 w-full">You can sign in using your hejaz.com account to access our services.</p>
             
-            <form action="{{ route('login') }}" method="POST" class="w-full mt-4">
+            <form action="{{ route('login') }}" method="POST" class="w-full mt-4 needs-validation" novalidate>
                 @csrf
                 <div class="mb-4">
                     <label for="email" class="block text-sm font-medium text-gray-700">E-Mail Address</label>
                     <input id="email" type="email" name="email" required autocomplete="email" autofocus
-                        class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 form-control @error('email') is-invalid @enderror" 
+                        placeholder="Enter your email address">
+                    @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                    <div class="invalid-feedback d-none" id="email-feedback">Please enter a valid email address.</div>
                 </div>
                 <div class="mb-4">
                     <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                     <input id="password" type="password" name="password" required autocomplete="current-password"
-                        class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        class="w-full p-2.5 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 form-control @error('password') is-invalid @enderror" 
+                        placeholder="Enter your password">
+                    @error('password')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                    <div class="invalid-feedback d-none" id="password-feedback">Please enter your password.</div>
                 </div>
                 <div class="text-center">
                     <button type="submit"
@@ -90,11 +99,90 @@ Login
         </div>
         
     </div>
-
     
 </div>
 </div>
 @endsection
-
 @section('script')
+<script>
+// Bootstrap form validation
+(function () {
+    'use strict'
+    
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+    
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            var isValid = true;
+            var formSubmitted = true;
+            
+            // Custom email validation
+            var email = document.getElementById('email');
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email) {
+                if (!email.value || !emailRegex.test(email.value)) {
+                    email.classList.add('is-invalid');
+                    email.classList.remove('is-valid');
+                    var errorMsg = document.getElementById('email-feedback');
+                    if (errorMsg) errorMsg.classList.remove('d-none');
+                    isValid = false;
+                } else {
+                    email.classList.add('is-valid');
+                    email.classList.remove('is-invalid');
+                    var errorMsg = document.getElementById('email-feedback');
+                    if (errorMsg) errorMsg.classList.add('d-none');
+                }
+            }
+            
+            // Custom password validation
+            var password = document.getElementById('password');
+            if (password) {
+                if (!password.value) {
+                    password.classList.add('is-invalid');
+                    password.classList.remove('is-valid');
+                    var errorMsg = document.getElementById('password-feedback');
+                    if (errorMsg) errorMsg.classList.remove('d-none');
+                    isValid = false;
+                } else {
+                    password.classList.add('is-valid');
+                    password.classList.remove('is-invalid');
+                    var errorMsg = document.getElementById('password-feedback');
+                    if (errorMsg) errorMsg.classList.add('d-none');
+                }
+            }
+            
+            if (!form.checkValidity() || !isValid) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            
+            form.classList.add('was-validated')
+        }, false)
+    })
+    
+    // Real-time validation (but don't show error messages until form is submitted)
+    document.getElementById('email')?.addEventListener('input', function() {
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(this.value)) {
+            this.classList.add('is-valid');
+            this.classList.remove('is-invalid');
+        } else {
+            this.classList.add('is-invalid');
+            this.classList.remove('is-valid');
+        }
+    });
+    
+    document.getElementById('password')?.addEventListener('input', function() {
+        if (this.value.length > 0) {
+            this.classList.add('is-valid');
+            this.classList.remove('is-invalid');
+        } else {
+            this.classList.add('is-invalid');
+            this.classList.remove('is-valid');
+        }
+    });
+})()
+</script>
 @endsection

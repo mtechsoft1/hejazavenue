@@ -37,6 +37,96 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js" defer></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <style>
+        /* Bootstrap Validation Override for Custom Styling */
+        .form-control.is-invalid {
+            border-color: #dc3545 !important;
+            background-image: none !important;
+            padding-right: calc(1.5em + 0.75rem) !important;
+            background-position: right calc(0.375em + 0.1875rem) center !important;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem) !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        .form-control.is-valid {
+            border-color: #198754 !important;
+            background-image: none !important;
+            padding-right: calc(1.5em + 0.75rem) !important;
+            background-position: right calc(0.375em + 0.1875rem) center !important;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem) !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        .form-control.is-invalid:focus {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+        
+        .form-control.is-valid:focus {
+            border-color: #198754 !important;
+            box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25) !important;
+        }
+        
+        .invalid-feedback {
+            display: none !important;
+            width: 100% !important;
+            margin-top: 0.25rem !important;
+            font-size: 0.875em !important;
+            color: #dc3545 !important;
+            font-weight: 400 !important;
+        }
+        
+        /* Show invalid-feedback only when parent has is-invalid class */
+        .is-invalid ~ .invalid-feedback,
+        .was-validated .form-control:invalid ~ .invalid-feedback {
+            display: block !important;
+        }
+        
+        /* Keep server-side errors visible */
+        .invalid-feedback:not(.d-none):not([style*="display: none"]) {
+            display: block !important;
+        }
+        
+        .valid-feedback {
+            display: none !important;
+            width: 100% !important;
+            margin-top: 0.25rem !important;
+            font-size: 0.875em !important;
+            color: #198754 !important;
+            font-weight: 400 !important;
+        }
+        
+        .was-validated .form-control:invalid:focus {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+        
+        .was-validated .form-control:valid:focus {
+            border-color: #198754 !important;
+            box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25) !important;
+        }
+        
+        /* Ensure only error feedback is visible when appropriate */
+        .was-validated .form-control:valid ~ .valid-feedback {
+            display: none !important;
+        }
+        
+        /* Override any conflicting styles */
+        .form-control {
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+        }
+        
+        /* Hide all client-side error messages by default */
+        .invalid-feedback[id$="-feedback"] {
+            display: none !important;
+        }
+        
+        /* Show client-side error messages only when field is invalid and form was submitted */
+        .was-validated .is-invalid ~ .invalid-feedback[id$="-feedback"] {
+            display: block !important;
+        }
+    </style>
+
 
     <style>
     .form-control-plaintext {

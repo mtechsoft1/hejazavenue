@@ -31,6 +31,7 @@ class CreateToursTable extends Migration
             $table->text('attractions')->nullable();
             $table->string('trip_duration')->nullable();
             $table->string('status')->default('active');
+            $table->boolean('is_featured')->default(false);
             $table->string('whats_included',512)->default('');
             $table->string('departure_and_return',512)->default('');
             $table->string('accessibility',512)->default('');

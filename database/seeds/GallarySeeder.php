@@ -13,14 +13,14 @@ class GallarySeeder extends Seeder
     {
         Gallary::create([
             'tour_id' => 1,
-            'user_id' => 2,
+            // 'user_id' => 2,
             'image' => 'gallary_images/1.jpg',
             'video' => 'gallary_videos/video.mp4',
         ]);
 
         Gallary::create([
             'tour_id' => 2,
-            'user_id' => 2,
+            // 'user_id' => 2,
             'image' => 'gallary_images/1.jpg',
             'video' => 'gallary_videos/video.mp4',
         ]);
@@ -34,7 +34,7 @@ class GallarySeeder extends Seeder
 
         Gallary::create([
             'tour_id' => 4,
-            'user_id' => 2,
+            // 'user_id' => 2,
             'image' => 'gallary_images/1.jpg',
             'video' => 'gallary_videos/video.mp4',
         ]);
@@ -48,49 +48,49 @@ class GallarySeeder extends Seeder
 
         Gallary::create([
             'tour_id' => 6,
-            'user_id' => 2,
+            // 'user_id' => 2,
             'image' => 'gallary_images/1.jpg',
             'video' => 'gallary_videos/video.mp4',
         ]);
 
         Gallary::create([
             'tour_id' => 7,
-            'user_id' => 2,
+            // 'user_id' => 2,
             'image' => 'gallary_images/1.jpg',
             'video' => 'gallary_videos/video.mp4',
         ]);
 
         Gallary::create([
             'tour_id' => 8,
-            'user_id' => 2,
+            // 'user_id' => 2,
             'image' => 'gallary_images/1.jpg',
             'video' => 'gallary_videos/video.mp4',
         ]);
 
         Gallary::create([
             'tour_id' => 9,
-            'user_id' => 2,
+            // 'user_id' => 2,
             'image' => 'gallary_images/1.jpg',
             'video' => 'gallary_videos/video.mp4',
         ]);
 
         Gallary::create([
             'tour_id' => 10,
-            'user_id' => 2,
+            // 'user_id' => 2,
             'image' => 'gallary_images/1.jpg',
             'video' => 'gallary_videos/video.mp4',
         ]);
 
         Gallary::create([
             'tour_id' => 11,
-            'user_id' => 2,
+            // 'user_id' => 2,
             'image' => 'gallary_images/1.jpg',
             'video' => 'gallary_videos/video.mp4',
         ]);
 
         Gallary::create([
             'tour_id' => 12,
-            'user_id' => 2,
+            // 'user_id' => 2,
             'image' => 'gallary_images/1.jpg',
             'video' => 'gallary_videos/video.mp4',
         ]);
