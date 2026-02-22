@@ -1,15 +1,17 @@
 <?php
 
-use Illuminate\Database\Seeder;
+namespace Database\Seeders;
+
 use App\Notification;
+use Illuminate\Database\Seeder;
+
+/**
+ * Seeds notifications (Laravel 11 structure).
+ * Depends on: UserSeeder.
+ */
 class NotificationSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         Notification::create([
             'notification_from' => 1,

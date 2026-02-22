@@ -48,6 +48,48 @@ class AllinOneController extends Controller
 
     }
 
+    /**
+     * Accommodation detail page (frontend only - static data per slug).
+     */
+    public function accommodationDetail($slug)
+    {
+        $accommodations = [
+            'deluxe-apartment' => [
+                'title' => 'Deluxe Apartment',
+                'distance' => '500m from Masjid an-Nabawi',
+                'capacity' => '4-6 People',
+                'rating' => '4.9',
+                'reviews' => '128',
+                'price' => '800',
+                'features' => ['3 Bedrooms', 'Full Kitchen', 'Living Room', 'WiFi', 'AC'],
+            ],
+            'family-apartment' => [
+                'title' => 'Family Apartment',
+                'distance' => '800m from Masjid an-Nabawi',
+                'capacity' => '6-8 People',
+                'rating' => '4.8',
+                'reviews' => '96',
+                'price' => '1,200',
+                'features' => ['4 Bedrooms', 'Full Kitchen', 'Living Room', 'WiFi', 'AC'],
+            ],
+            'premium-villa' => [
+                'title' => 'Premium Villa',
+                'distance' => '1km from Masjid an-Nabawi',
+                'capacity' => '8-12 People',
+                'rating' => '4.9',
+                'reviews' => '64',
+                'price' => '2,500',
+                'features' => ['5 Bedrooms', 'Full Kitchen', 'Living Room', 'WiFi', 'AC'],
+            ],
+        ];
+
+        if (!isset($accommodations[$slug])) {
+            abort(404);
+        }
+        $accommodation = $accommodations[$slug];
+        return view('accommodation-detail', compact('accommodation'));
+    }
+
     public function tourdetails($id)
     {
         $admin = User::where('id', 1)->where('type', 0)->first();
