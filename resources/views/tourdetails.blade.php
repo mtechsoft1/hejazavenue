@@ -998,7 +998,7 @@ document.addEventListener('alpine:init', () => {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" async defer></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    {{-- Font Awesome: use layout CDN, kit removed (403) --}}
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>

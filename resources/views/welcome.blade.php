@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,container-queries"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -179,8 +179,8 @@
 
 
 
-    <div class="container-fluid">
-        <div class=" w-full min-h-[600px] relative flex flex-col">
+    <div class="container-fluid relative z-0">
+        <div class=" w-full min-h-[600px] relative flex flex-col z-0">
             <!-- Background image section -->
             <!-- <div class="row background-img relative flex justify-center w-full">
                                                                 </div> -->
@@ -196,7 +196,7 @@
         <!-- Booking.com Style Search Bar -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
-        <div class="w-full relative z-30 -mt-10 mb-12" x-data="bookingSearch()">
+        <div class="w-full relative z-10 -mt-10 mb-12" x-data="bookingSearch()">
             <div class="lg:max-w-[1110px] w-[90vw] mx-auto">
                 <div class="bg-[#ffb700] p-1 rounded-[4px] shadow-2xl">
                     <form action="{{ route('search_tours') }}" method="post"
@@ -623,6 +623,91 @@
         </div>
         <!--end-->
 
+        <!------------------ Premium Accommodations (below Our Complete Services) ------------------>
+        <style>
+            .accommodation-card { border: 1px solid #e5e7eb; }
+            .accommodation-card:hover { border: 2px solid #86efac; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.08); }
+            .amenity-icon { width: 2.25rem; height: 2.25rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 0.5rem; background: #f5f5f4; color: #57534e; transition: all 0.2s; }
+            .amenity-icon:hover { border: 2px solid #86efac; background: #ecfdf5; color: #0f7c5c; }
+        </style>
+        <section class="py-16 sm:py-20 bg-white">
+            <div class="lg:max-w-[1110px] w-[90vw] mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-serif font-bold text-[#1a1a1a] mb-4">Premium Accommodations</h2>
+                    <p class="text-[#595959] text-lg max-w-2xl mx-auto font-light">
+                        Handpicked apartments and villas near Masjid an-Nabawi, fully managed by our professional staff.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Card 1: Deluxe Apartment -->
+                    <a href="{{ route('accommodation.detail', 'deluxe-apartment') }}" class="group block accommodation-card bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden text-left">
+                        <div class="relative h-52 bg-stone-200 overflow-hidden">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="fa fa-bed text-5xl text-stone-400"></i>
+                            </div>
+                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#1a1a1a] text-white text-xs font-medium">Guest Favorite</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-xl font-bold text-[#1a1a1a] mb-2" style="font-family: Georgia, serif;">Deluxe Apartment</h3>
+                            <p class="text-sm text-[#595959] mb-1 flex items-center gap-1.5"><i class="fa fa-map-marker text-[#1a1a1a]"></i> 500m from Masjid an-Nabawi</p>
+                            <p class="text-sm text-[#595959] mb-3 flex items-center gap-1.5"><i class="fa fa-users text-[#1a1a1a]"></i> 4-6 People</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="amenity-icon" title="3 Bedrooms"><i class="fa fa-bed text-sm"></i></span>
+                                <span class="amenity-icon" title="Full Kitchen"><i class="fa fa-cutlery text-sm"></i></span>
+                                <span class="amenity-icon" title="Living Room"><i class="fa fa-television text-sm"></i></span>
+                                <span class="amenity-icon" title="WiFi"><i class="fa fa-wifi text-sm"></i></span>
+                                <span class="amenity-icon" title="AC"><i class="fa fa-thermometer-half text-sm"></i></span>
+                            </div>
+                            <p class="text-lg font-bold text-[#0f7c5c]">SAR 800<span class="text-gray-500 font-normal text-sm">/night</span></p>
+                        </div>
+                    </a>
+                    <!-- Card 2: Family Apartment -->
+                    <a href="{{ route('accommodation.detail', 'family-apartment') }}" class="group block accommodation-card bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden text-left">
+                        <div class="relative h-52 bg-stone-200 overflow-hidden">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="fa fa-home text-5xl text-stone-400"></i>
+                            </div>
+                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#1a1a1a] text-white text-xs font-medium">Spacious</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-xl font-bold text-[#1a1a1a] mb-2" style="font-family: Georgia, serif;">Family Apartment</h3>
+                            <p class="text-sm text-[#595959] mb-1 flex items-center gap-1.5"><i class="fa fa-map-marker text-[#1a1a1a]"></i> 800m from Masjid an-Nabawi</p>
+                            <p class="text-sm text-[#595959] mb-3 flex items-center gap-1.5"><i class="fa fa-users text-[#1a1a1a]"></i> 6-8 People</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="amenity-icon" title="Bedrooms"><i class="fa fa-bed text-sm"></i></span>
+                                <span class="amenity-icon" title="Full Kitchen"><i class="fa fa-cutlery text-sm"></i></span>
+                                <span class="amenity-icon" title="Living Room"><i class="fa fa-television text-sm"></i></span>
+                                <span class="amenity-icon" title="WiFi"><i class="fa fa-wifi text-sm"></i></span>
+                                <span class="amenity-icon" title="AC"><i class="fa fa-thermometer-half text-sm"></i></span>
+                            </div>
+                            <p class="text-lg font-bold text-[#0f7c5c]">SAR 1,200<span class="text-gray-500 font-normal text-sm">/night</span></p>
+                        </div>
+                    </a>
+                    <!-- Card 3: Premium Villa -->
+                    <a href="{{ route('accommodation.detail', 'premium-villa') }}" class="group block accommodation-card bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden text-left">
+                        <div class="relative h-52 bg-stone-200 overflow-hidden">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="fa fa-flag text-5xl text-stone-400"></i>
+                            </div>
+                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#1a1a1a] text-white text-xs font-medium">Luxury</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-xl font-bold text-[#1a1a1a] mb-2" style="font-family: Georgia, serif;">Premium Villa</h3>
+                            <p class="text-sm text-[#595959] mb-1 flex items-center gap-1.5"><i class="fa fa-map-marker text-[#1a1a1a]"></i> 1km from Masjid an-Nabawi</p>
+                            <p class="text-sm text-[#595959] mb-3 flex items-center gap-1.5"><i class="fa fa-users text-[#1a1a1a]"></i> 8-12 People</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="amenity-icon" title="Bedrooms"><i class="fa fa-bed text-sm"></i></span>
+                                <span class="amenity-icon" title="Full Kitchen"><i class="fa fa-cutlery text-sm"></i></span>
+                                <span class="amenity-icon" title="Living Room"><i class="fa fa-television text-sm"></i></span>
+                                <span class="amenity-icon" title="WiFi"><i class="fa fa-wifi text-sm"></i></span>
+                                <span class="amenity-icon" title="AC"><i class="fa fa-thermometer-half text-sm"></i></span>
+                            </div>
+                            <p class="text-lg font-bold text-[#0f7c5c]">SAR 2,500<span class="text-gray-500 font-normal text-sm">/night</span></p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
 
         <!---------------Our Best Packages-------------->
         <div id="package" class="packages lg:max-w-[1110px] w-[90vw] mx-auto mt-3">
@@ -1862,11 +1947,14 @@
         });
 
 
-        new Swiper(".mostPopularSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 10,
-            loop: true,
-            navigation: {
+        (function() {
+            var el = document.querySelector(".mostPopularSwiper");
+            var slides = el ? el.querySelectorAll(".swiper-slide").length : 0;
+            new Swiper(".mostPopularSwiper", {
+                slidesPerView: 1,
+                spaceBetween: 10,
+                loop: slides >= 4,
+                navigation: {
                 nextEl: ".mostPopularSwiper-btn .swiper-button-next",
                 prevEl: ".mostPopularSwiper-btn .swiper-button-prev",
             },
@@ -1889,11 +1977,15 @@
                 },
             },
         });
-        new Swiper(".TopUniqueSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 10,
-            loop: true,
-            navigation: {
+        })();
+        (function() {
+            var el = document.querySelector(".TopUniqueSwiper");
+            var slides = el ? el.querySelectorAll(".swiper-slide").length : 0;
+            new Swiper(".TopUniqueSwiper", {
+                slidesPerView: 1,
+                spaceBetween: 10,
+                loop: slides >= 4,
+                navigation: {
                 nextEl: ".TopUniqueSwiper-btn .swiper-button-next",
                 prevEl: ".TopUniqueSwiper-btn .swiper-button-prev",
             },
@@ -1916,11 +2008,15 @@
                 },
             },
         });
-        new Swiper(".perfectStaySwiper", {
-            slidesPerView: 1,
-            spaceBetween: 10,
-            loop: true,
-            navigation: {
+        })();
+        (function() {
+            var el = document.querySelector(".perfectStaySwiper");
+            var slides = el ? el.querySelectorAll(".swiper-slide").length : 0;
+            new Swiper(".perfectStaySwiper", {
+                slidesPerView: 1,
+                spaceBetween: 10,
+                loop: slides >= 4,
+                navigation: {
                 nextEl: ".perfectStaySwiper-btn .swiper-button-next",
                 prevEl: ".TopUniqueSwiper-btn .swiper-button-prev",
             },
@@ -1943,11 +2039,15 @@
                 },
             },
         });
-        new Swiper(".dealsSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 10,
-            loop: true,
-            navigation: {
+        })();
+        (function() {
+            var el = document.querySelector(".dealsSwiper");
+            var slides = el ? el.querySelectorAll(".swiper-slide").length : 0;
+            new Swiper(".dealsSwiper", {
+                slidesPerView: 1,
+                spaceBetween: 10,
+                loop: slides >= 4,
+                navigation: {
                 nextEl: ".dealsSwiper-btn .swiper-button-next",
                 prevEl: ".dealsSwiper-btn .swiper-button-prev",
             },
@@ -1970,6 +2070,7 @@
                 },
             },
         });
+        })();
 
         new Swiper(".articleSwiper", {
             slidesPerView: 1,
