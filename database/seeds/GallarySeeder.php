@@ -27,7 +27,6 @@ class GallarySeeder extends Seeder
 
         Gallary::create([
             'tour_id' => 3,
-            'user_id' => 2,
             'image' => 'gallary_images/1.jpg',
             'video' => 'gallary_videos/video.mp4',
         ]);
@@ -41,7 +40,6 @@ class GallarySeeder extends Seeder
 
         Gallary::create([
             'tour_id' => 5,
-            'user_id' => 2,
             'image' => 'gallary_images/1.jpg',
             'video' => 'gallary_videos/video.mp4',
         ]);
