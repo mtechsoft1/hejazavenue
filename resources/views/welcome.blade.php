@@ -179,11 +179,9 @@
 
 
 
-    <div class="container-fluid relative z-0">
-        <div class=" w-full min-h-[600px] relative flex flex-col z-0">
-            <!-- Background image section -->
-            <!-- <div class="row background-img relative flex justify-center w-full">
-                                                                </div> -->
+    <div class="container-fluid relative z-0 mt-0 pt-0 -mt-0">
+        <div class="w-full min-h-[600px] relative flex flex-col z-0 mt-0 pt-0">
+            <!-- Hero Video starts directly below navbar -->
 
             <!-- Hero Video Background -->
             <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
@@ -196,7 +194,7 @@
         <!-- Booking.com Style Search Bar -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
-        <div class="w-full relative z-10 -mt-10 mb-12" x-data="bookingSearch()">
+        <div class="w-full relative" x-data="bookingSearch()">
             <div class="lg:max-w-[1110px] w-[90vw] mx-auto">
                 <div class="bg-[#ffb700] p-1 rounded-[4px] shadow-2xl">
                     <form action="{{ route('search_tours') }}" method="post"
@@ -625,10 +623,13 @@
 
         <!------------------ Premium Accommodations (below Our Complete Services) ------------------>
         <style>
-            .accommodation-card { border: 1px solid #e5e7eb; }
-            .accommodation-card:hover { border: 2px solid #86efac; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.08); }
-            .amenity-icon { width: 2.25rem; height: 2.25rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 0.5rem; background: #f5f5f4; color: #57534e; transition: all 0.2s; }
+            .amenity-icon { width: 2.25rem; height: 2.25rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 0.5rem; background: #f5f5f4; color: #57534e; transition: all 0.25s ease-out; }
             .amenity-icon:hover { border: 2px solid #86efac; background: #ecfdf5; color: #0f7c5c; }
+            .acc-card { border: 1px solid #e5e7eb; transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.35s ease, background-color 0.3s ease; }
+            .acc-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.06); border-color: #86efac; background-color: #fafafa; }
+            .acc-card-image-wrap { overflow: hidden; }
+            .acc-card:hover .acc-card-img { transform: scale(1.08); }
+            .acc-card-img { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; }
         </style>
         <section class="py-16 sm:py-20 bg-white">
             <div class="lg:max-w-[1110px] w-[90vw] mx-auto px-4 sm:px-6">
@@ -639,72 +640,36 @@
                     </p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Card 1: Deluxe Apartment -->
-                    <a href="{{ route('accommodation.detail', 'deluxe-apartment') }}" class="group block accommodation-card bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden text-left">
-                        <div class="relative h-52 bg-stone-200 overflow-hidden">
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <i class="fa fa-bed text-5xl text-stone-400"></i>
+                    @forelse($accommodations ?? [] as $acc)
+                        @php $firstImage = $acc->images->first(); @endphp
+                        <a href="{{ route('accommodation.detail', $acc->slug) }}" class="acc-card group block bg-white rounded-xl shadow-sm overflow-hidden text-left no-underline hover:no-underline cursor-pointer">
+                            <div class="acc-card-image-wrap relative h-52 bg-stone-200">
+                                @if($firstImage)
+                                    <img src="{{ $firstImage->url }}" alt="{{ $acc->title }}" class="acc-card-img absolute inset-0 w-full h-full object-cover">
+                                @else
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <i class="fa fa-{{ $acc->type === 'Villa' ? 'flag' : 'home' }} text-5xl text-stone-400"></i>
+                                    </div>
+                                @endif
+                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#1a1a1a] text-white text-xs font-medium">{{ $acc->type }}</span>
                             </div>
-                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#1a1a1a] text-white text-xs font-medium">Guest Favorite</span>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="text-xl font-bold text-[#1a1a1a] mb-2" style="font-family: Georgia, serif;">Deluxe Apartment</h3>
-                            <p class="text-sm text-[#595959] mb-1 flex items-center gap-1.5"><i class="fa fa-map-marker text-[#1a1a1a]"></i> 500m from Masjid an-Nabawi</p>
-                            <p class="text-sm text-[#595959] mb-3 flex items-center gap-1.5"><i class="fa fa-users text-[#1a1a1a]"></i> 4-6 People</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="amenity-icon" title="3 Bedrooms"><i class="fa fa-bed text-sm"></i></span>
-                                <span class="amenity-icon" title="Full Kitchen"><i class="fa fa-cutlery text-sm"></i></span>
-                                <span class="amenity-icon" title="Living Room"><i class="fa fa-television text-sm"></i></span>
-                                <span class="amenity-icon" title="WiFi"><i class="fa fa-wifi text-sm"></i></span>
-                                <span class="amenity-icon" title="AC"><i class="fa fa-thermometer-half text-sm"></i></span>
+                            <div class="p-4 transition-colors duration-300 group-hover:bg-gray-50/50">
+                                <h3 class="text-xl font-bold text-[#1a1a1a] mb-2 transition-colors duration-200 group-hover:text-[#0f7c5c]" style="font-family: Georgia, serif;">{{ $acc->title }}</h3>
+                                <p class="text-sm text-[#595959] mb-1 flex items-center gap-1.5"><i class="fa fa-map-marker text-[#1a1a1a]"></i> {{ $acc->distance_display }}</p>
+                                <p class="text-sm text-[#595959] mb-3 flex items-center gap-1.5"><i class="fa fa-users text-[#1a1a1a]"></i> {{ $acc->guest_capacity_display }} People</p>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="amenity-icon" title="{{ $acc->bedrooms }} Bedrooms"><i class="fa fa-bed text-sm"></i></span>
+                                    <span class="amenity-icon" title="Full Kitchen"><i class="fa fa-cutlery text-sm"></i></span>
+                                    <span class="amenity-icon" title="Living Room"><i class="fa fa-television text-sm"></i></span>
+                                    <span class="amenity-icon" title="WiFi"><i class="fa fa-wifi text-sm"></i></span>
+                                    <span class="amenity-icon" title="AC"><i class="fa fa-thermometer-half text-sm"></i></span>
+                                </div>
+                                <p class="text-lg font-bold text-[#0f7c5c]">SAR {{ number_format($acc->price_per_night, 0) }}<span class="text-gray-500 font-normal text-sm">/night</span></p>
                             </div>
-                            <p class="text-lg font-bold text-[#0f7c5c]">SAR 800<span class="text-gray-500 font-normal text-sm">/night</span></p>
-                        </div>
-                    </a>
-                    <!-- Card 2: Family Apartment -->
-                    <a href="{{ route('accommodation.detail', 'family-apartment') }}" class="group block accommodation-card bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden text-left">
-                        <div class="relative h-52 bg-stone-200 overflow-hidden">
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <i class="fa fa-home text-5xl text-stone-400"></i>
-                            </div>
-                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#1a1a1a] text-white text-xs font-medium">Spacious</span>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="text-xl font-bold text-[#1a1a1a] mb-2" style="font-family: Georgia, serif;">Family Apartment</h3>
-                            <p class="text-sm text-[#595959] mb-1 flex items-center gap-1.5"><i class="fa fa-map-marker text-[#1a1a1a]"></i> 800m from Masjid an-Nabawi</p>
-                            <p class="text-sm text-[#595959] mb-3 flex items-center gap-1.5"><i class="fa fa-users text-[#1a1a1a]"></i> 6-8 People</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="amenity-icon" title="Bedrooms"><i class="fa fa-bed text-sm"></i></span>
-                                <span class="amenity-icon" title="Full Kitchen"><i class="fa fa-cutlery text-sm"></i></span>
-                                <span class="amenity-icon" title="Living Room"><i class="fa fa-television text-sm"></i></span>
-                                <span class="amenity-icon" title="WiFi"><i class="fa fa-wifi text-sm"></i></span>
-                                <span class="amenity-icon" title="AC"><i class="fa fa-thermometer-half text-sm"></i></span>
-                            </div>
-                            <p class="text-lg font-bold text-[#0f7c5c]">SAR 1,200<span class="text-gray-500 font-normal text-sm">/night</span></p>
-                        </div>
-                    </a>
-                    <!-- Card 3: Premium Villa -->
-                    <a href="{{ route('accommodation.detail', 'premium-villa') }}" class="group block accommodation-card bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden text-left">
-                        <div class="relative h-52 bg-stone-200 overflow-hidden">
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <i class="fa fa-flag text-5xl text-stone-400"></i>
-                            </div>
-                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#1a1a1a] text-white text-xs font-medium">Luxury</span>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="text-xl font-bold text-[#1a1a1a] mb-2" style="font-family: Georgia, serif;">Premium Villa</h3>
-                            <p class="text-sm text-[#595959] mb-1 flex items-center gap-1.5"><i class="fa fa-map-marker text-[#1a1a1a]"></i> 1km from Masjid an-Nabawi</p>
-                            <p class="text-sm text-[#595959] mb-3 flex items-center gap-1.5"><i class="fa fa-users text-[#1a1a1a]"></i> 8-12 People</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="amenity-icon" title="Bedrooms"><i class="fa fa-bed text-sm"></i></span>
-                                <span class="amenity-icon" title="Full Kitchen"><i class="fa fa-cutlery text-sm"></i></span>
-                                <span class="amenity-icon" title="Living Room"><i class="fa fa-television text-sm"></i></span>
-                                <span class="amenity-icon" title="WiFi"><i class="fa fa-wifi text-sm"></i></span>
-                                <span class="amenity-icon" title="AC"><i class="fa fa-thermometer-half text-sm"></i></span>
-                            </div>
-                            <p class="text-lg font-bold text-[#0f7c5c]">SAR 2,500<span class="text-gray-500 font-normal text-sm">/night</span></p>
-                        </div>
-                    </a>
+                        </a>
+                    @empty
+                        <p class="col-span-full text-center text-[#595959] py-8">No accommodations available at the moment.</p>
+                    @endforelse
                 </div>
             </div>
         </section>

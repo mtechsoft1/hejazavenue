@@ -9,6 +9,7 @@ use App\Destination;
 use App\TourPickupPoint;
 use App\User;
 use App\UserReviews;
+use App\Accommodation;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -99,8 +100,10 @@ class NavigationController extends Controller
             $review->user_name = $user->name;
             $review->profile_image = $user->profile_image;
         }
-            
-        return view ('welcome',compact('tours','destinations','featureds','providers','reviews'));
+
+        $accommodations = Accommodation::active()->ordered()->with('images')->get();
+
+        return view ('welcome', compact('tours', 'destinations', 'featureds', 'providers', 'reviews', 'accommodations'));
     }
     
     

@@ -19,6 +19,8 @@ use App\TourPickupPoint;
 use App\Gallary;
 use App\ContactUs;
 use App\UserReviews;
+use App\ChauffeurService;
+use App\Accommodation;
 use Auth;
 
 class AllinOneController extends Controller
@@ -49,45 +51,19 @@ class AllinOneController extends Controller
     }
 
     /**
-     * Accommodation detail page (frontend only - static data per slug).
+     * Accommodation detail page (load by slug from DB).
      */
     public function accommodationDetail($slug)
     {
-        $accommodations = [
-            'deluxe-apartment' => [
-                'title' => 'Deluxe Apartment',
-                'distance' => '500m from Masjid an-Nabawi',
-                'capacity' => '4-6 People',
-                'rating' => '4.9',
-                'reviews' => '128',
-                'price' => '800',
-                'features' => ['3 Bedrooms', 'Full Kitchen', 'Living Room', 'WiFi', 'AC'],
-            ],
-            'family-apartment' => [
-                'title' => 'Family Apartment',
-                'distance' => '800m from Masjid an-Nabawi',
-                'capacity' => '6-8 People',
-                'rating' => '4.8',
-                'reviews' => '96',
-                'price' => '1,200',
-                'features' => ['4 Bedrooms', 'Full Kitchen', 'Living Room', 'WiFi', 'AC'],
-            ],
-            'premium-villa' => [
-                'title' => 'Premium Villa',
-                'distance' => '1km from Masjid an-Nabawi',
-                'capacity' => '8-12 People',
-                'rating' => '4.9',
-                'reviews' => '64',
-                'price' => '2,500',
-                'features' => ['5 Bedrooms', 'Full Kitchen', 'Living Room', 'WiFi', 'AC'],
-            ],
-        ];
+        $accommodation = Accommodation::where('slug', $slug)->where('is_active', true)
+            ->with(['images', 'chauffeurService'])
+            ->firstOrFail();
 
-        if (!isset($accommodations[$slug])) {
-            abort(404);
-        }
-        $accommodation = $accommodations[$slug];
-        return view('accommodation-detail', compact('accommodation'));
+        $chauffeurServices = ChauffeurService::active()->ordered()->get();
+        $defaultChauffeur = $accommodation->chauffeurService ?? $chauffeurServices->firstWhere('is_default', true) ?? $chauffeurServices->first();
+        $otherChauffeurs = $chauffeurServices->where('id', '!=', $defaultChauffeur?->id)->values();
+
+        return view('accommodation-detail', compact('accommodation', 'chauffeurServices', 'defaultChauffeur', 'otherChauffeurs'));
     }
 
     public function tourdetails($id)

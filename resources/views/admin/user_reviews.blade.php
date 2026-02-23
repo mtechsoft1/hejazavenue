@@ -1,63 +1,49 @@
 @extends('layouts.admin.app')
 @section('content')
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-11 text-center">
-                <h4 style="margin: 10px;">User Reviews</h4>
-                @if(session()->has('success'))
-                    <div class="alert alert-success text-center">
-                        {{ session()->get('success') }}
-                    </div>
-                @endif
-                @if(session()->has('error'))
-                    <div class="alert alert-warning text-center">
-                        {{ session()->get('error') }}
-                    </div>
-                @endif
-            </div> 
-            <!--<div class="col-md-1">-->
-            <!--    <a href="#" class = "btn btn-sm btn-primary" style="margin: 10px;">Add New <i class = "fa fa-plus"></i></a>-->
-            <!--</div>           -->
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-12 table-responsive">
-                @if($reviews->count() > 0)
-                    <table class="table table-sm table-hover" >
-                        <thead>
-                            <th>ID</th>
-                            <th>Company Name</th>
-                            <th>User Name</th>
-                            <th>Rating</th>
-                            <th style="width: 50%;">Review</th>
-                            <th>Delete</th>
-                        </thead>
-                        <tbody>
-                            @foreach($reviews as $review)
-                            <tr> 
-                                    <td>{{$review->id}}</td>
-                                    <td>{{$review->agency_details->company_name}}</td>
-                                    <td>{{$review->user_details->name}}</td>
-                                    <td>
-                                        {!! str_repeat('<span style="color: #28a745;"><i class="fa fa-star"></i></span>', $review->rating_stars) !!}
-                                        {!! str_repeat('<span><i class="fa fa-star-o"></i></span>', 5 - $review->rating_stars) !!}
-                                    </td>
-                                    <td style="width: 50%;">{{$review->review}}</td>
-                                    <td>
-                                        <a href="{{ route('admin.delete_review', $review->id) }}">
-                                        <button type = "submit" onclick = "return confirm('Are You Sure To Want to Delete?')" name = "submit" class = "btn btn-sm btn-danger"><i class = "fa fa-trash"></i></button>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $reviews->links('pagination::bootstrap-4') }}
-                @else
-                    <h4 style = "text-align:center">No Reviews Found!</h4>
-                @endif   
-               
+<div class="mx-auto max-w-7xl">
+    <h1 class="text-2xl font-bold text-gray-900">User Reviews</h1>
+
+    <div class="mt-6 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+        @if($reviews->count() > 0)
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">ID</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Company</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">User</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Rating</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Review</th>
+                            <th scope="col" class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-600">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                        @foreach($reviews as $review)
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="whitespace-nowrap px-4 py-3 text-sm font-medium text-gray-900">{{ $review->id }}</td>
+                                <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-600">{{ $review->agency_details->company_name ?? '–' }}</td>
+                                <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-600">{{ $review->user_details->name ?? '–' }}</td>
+                                <td class="whitespace-nowrap px-4 py-3">
+                                    <span class="text-primary-600">
+                                        @for($i = 0; $i < $review->rating_stars; $i++)<i class="fa fa-star"></i>@endfor
+                                    </span>
+                                    @for($i = $review->rating_stars; $i < 5; $i++)<i class="fa fa-star-o text-gray-300"></i>@endfor
+                                </td>
+                                <td class="max-w-md px-4 py-3 text-sm text-gray-600">{{ $review->review }}</td>
+                                <td class="whitespace-nowrap px-4 py-3 text-right">
+                                    <a href="{{ route('admin.delete_review', $review->id) }}" onclick="return confirm('Are you sure you want to delete this review?');" class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-red-600 hover:bg-red-50 transition" title="Delete"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
-        </div>
+            <div class="border-t border-gray-200 bg-gray-50 px-4 py-3">
+                {{ $reviews->links() }}
+            </div>
+        @else
+            <div class="px-6 py-12 text-center text-gray-500">No reviews found.</div>
+        @endif
     </div>
+</div>
 @endsection

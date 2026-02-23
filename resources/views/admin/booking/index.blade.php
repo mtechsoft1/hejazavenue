@@ -1,101 +1,57 @@
 @extends('layouts.admin.app')
 @section('content')
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-11 text-center">
-                <h4 style="margin: 10px;">Bookings</h4>
-                @if(session()->has('success'))
-                    <div class="alert alert-success text-center">
-                        {{ session()->get('success') }}
-                    </div>
-                @endif
-                @if(session()->has('error'))
-                    <div class="alert alert-warning text-center">
-                        {{ session()->get('error') }}
-                    </div>
-                @endif
-            </div> 
-            <!--<div class="col-md-1">-->
-                <!--<a href="#" class = "btn btn-sm btn-primary" style="margin: 10px;">Add New <i class = "fa fa-plus"></i></a>-->
-            <!--</div>           -->
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-12 table-responsive">
-                @if($bookings->count() > 0)
-                    <table class="table table-sm table-hover" >
-                        <thead>
-                            <th>Booking ID</th>
-                            <th>Tour Name</th>
-                            <th>Company Name</th>
-                            <th>User Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Pickup Point</th>
-                            <th>Payment Method</th>
-                            <th>Payment Amount</th>
-                            <th>payment Status</th>
-                            <th>deposit receipt</th>
-                            <th>Booking at</th>
-                            <th>User Message</th>
-                            <th>Status</th>
-                            <th>View</th>
-                            <!--<th>Edit</th>-->
-                            <th>Delete</th>
-                        </thead>
-                        <tbody>
-                            @foreach($bookings as $booking)
-                            <tr> 
-                                    <td>{{$booking->id}}</td>
-                                    <td>{{$booking->tour_detail->trip_name}}</td>
-                                    <td>{{$booking->agency_details->company_name}}</td>
-                                    <td>{{$booking->name}}</td>
-                                    <td>{{$booking->email}}</td>
-                                    <td>{{$booking->phone}}</td>
-                                    <td>{{$booking->pickup_point_id}}</td>
-                                    <td>{{$booking->payment_method}}</td>
-                                    <td>{{$booking->payment_amount}}</td>
-                                    <td>{{$booking->payment_type}}</td>
-                                    <td><img src="{{ asset($booking->deposit_receipt) }}" alt="Card image cap" height="50px" width="50px"/></td>
-                                    <td>{{$booking->created_at}}</td>
-                                    <td>{{$booking->user_message}} </td> 
-                                    <td>
-                                        <div class="seldive">
-                                        <select  class="form-control border p-1 border-dark text-dark" name="update_status" id="update_booking_status" onchange="location =    this.options[this.selectedIndex].value;" style="width: 100px;">
-                                            
-                                            <option class="p-1" value="{{ route('admin.update_booking_status', ['booking_id'=>$booking->id,'booking_status'=>'pending']) }}" @if($booking->status == 'pending') selected @endif> Pending</option>
-                                                                                
-                                            <option class="p-1" value="{{ route('admin.update_booking_status', ['booking_id'=>$booking->id,'booking_status'=>'cancelled']) }}" @if($booking->status == 'cancelled') selected @endif>Cancelled</option>
-                                                                                
-                                            <option class="p-1" value="{{ route('admin.update_booking_status', ['booking_id'=>$booking->id,'booking_status'=>'completed']) }}" @if($booking->status == 'completed') selected @endif>Completed</option>
-                                                                                
-                                        </select> 
-                                        </div>
-                                    </td>
-                                     <td>
-                                        <a href="{{ route ('admin.bookings.show',$booking->id)}}" class = "btn btn-sm btn-info"><i class = "fa fa-eye"></i></a>
-                                    </td>
-                                    <!--<td>-->
-                                    <!--    <a href="#" class = "btn btn-sm btn-warning"><i class = "fa fa-edit"></i></a>-->
-                                    <!--</td>-->
-                                   
-                                    <td>
-                                        <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method = "POST">
-                                            {{ csrf_field() }}
-                                            {{ method_field('DELETE') }}
-                                            <button type = "submit" onclick = "return confirm('Are You Sure To Want to Delete?')" name = "submit" class = "btn btn-sm btn-danger"><i class = "fa fa-trash"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $bookings->links('pagination::bootstrap-4') }}
-                @else
-                    <h4 style = "text-align:center">No Bookings Found!</h4>
-                @endif   
-               
-            </div>
-        </div>
+<div class="mx-auto max-w-7xl">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <h1 class="text-2xl font-bold text-gray-900">Bookings</h1>
     </div>
+
+    <div class="mt-6 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+        @if($bookings->count() > 0)
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">ID</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Tour</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">User</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Amount</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Status</th>
+                            <th scope="col" class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-600">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                        @foreach($bookings as $booking)
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="whitespace-nowrap px-4 py-3 text-sm font-medium text-gray-900">{{ $booking->id }}</td>
+                                <td class="px-4 py-3 text-sm text-gray-600">{{ $booking->tour_detail->trip_name ?? '–' }}</td>
+                                <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-600">{{ $booking->name }}</td>
+                                <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-600">{{ $booking->payment_amount ?? '–' }}</td>
+                                <td class="whitespace-nowrap px-4 py-3">
+                                    <select onchange="location = this.options[this.selectedIndex].value;" class="rounded-lg border border-gray-300 bg-white px-2 py-1 text-xs font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20">
+                                        <option value="{{ route('admin.update_booking_status', ['booking_id'=>$booking->id,'booking_status'=>'pending']) }}" @if($booking->status == 'pending') selected @endif>Pending</option>
+                                        <option value="{{ route('admin.update_booking_status', ['booking_id'=>$booking->id,'booking_status'=>'cancelled']) }}" @if($booking->status == 'cancelled') selected @endif>Cancelled</option>
+                                        <option value="{{ route('admin.update_booking_status', ['booking_id'=>$booking->id,'booking_status'=>'completed']) }}" @if($booking->status == 'completed') selected @endif>Completed</option>
+                                    </select>
+                                </td>
+                                <td class="whitespace-nowrap px-4 py-3 text-right">
+                                    <a href="{{ route('admin.bookings.show', $booking->id) }}" class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-primary-600 hover:bg-primary-50 transition" title="View"><i class="fa fa-eye"></i></a>
+                                    <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST" class="inline ml-1" onsubmit="return confirm('Are you sure you want to delete this booking?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-red-600 hover:bg-red-50 transition" title="Delete"><i class="fa fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="border-t border-gray-200 bg-gray-50 px-4 py-3">
+                {{ $bookings->links() }}
+            </div>
+        @else
+            <div class="px-6 py-12 text-center text-gray-500">No bookings found.</div>
+        @endif
+    </div>
+</div>
 @endsection
