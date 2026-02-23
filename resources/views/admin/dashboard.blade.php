@@ -1,87 +1,118 @@
 @extends('layouts.admin.app')
 @section('content')
-    
-         
-         <style>
-             .admin-heading{
-                 margin-top:50px;
-                 margin-bottom:30px;
-                 font-size:44px;
-                 font-weight:700;
-                 text-align:center;
-             }
-             @media screen and (max-width : 768px){
-            .admin-heading{
-                 font-size:32px;
-             }
-             }
-         </style>
-                       
+<div class="mx-auto max-w-7xl">
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl">Dashboard</h1>
+    <p class="mt-1 text-sm text-gray-500">Overview of your admin panel</p>
 
-         <div class="row">
-            <div class="col-md-12"> 
-            <h5 class="admin-heading">Admin Panel</h5>           
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="card-counter info">
-                            <i class="fa fa-users" style = "font-size: 36px;"></i>
-                            <span class="count-numbers" style = "font-size: 24px;">{{ $countuser}}</span>
-                            <span class="count-name" >Total User</span>
-                        </div>
-                    </div>
+    {{-- Stat cards (reference style: accent bar, semi-circle, circular icon, hover transitions) --}}
+    <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {{-- Card 1: Blue - Total Users --}}
+        <div class="group relative overflow-hidden rounded-2xl bg-white p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.08)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.06)]">
+            <div class="absolute left-0 top-0 h-1 w-12 rounded-r bg-blue-400"></div>
+            <div class="absolute -bottom-10 -right-10 h-32 w-32 rounded-full bg-blue-100/90"></div>
+            <div class="relative flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Total Users</p>
+                    <p class="mt-1 text-3xl font-bold text-gray-900">{{ $countuser ?? 0 }}</p>
+                </div>
+                <div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-blue-500 text-white shadow-sm transition-transform duration-300 ease-out group-hover:scale-110">
+                    <i class="fa fa-users text-xl"></i>
+                </div>
+            </div>
+        </div>
+        {{-- Card 2: Purple - Total Providers --}}
+        <div class="group relative overflow-hidden rounded-2xl bg-white p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.08)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.06)]">
+            <div class="absolute left-0 top-0 h-1 w-12 rounded-r bg-purple-400"></div>
+            <div class="absolute -bottom-10 -right-10 h-32 w-32 rounded-full bg-purple-100/90"></div>
+            <div class="relative flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Total Providers</p>
+                    <p class="mt-1 text-3xl font-bold text-gray-900">{{ $countprovider ?? 0 }}</p>
+                </div>
+                <div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-purple-500 text-white shadow-sm transition-transform duration-300 ease-out group-hover:scale-110">
+                    <i class="fa fa-briefcase text-xl"></i>
+                </div>
+            </div>
+        </div>
+        {{-- Card 3: Green - Destinations --}}
+        <div class="group relative overflow-hidden rounded-2xl bg-white p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.08)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.06)]">
+            <div class="absolute left-0 top-0 h-1 w-12 rounded-r bg-primary-400"></div>
+            <div class="absolute -bottom-10 -right-10 h-32 w-32 rounded-full bg-primary-100/90"></div>
+            <div class="relative flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Destinations</p>
+                    <p class="mt-1 text-3xl font-bold text-gray-900">{{ $count ?? 0 }}</p>
+                </div>
+                <div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-primary-500 text-white shadow-sm transition-transform duration-300 ease-out group-hover:scale-110">
+                    <i class="fa fa-map-marker-alt text-xl"></i>
+                </div>
+            </div>
+        </div>
+        {{-- Card 4: Red - Tours --}}
+        <div class="group relative overflow-hidden rounded-2xl bg-white p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.08)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.06)]">
+            <div class="absolute left-0 top-0 h-1 w-12 rounded-r bg-red-400"></div>
+            <div class="absolute -bottom-10 -right-10 h-32 w-32 rounded-full bg-red-100/90"></div>
+            <div class="relative flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Tours</p>
+                    <p class="mt-1 text-3xl font-bold text-gray-900">{{ $counttour ?? 0 }}</p>
+                </div>
+                <div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-red-500 text-white shadow-sm transition-transform duration-300 ease-out group-hover:scale-110">
+                    <i class="fa fa-route text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <div class="col-md-3">
-                        <div class="card-counter primary">
-                            <i class="fa fa-users" style = "font-size: 36px;"></i>
-                            <span class="count-numbers" style = "font-size: 24px;">{{$countprovider}}</span>
-                            <span class="count-name">Total Provider</span>
-                        </div>
-                    </div>
+    {{-- Secondary stat row --}}
+    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+            <p class="text-sm font-medium text-gray-500">Total Bookings</p>
+            <p class="mt-1 text-xl font-bold text-gray-900">{{ $countbookings ?? 0 }}</p>
+        </div>
+        <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+            <p class="text-sm font-medium text-gray-500">Total Reviews</p>
+            <p class="mt-1 text-xl font-bold text-gray-900">{{ $countreviews ?? 0 }}</p>
+        </div>
+        <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+            <p class="text-sm font-medium text-gray-500">Contact Messages</p>
+            <p class="mt-1 text-xl font-bold text-gray-900">{{ $countmessages ?? 0 }}</p>
+        </div>
+    </div>
 
-                    <div class="col-md-3">
-                        <div class="card-counter danger">
-                            <i class="fa fa-list" style = "font-size: 36px;"></i>
-                            <span class="count-numbers" style = "font-size: 24px;">{{$count}}</span>
-                            <span class="count-name">Destinations</span>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <div class="card-counter danger">
-                            <i class="fa fa-list" style = "font-size: 36px;"></i>
-                            <span class="count-numbers" style = "font-size: 24px;">{{$counttour}}</span>
-                            <span class="count-name">Tours</span>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <div class="card-counter danger">
-                            <i class="	fas fa-pen" style = "font-size: 36px;"></i>
-                            <span class="count-numbers" style = "font-size: 24px;">{{$countbookings}}</span>
-                            <span class="count-name">Total Bookings</span>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <div class="card-counter danger">
-                            <i class="	fas fa-pen" style = "font-size: 36px;"></i>
-                            <span class="count-numbers" style = "font-size: 24px;">{{$countreviews}}</span>
-                            <span class="count-name">Total Reviews</span>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <div class="card-counter danger">
-                            <i class="	fas fa-pen" style = "font-size: 36px;"></i>
-                            <span class="count-numbers" style = "font-size: 24px;">{{$countmessages}}</span>
-                            <span class="count-name">Total Messages</span>
-                        </div>
-                    </div>
-                    
-                   
-
+    {{-- Action cards --}}
+    <div class="mt-10">
+        <h2 class="text-lg font-semibold text-gray-900">Quick actions</h2>
+        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <a href="{{ route('admin.users.index') }}" class="group flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.08)] transition-all duration-300 ease-out no-underline hover:no-underline hover:-translate-y-1 hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.06)]">
+                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-100 text-primary-600 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:bg-primary-200">
+                    <i class="fa fa-users text-xl"></i>
+                </div>
+                <h3 class="mt-4 font-semibold text-gray-900">Users</h3>
+                <p class="mt-1 text-sm text-gray-500">Manage user records and profiles</p>
+            </a>
+            <a href="{{ route('admin.tours.index') }}" class="group flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.08)] transition-all duration-300 ease-out no-underline hover:no-underline hover:-translate-y-1 hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.06)]">
+                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-red-100 text-red-600 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:bg-red-200">
+                    <i class="fa fa-route text-xl"></i>
+                </div>
+                <h3 class="mt-4 font-semibold text-gray-900">Tours</h3>
+                <p class="mt-1 text-sm text-gray-500">View and manage tours</p>
+            </a>
+            <a href="{{ route('admin.bookings.index') }}" class="group flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.08)] transition-all duration-300 ease-out no-underline hover:no-underline hover:-translate-y-1 hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.06)]">
+                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-600 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:bg-blue-200">
+                    <i class="fa fa-calendar-check text-xl"></i>
+                </div>
+                <h3 class="mt-4 font-semibold text-gray-900">Bookings</h3>
+                <p class="mt-1 text-sm text-gray-500">View and manage bookings</p>
+            </a>
+            <a href="{{ route('admin.contactus_message') }}" class="group flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.08)] transition-all duration-300 ease-out no-underline hover:no-underline hover:-translate-y-1 hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.06)]">
+                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100 text-amber-600 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:bg-amber-200">
+                    <i class="fa fa-envelope text-xl"></i>
+                </div>
+                <h3 class="mt-4 font-semibold text-gray-900">Contact Messages</h3>
+                <p class="mt-1 text-sm text-gray-500">Read and respond to messages</p>
+            </a>
+        </div>
+    </div>
 </div>
-
-
-
 @endsection

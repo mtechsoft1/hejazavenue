@@ -2,8 +2,8 @@
     <!-- Navbar Component -->
     @include('components.navbar')
 
-    <!-- Video Header Area -->
-    <div class="w-full min-h-[550px] relative flex flex-col justify-center items-center">
+    <!-- Video Header Area: starts directly below navbar spacer -->
+    <div class="w-full min-h-[550px] relative flex flex-col justify-center items-center mt-0 pt-0">
         
         <!-- Video Background -->
         <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">

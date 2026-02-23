@@ -197,7 +197,7 @@
         @include('components.navbar')
     @endunless
 
-    <div class="container-fluid ">
+    <div class="container-fluid pt-0">
 
         @yield('content')
 

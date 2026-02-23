@@ -19,6 +19,8 @@
             <li><a href="{{ route('admin.destination.index') }}" class="nav-link flex items-center gap-2 px-6 py-3 text-sm text-slate-300 hover:bg-white/10 hover:text-white"><i class="fa fa-list w-4"></i>Destinations</a></li>
             <li><a href="{{ route('admin.tours.index') }}" class="nav-link flex items-center gap-2 px-6 py-3 text-sm text-slate-300 hover:bg-white/10 hover:text-white"><i class="fa fa-list w-4"></i>Tours</a></li>
             <li><a href="{{ route('admin.bookings.index') }}" class="nav-link flex items-center gap-2 px-6 py-3 text-sm text-slate-300 hover:bg-white/10 hover:text-white"><i class="fa fa-list w-4"></i>Bookings</a></li>
+            <li><a href="{{ route('admin.chauffeur_service.index') }}" class="nav-link flex items-center gap-2 px-6 py-3 text-sm text-slate-300 hover:bg-white/10 hover:text-white"><i class="fa fa-car w-4"></i>Chauffeur Services</a></li>
+            <li><a href="{{ route('admin.accommodation.index') }}" class="nav-link flex items-center gap-2 px-6 py-3 text-sm text-slate-300 hover:bg-white/10 hover:text-white"><i class="fa fa-home w-4"></i>Accommodations</a></li>
             <li><a href="{{ route('admin.user_reviews') }}" class="nav-link flex items-center gap-2 px-6 py-3 text-sm text-slate-300 hover:bg-white/10 hover:text-white"><i class="fa fa-star w-4"></i>User Reviews</a></li>
             <li><a href="{{ route('admin.contactus_message') }}" class="nav-link flex items-center gap-2 px-6 py-3 text-sm text-slate-300 hover:bg-white/10 hover:text-white"><i class="fa fa-envelope w-4"></i>Contact Messages</a></li>
         </ul>
