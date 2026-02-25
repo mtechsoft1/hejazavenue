@@ -19,6 +19,7 @@
                             <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Type</th>
                             <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">City</th>
                             <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Distance</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Beds / Baths</th>
                             <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Guests</th>
                             <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Price/night</th>
                             <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Active</th>
@@ -40,6 +41,7 @@
                                 <td class="px-4 py-3 text-sm text-gray-600">{{ $acc->type }}</td>
                                 <td class="px-4 py-3 text-sm text-gray-600">{{ $acc->city }}</td>
                                 <td class="px-4 py-3 text-sm text-gray-600">{{ $acc->distance_display }}</td>
+                                <td class="px-4 py-3 text-sm text-gray-600">{{ $acc->bedrooms }} / {{ $acc->bathrooms ?? 0 }}</td>
                                 <td class="px-4 py-3 text-sm text-gray-600">{{ $acc->guest_capacity_display }}</td>
                                 <td class="px-4 py-3 text-sm font-medium text-gray-900">SAR {{ number_format($acc->price_per_night, 0) }}</td>
                                 <td class="px-4 py-3">

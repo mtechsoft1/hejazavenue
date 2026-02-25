@@ -26,16 +26,16 @@
     <div class="max-w-7xl mx-auto px-6 py-6 grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start">
         {{-- LEFT: gallery then content --}}
         <div class="lg:col-span-2 space-y-6">
-            {{-- GALLERY: main left, 2 stacked right, 5 thumbnails below --}}
+            {{-- GALLERY: large left (2/3), narrow right stack (1/3) --}}
             <div class="space-y-2">
-                <div class="grid grid-cols-2 gap-2 md:gap-3">
-                    <div class="row-span-2 relative min-h-[240px] md:min-h-[320px] bg-gray-200 rounded-xl overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3">
+                    <div class="md:col-span-2 md:row-span-2 relative min-h-[280px] md:min-h-[400px] bg-gray-200 rounded-xl overflow-hidden">
                         <img src="{{ $main ? $main->url : $placeholder }}" alt="{{ $accommodation->title }}" class="absolute inset-0 w-full h-full object-cover">
                     </div>
-                    <div class="relative min-h-[118px] md:min-h-[158px] bg-gray-200 rounded-xl overflow-hidden">
+                    <div class="relative min-h-[136px] md:min-h-[194px] bg-gray-200 rounded-xl overflow-hidden">
                         <img src="{{ $topRight ? $topRight->url : ($main ? $main->url : $placeholder) }}" alt="{{ $accommodation->title }}" class="absolute inset-0 w-full h-full object-cover">
                     </div>
-                    <div class="relative min-h-[118px] md:min-h-[158px] bg-gray-200 rounded-xl overflow-hidden">
+                    <div class="relative min-h-[136px] md:min-h-[194px] bg-gray-200 rounded-xl overflow-hidden">
                         <img src="{{ $bottomRight ? $bottomRight->url : ($topRight ? $topRight->url : $placeholder) }}" alt="{{ $accommodation->title }}" class="absolute inset-0 w-full h-full object-cover">
                     </div>
                 </div>
@@ -82,6 +82,10 @@
                     <div class="flex items-center gap-3 rounded-xl bg-white/80 border border-emerald-100 px-4 py-3 text-sm text-gray-700 shadow-sm">
                         <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600"><i class="fa fa-bed"></i></span>
                         <span class="font-medium">{{ $accommodation->bedrooms }} Bedrooms</span>
+                    </div>
+                    <div class="flex items-center gap-3 rounded-xl bg-white/80 border border-emerald-100 px-4 py-3 text-sm text-gray-700 shadow-sm">
+                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600"><i class="fa fa-bath"></i></span>
+                        <span class="font-medium">{{ $accommodation->bathrooms ?? 0 }} Bathrooms</span>
                     </div>
                     <div class="flex items-center gap-3 rounded-xl bg-white/80 border border-emerald-100 px-4 py-3 text-sm text-gray-700 shadow-sm">
                         <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600"><i class="fa fa-user"></i></span>
@@ -145,21 +149,46 @@
 
             {{-- TRAVEL LOGISTICS --}}
             <div>
-                <h2 class="text-xl font-semibold mb-6 flex items-center gap-2">
-                    ✈ Travel Logistics
+                <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fa fa-plane text-emerald-600"></i>
+                    Travel Logistics
                 </h2>
 
-                <div class="bg-white p-6 rounded-2xl border grid md:grid-cols-2 gap-4">
-                    <select class="w-full border rounded-xl px-4 py-3">
-                        <option>Select Airport</option>
-                    </select>
+                <style>
+                    #arrival_airport { appearance: none; -webkit-appearance: none; -moz-appearance: none; }
+                    #arrival_airport::-ms-expand { display: none; }
+                </style>
+                <div class="bg-gray-100/80 rounded-2xl border border-gray-200 p-5 md:p-6 space-y-4">
+                    <div class="space-y-2">
+                        <label for="arrival_airport" class="text-lg font-semibold  flex items-center gap-2 text-gray-800">Arrival Airport</label>
+                        <div class="relative">
+                            <select id="arrival_airport" name="arrival_airport" class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition outline-none cursor-pointer pr-10">
+                                <option value="">Select Airport</option>
+                                <option value="MED">Prince Mohammad Bin Abdulaziz Airport (Madinah)</option>
+                                <option value="JED">King Abdulaziz International Airport (Jeddah)</option>
+                                <option value="RUH">King Khalid International Airport (Riyadh)</option>
+                            </select>
+                        </div>
+                    </div>
 
-                    <input type="date"
-                           class="w-full border rounded-xl px-4 py-3">
-
-                    <input type="text"
-                           placeholder="Flight Number (e.g EK 807)"
-                           class="md:col-span-2 w-full border rounded-xl px-4 py-3">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label for="checkin_date" class="text-lg font-semibold flex items-center gap-2 text-gray-800">Check-in Date</label>
+                            <div class="relative">
+                                <input type="date" id="checkin_date" name="checkin_date" class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition outline-none pr-10"
+                                       placeholder="mm/dd/yyyy">
+                                <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-calendar-alt text-sm"></i></span>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label for="flight_number" class="text-lg font-semibold flex items-center gap-2 text-gray-800">Flight Number</label>
+                            <div class="relative">
+                                <input type="text" id="flight_number" name="flight_number" placeholder="e.g. EK 807"
+                                   class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition outline-none">
+                                <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-plane text-sm"></i></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -267,20 +296,135 @@
 
             {{-- SPECIAL REQUESTS --}}
             <div>
-                <h2 class="text-xl font-semibold mb-6">
-                    📋 Special Requests
+                <h2 class="text-xl font-semibold mb-6 flex items-center gap-2 text-gray-800">
+                    <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600"><i class="fa fa-heart"></i></span>
+                    Special Requests
                 </h2>
 
                 <div class="grid md:grid-cols-2 gap-4">
-                    <div class="border rounded-xl p-4 bg-white">
-                        <span class="font-medium">❤️ Elderly Support</span>
+                    <div class="border border-gray-200 rounded-xl p-4 bg-white shadow-sm">
+                        <span class="font-medium text-gray-900">❤️ Elderly Support</span>
                         <p class="text-sm text-gray-600 mt-1">Care and extra attention</p>
                     </div>
-                    <div class="border rounded-xl p-4 bg-white">
-                        <span class="font-medium">♿ Accessibility</span>
+                    <div class="border border-gray-200 rounded-xl p-4 bg-white shadow-sm">
+                        <span class="font-medium text-gray-900">♿ Accessibility</span>
                         <p class="text-sm text-gray-600 mt-1">Wheelchair optimized stay</p>
                     </div>
                 </div>
+            </div>
+
+            {{-- AVAILABILITY: What's Included, Additional Info, Cancellation, FAQ --}}
+            <div class="availability-section">
+                <h2 class="text-xl font-semibold mb-4 flex items-center gap-2 text-gray-800">
+                    <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600"><i class="fa fa-info-circle"></i></span>
+                    Availability &amp; Policies
+                </h2>
+
+                <div class="border border-gray-200 rounded-2xl bg-white shadow-sm overflow-hidden divide-y divide-gray-100">
+                    <div class="accordion-item">
+                        <button type="button" class="availability-accordion-btn w-full flex items-center justify-between gap-3 px-5 py-4 text-left font-semibold text-gray-900 hover:bg-gray-50/80 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:ring-inset" aria-expanded="true" aria-controls="accordion-included" id="accordion-btn-included" data-accordion="included">
+                            <span class="flex items-center gap-2"><i class="fa fa-check-circle text-emerald-600 text-lg"></i> What's Included</span>
+                            <i class="fa fa-chevron-down text-gray-400 text-sm transition-transform duration-200 accordion-chevron"></i>
+                        </button>
+                        <div id="accordion-included" class="accordion-panel px-5 pb-4" role="region" aria-labelledby="accordion-btn-included">
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li class="flex items-center gap-2"><i class="fa fa-check text-emerald-600 w-4"></i> Dedicated maid (daily cleaning)</li>
+                                <li class="flex items-center gap-2"><i class="fa fa-check text-emerald-600 w-4"></i> Personal driver for transfers &amp; local trips</li>
+                                <li class="flex items-center gap-2"><i class="fa fa-check text-emerald-600 w-4"></i> Chauffeur service (as per selected package)</li>
+                                <li class="flex items-center gap-2"><i class="fa fa-check text-emerald-600 w-4"></i> WiFi &amp; AC</li>
+                                <li class="flex items-center gap-2"><i class="fa fa-check text-emerald-600 w-4"></i> Full kitchen &amp; living area</li>
+                                <li class="flex items-center gap-2"><i class="fa fa-check text-emerald-600 w-4"></i> Utilities &amp; maintenance</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button type="button" class="availability-accordion-btn w-full flex items-center justify-between gap-3 px-5 py-4 text-left font-semibold text-gray-900 hover:bg-gray-50/80 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:ring-inset" aria-expanded="false" aria-controls="accordion-info" id="accordion-btn-info" data-accordion="info">
+                            <span class="flex items-center gap-2"><i class="fa fa-file-alt text-emerald-600 text-lg"></i> Additional Information</span>
+                            <i class="fa fa-chevron-down text-gray-400 text-sm transition-transform duration-200 accordion-chevron"></i>
+                        </button>
+                        <div id="accordion-info" class="accordion-panel hidden px-5 pb-4" role="region" aria-labelledby="accordion-btn-info">
+                            <div class="text-sm text-gray-600 space-y-3">
+                                <p><strong class="text-gray-800">Check-in:</strong> From 3:00 PM</p>
+                                <p><strong class="text-gray-800">Check-out:</strong> Until 11:00 AM</p>
+                                <p><strong class="text-gray-800">Guests:</strong> {{ $accommodation->guest_capacity_display }} people (min–max capacity)</p>
+                                <p><strong class="text-gray-800">Pets:</strong> Not allowed</p>
+                                <p>For early check-in or late check-out, please contact us in advance. Quiet hours are observed for the comfort of all guests.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button type="button" class="availability-accordion-btn w-full flex items-center justify-between gap-3 px-5 py-4 text-left font-semibold text-gray-900 hover:bg-gray-50/80 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:ring-inset" aria-expanded="false" aria-controls="accordion-cancel" id="accordion-btn-cancel" data-accordion="cancel">
+                            <span class="flex items-center gap-2"><i class="fa fa-shield-alt text-emerald-600 text-lg"></i> Cancellation Policy</span>
+                            <i class="fa fa-chevron-down text-gray-400 text-sm transition-transform duration-200 accordion-chevron"></i>
+                        </button>
+                        <div id="accordion-cancel" class="accordion-panel hidden px-5 pb-4" role="region" aria-labelledby="accordion-btn-cancel">
+                            <div class="text-sm text-gray-600 space-y-2">
+                                <p><strong class="text-gray-800">Free cancellation</strong> up to 7 days before check-in. Full refund will be processed within 5–7 business days.</p>
+                                <p>If you cancel between 3–7 days before check-in, 50% of the total amount will be refunded.</p>
+                                <p>Cancellations within 3 days of check-in are non-refundable. We recommend travel insurance for unexpected changes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button type="button" class="availability-accordion-btn w-full flex items-center justify-between gap-3 px-5 py-4 text-left font-semibold text-gray-900 hover:bg-gray-50/80 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:ring-inset" aria-expanded="false" aria-controls="accordion-faq" id="accordion-btn-faq" data-accordion="faq">
+                            <span class="flex items-center gap-2"><i class="fa fa-question-circle text-emerald-600 text-lg"></i> FAQ</span>
+                            <i class="fa fa-chevron-down text-gray-400 text-sm transition-transform duration-200 accordion-chevron"></i>
+                        </button>
+                        <div id="accordion-faq" class="accordion-panel hidden px-5 pb-4" role="region" aria-labelledby="accordion-btn-faq">
+                            <div class="text-sm text-gray-600 space-y-4">
+                                <div>
+                                    <p class="font-semibold text-gray-800 mb-1">Is airport pickup included?</p>
+                                    <p>Yes. Your selected chauffeur service includes airport transfer. Share your flight details in the Travel Logistics section so we can coordinate.</p>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-800 mb-1">What is the distance to Masjid an-Nabawi?</p>
+                                    <p>{{ $accommodation->distance_display }}. We provide comfortable transport for your daily visits.</p>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-800 mb-1">Can I request early check-in?</p>
+                                    <p>Subject to availability. Contact us after booking and we will do our best to accommodate you.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        var btns = document.querySelectorAll('.availability-accordion-btn');
+                        btns.forEach(function(btn) {
+                            btn.addEventListener('click', function() {
+                                var expanded = this.getAttribute('aria-expanded') === 'true';
+                                var targetId = this.getAttribute('aria-controls');
+                                var panel = document.getElementById(targetId);
+                                var chevron = this.querySelector('.accordion-chevron');
+                                this.setAttribute('aria-expanded', !expanded);
+                                if (panel) panel.classList.toggle('hidden', expanded);
+                                if (chevron) chevron.style.transform = expanded ? '' : 'rotate(180deg)';
+                                if (!expanded) {
+                                    btns.forEach(function(b) {
+                                        if (b !== btn) {
+                                            b.setAttribute('aria-expanded', 'false');
+                                            var id = b.getAttribute('aria-controls');
+                                            var p = document.getElementById(id);
+                                            var ch = b.querySelector('.accordion-chevron');
+                                            if (p) p.classList.add('hidden');
+                                            if (ch) ch.style.transform = '';
+                                        }
+                                    });
+                                }
+                            });
+                        });
+                        var firstBtn = document.querySelector('.availability-accordion-btn');
+                        if (firstBtn) {
+                            var ch = firstBtn.querySelector('.accordion-chevron');
+                            if (ch) ch.style.transform = 'rotate(180deg)';
+                        }
+                    });
+                </script>
             </div>
         </div>
 

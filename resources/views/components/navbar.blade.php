@@ -23,12 +23,12 @@
                 </span>
                 <div id="props-menu" class="absolute left-0 top-full pt-1 w-52 z-[9999] transition-opacity duration-150" role="menu" style="opacity:0;visibility:hidden;pointer-events:none;">
                     <div class="bg-white rounded-xl shadow-xl border border-gray-200 py-2">
-                        <a href="{{ route('accommodation.detail', 'deluxe-apartment') }}"
+                        <a href="{{ route('index') }}#apartments"
                            class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-800 hover:bg-green-50 hover:text-green-700 no-underline">
                             <i class="fa fa-building w-4 text-green-600"></i>
                             Apartment
                         </a>
-                        <a href="{{ route('accommodation.detail', 'premium-villa') }}"
+                        <a href="{{ route('index') }}#villas"
                            class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-800 hover:bg-green-50 hover:text-green-700 no-underline">
                             <i class="fa fa-flag w-4 text-green-600"></i>
                             Villa
@@ -38,7 +38,6 @@
             </div>
 
             <a href="{{ route('contact') }}"
-               class="nav-link text-white/95 hover:text-green-400 group-data-[scrolled=true]:text-slate-700 group-data-[scrolled=true]:hover:text-green-600 group-data-[scrolled=true]:hover:bg-gray-100 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-white/10 transition-colors no-underline">Apartments</a>
             <a href="{{ route('contact') }}"
                class="nav-link text-white/95 hover:text-green-400 group-data-[scrolled=true]:text-slate-700 group-data-[scrolled=true]:hover:text-green-600 group-data-[scrolled=true]:hover:bg-gray-100 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-white/10 transition-colors no-underline">Maps</a>
             <a href="{{ route('about_us') }}"
@@ -76,8 +75,8 @@
                     <i class="fa fa-chevron-down transition-transform" :class="mobPropOpen ? 'rotate-180' : ''"></i>
                 </button>
                 <div x-show="mobPropOpen" x-transition class="pl-4 flex flex-col gap-1 border-l-2 border-white/20">
-                    <a href="{{ route('accommodation.detail', 'deluxe-apartment') }}" class="text-white/95 py-2 text-sm no-underline">Apartment</a>
-                    <a href="{{ route('accommodation.detail', 'premium-villa') }}" class="text-white/95 py-2 text-sm no-underline">Villa</a>
+                    <a href="{{ route('index') }}#apartments" class="text-white/95 py-2 text-sm no-underline">Apartment</a>
+                    <a href="{{ route('index') }}#villas" class="text-white/95 py-2 text-sm no-underline">Villa</a>
                 </div>
             </div>
             <a href="{{ route('contact') }}" class="text-white/95 py-3 text-base font-semibold no-underline">Apartments</a>

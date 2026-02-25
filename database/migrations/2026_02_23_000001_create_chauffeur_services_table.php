@@ -12,6 +12,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->string('vehicle_number', 100)->nullable();
+            $table->string('model', 100)->nullable();
+            $table->string('color', 50)->nullable();
             $table->decimal('extra_price', 10, 2)->default(0);
             $table->boolean('is_default')->default(false);
             $table->boolean('is_active')->default(true);

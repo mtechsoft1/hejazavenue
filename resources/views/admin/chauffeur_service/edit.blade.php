@@ -36,6 +36,18 @@
             <input type="text" name="capacity" value="{{ old('capacity', $chauffeurService->capacity) }}" placeholder="e.g. Up to 4 passengers" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
         </div>
         <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Vehicle Number</label>
+            <input type="text" name="vehicle_number" value="{{ old('vehicle_number', $chauffeurService->vehicle_number) }}" placeholder="e.g. ABC 1234" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Model</label>
+            <input type="text" name="model" value="{{ old('model', $chauffeurService->model) }}" placeholder="e.g. Toyota Camry" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+            <input type="text" name="color" value="{{ old('color', $chauffeurService->color) }}" placeholder="e.g. White, Black" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+        <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Extra Price (SAR)</label>
             <input type="number" name="extra_price" value="{{ old('extra_price', $chauffeurService->extra_price) }}" min="0" step="0.01" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
             <p class="mt-1 text-xs text-gray-500">0 = included in package (default service).</p>

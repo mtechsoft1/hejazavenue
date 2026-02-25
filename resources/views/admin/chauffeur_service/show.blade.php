@@ -21,6 +21,9 @@
                     <tr><th class="px-4 py-3 text-left text-sm font-medium text-gray-500 w-40">Name</th><td class="px-4 py-3 text-sm text-gray-900">{{ $chauffeurService->name }}</td></tr>
                     <tr><th class="px-4 py-3 text-left text-sm font-medium text-gray-500">Description</th><td class="px-4 py-3 text-sm text-gray-900">{{ $chauffeurService->description ?? '–' }}</td></tr>
                     <tr><th class="px-4 py-3 text-left text-sm font-medium text-gray-500">Capacity</th><td class="px-4 py-3 text-sm text-gray-900">{{ $chauffeurService->capacity ?? '–' }}</td></tr>
+                    <tr><th class="px-4 py-3 text-left text-sm font-medium text-gray-500">Vehicle Number</th><td class="px-4 py-3 text-sm text-gray-900">{{ $chauffeurService->vehicle_number ?? '–' }}</td></tr>
+                    <tr><th class="px-4 py-3 text-left text-sm font-medium text-gray-500">Model</th><td class="px-4 py-3 text-sm text-gray-900">{{ $chauffeurService->model ?? '–' }}</td></tr>
+                    <tr><th class="px-4 py-3 text-left text-sm font-medium text-gray-500">Color</th><td class="px-4 py-3 text-sm text-gray-900">{{ $chauffeurService->color ?? '–' }}</td></tr>
                     <tr><th class="px-4 py-3 text-left text-sm font-medium text-gray-500">Extra Price (SAR)</th><td class="px-4 py-3 text-sm text-gray-900">{{ $chauffeurService->is_default ? 'Included (default)' : number_format($chauffeurService->extra_price, 2) }}</td></tr>
                     <tr><th class="px-4 py-3 text-left text-sm font-medium text-gray-500">Default</th><td class="px-4 py-3 text-sm text-gray-900">{{ $chauffeurService->is_default ? 'Yes' : 'No' }}</td></tr>
                     <tr><th class="px-4 py-3 text-left text-sm font-medium text-gray-500">Active</th><td class="px-4 py-3 text-sm text-gray-900">{{ $chauffeurService->is_active ? 'Yes' : 'No' }}</td></tr>

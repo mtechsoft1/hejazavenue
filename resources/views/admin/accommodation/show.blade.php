@@ -45,6 +45,7 @@
                         <tr><th class="px-0 py-2 text-left text-sm font-medium text-gray-500">Distance</th><td class="py-2 text-sm text-gray-900">{{ $accommodation->distance_display }}</td></tr>
                         <tr><th class="px-0 py-2 text-left text-sm font-medium text-gray-500">Latitude / Longitude</th><td class="py-2 text-sm text-gray-600">{{ $accommodation->latitude ?? '–' }} / {{ $accommodation->longitude ?? '–' }}</td></tr>
                         <tr><th class="px-0 py-2 text-left text-sm font-medium text-gray-500">Bedrooms</th><td class="py-2 text-sm text-gray-900">{{ $accommodation->bedrooms }}</td></tr>
+                        <tr><th class="px-0 py-2 text-left text-sm font-medium text-gray-500">Bathrooms</th><td class="py-2 text-sm text-gray-900">{{ $accommodation->bathrooms ?? 0 }}</td></tr>
                         <tr><th class="px-0 py-2 text-left text-sm font-medium text-gray-500">Guests (min–max)</th><td class="py-2 text-sm text-gray-900">{{ $accommodation->guest_capacity_display }}</td></tr>
                         <tr><th class="px-0 py-2 text-left text-sm font-medium text-gray-500">Dedicated Maid</th><td class="py-2 text-sm text-gray-900">✔ Included</td></tr>
                         <tr><th class="px-0 py-2 text-left text-sm font-medium text-gray-500">Driver</th><td class="py-2 text-sm text-gray-900">✔ Included</td></tr>
