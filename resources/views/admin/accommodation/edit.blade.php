@@ -52,10 +52,14 @@
                 <input type="text" name="longitude" value="{{ old('longitude', $accommodation->longitude) }}" placeholder="e.g. 39.6111" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
             </div>
         </div>
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Bedrooms <span class="text-red-500">*</span></label>
                 <input type="number" name="bedrooms" value="{{ old('bedrooms', $accommodation->bedrooms) }}" min="0" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Bathrooms <span class="text-red-500">*</span></label>
+                <input type="number" name="bathrooms" value="{{ old('bathrooms', $accommodation->bathrooms ?? 0) }}" min="0" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Min Guests <span class="text-red-500">*</span></label>

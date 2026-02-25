@@ -3,13 +3,17 @@
     Compass Tour
 @endsection
 @section('content')
+    @php
+        $tours = $tours ?? collect([]);
+        $featureds = $featureds ?? collect([]);
+    @endphp
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,container-queries"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-    <style>
+    <!-- <style>
         .form-control-plaintext {
             background-color: #f5f8fa;
         }
@@ -168,7 +172,7 @@
             position: relative;
             width: 100%;
         }
-    </style>
+    </style> -->
 
     <!-- Show the success message -->
     @if (session()->has('success'))
@@ -180,7 +184,7 @@
 
 
     <div class="container-fluid relative z-0 mt-0 pt-0 -mt-0">
-        <div class="w-full min-h-[600px] relative flex flex-col z-0 mt-0 pt-0">
+        <div class="w-full min-h-[800px] relative flex flex-col z-0 mt-0 pt-0">
             <!-- Hero Video starts directly below navbar -->
 
             <!-- Hero Video Background -->
@@ -194,9 +198,9 @@
         <!-- Booking.com Style Search Bar -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
-        <div class="w-full relative" x-data="bookingSearch()">
+        <div class="w-full relative z-30 -mt-10 mb-12" x-data="bookingSearch()">
             <div class="lg:max-w-[1110px] w-[90vw] mx-auto">
-                <div class="bg-[#ffb700] p-1 rounded-[4px] shadow-2xl">
+                <div class="bg-green-200 p-1 rounded-[4px] shadow-2xl">
                     <form action="{{ route('search_tours') }}" method="post"
                         class="grid grid-cols-1 lg:grid-cols-12 gap-1">
                         @csrf
@@ -204,7 +208,7 @@
                         <!-- Destination Input -->
                         <div class="lg:col-span-4 relative bg-white rounded-[4px]" @click.outside="destOpen = false">
                             <div
-                                class="flex items-center px-3 h-14 border-2 border-transparent focus-within:border-[#ffb700] rounded-[4px] bg-white transition-colors">
+                                class="flex items-center px-3 h-14 border-2 border-transparent focus-within:border-green-500 rounded-[4px] bg-white transition-colors">
                                 <i class="fa fa-bed text-gray-400 text-lg mr-3"></i>
                                 <input type="text" x-model="search" @focus="destOpen = true" name="destination"
                                     class="w-full h-full border-none outline-none focus:ring-0 text-gray-900 placeholder-gray-600 font-medium bg-transparent text-sm"
@@ -227,7 +231,7 @@
                                             <div>
                                                 <div class="font-bold text-gray-900">{{ $destination->destination_name }}
                                                 </div>
-                                                <div class="text-xs text-gray-500">Pakistan</div>
+                                                <div class="text-xs text-gray-500">Madinah</div>
                                             </div>
                                         </li>
                                     @endforeach
@@ -237,7 +241,7 @@
 
                         <!-- Date Range Picker -->
                         <div class="lg:col-span-4 bg-white rounded-[4px]">
-                            <div class="flex items-center px-3 h-14 border-2 border-transparent focus-within:border-[#ffb700] rounded-[4px] bg-white transition-colors cursor-pointer"
+                            <div class="flex items-center px-3 h-14 border-2 border-transparent focus-within:border-green-500 rounded-[4px] bg-white transition-colors cursor-pointer"
                                 onclick="document.getElementById('date-range')._flatpickr.open()">
                                 <i class="fa fa-calendar text-gray-400 text-lg mr-3"></i>
                                 <input type="text" id="date-range" name="dates"
@@ -248,7 +252,7 @@
 
                         <!-- Guests & Rooms -->
                         <div class="lg:col-span-3 relative bg-white rounded-[4px]" @click.outside="guestOpen = false">
-                            <div class="flex items-center px-3 h-14 border-2 border-transparent focus-within:border-[#ffb700] rounded-[4px] bg-white transition-colors cursor-pointer"
+                            <div class="flex items-center px-3 h-14 border-2 border-transparent focus-within:border-green-500 rounded-[4px] bg-white transition-colors cursor-pointer"
                                 @click="guestOpen = !guestOpen">
                                 <i class="fa fa-user text-gray-400 text-lg mr-3"></i>
                                 <div class="flex flex-col justify-center">
@@ -358,7 +362,7 @@
                         <!-- Search Button -->
                         <div class="lg:col-span-1">
                             <button type="submit"
-                                class="w-full h-14 bg-[#0071c2] hover:bg-[#005999] text-white text-xl font-bold rounded-[4px] transition-colors shadow-sm">
+                                class="w-full h-14 bg-green-600 hover:bg-green-700 text-white text-lg font-semibold rounded-[4px] transition-colors shadow-sm">
                                 Search
                             </button>
                         </div>
@@ -625,13 +629,18 @@
         <style>
             .amenity-icon { width: 2.25rem; height: 2.25rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 0.5rem; background: #f5f5f4; color: #57534e; transition: all 0.25s ease-out; }
             .amenity-icon:hover { border: 2px solid #86efac; background: #ecfdf5; color: #0f7c5c; }
+            .acc-stat { display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.375rem 0.625rem; border-radius: 0.5rem; background: #fafafa; border: 1px solid #e5e7eb; font-size: 0.8125rem; font-weight: 600; color: #374151; transition: all 0.2s ease; }
+            .acc-stat:hover { background: #f0fdf4; border-color: #86efac; color: #0f7c5c; }
+            .acc-stat i { font-size: 0.875rem; color: #6b7280; }
+            .acc-stat:hover i { color: #0f7c5c; }
+            .acc-card .acc-amenities { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
             .acc-card { border: 1px solid #e5e7eb; transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.35s ease, background-color 0.3s ease; }
             .acc-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.06); border-color: #86efac; background-color: #fafafa; }
             .acc-card-image-wrap { overflow: hidden; }
             .acc-card:hover .acc-card-img { transform: scale(1.08); }
             .acc-card-img { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; }
         </style>
-        <section class="py-16 sm:py-20 bg-white">
+        <section id="accommodations" class="py-16 sm:py-20 bg-white scroll-mt-24">
             <div class="lg:max-w-[1110px] w-[90vw] mx-auto px-4 sm:px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-4xl font-serif font-bold text-[#1a1a1a] mb-4">Premium Accommodations</h2>
@@ -639,42 +648,95 @@
                         Handpicked apartments and villas near Masjid an-Nabawi, fully managed by our professional staff.
                     </p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    @forelse($accommodations ?? [] as $acc)
-                        @php $firstImage = $acc->images->first(); @endphp
-                        <a href="{{ route('accommodation.detail', $acc->slug) }}" class="acc-card group block bg-white rounded-xl shadow-sm overflow-hidden text-left no-underline hover:no-underline cursor-pointer">
-                            <div class="acc-card-image-wrap relative h-52 bg-stone-200">
-                                @if($firstImage)
-                                    <img src="{{ $firstImage->url }}" alt="{{ $acc->title }}" class="acc-card-img absolute inset-0 w-full h-full object-cover">
-                                @else
-                                    <div class="absolute inset-0 flex items-center justify-center">
-                                        <i class="fa fa-{{ $acc->type === 'Villa' ? 'flag' : 'home' }} text-5xl text-stone-400"></i>
-                                    </div>
-                                @endif
-                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#1a1a1a] text-white text-xs font-medium">{{ $acc->type }}</span>
-                            </div>
-                            <div class="p-4 transition-colors duration-300 group-hover:bg-gray-50/50">
-                                <h3 class="text-xl font-bold text-[#1a1a1a] mb-2 transition-colors duration-200 group-hover:text-[#0f7c5c]" style="font-family: Georgia, serif;">{{ $acc->title }}</h3>
-                                <p class="text-sm text-[#595959] mb-1 flex items-center gap-1.5"><i class="fa fa-map-marker text-[#1a1a1a]"></i> {{ $acc->distance_display }}</p>
-                                <p class="text-sm text-[#595959] mb-3 flex items-center gap-1.5"><i class="fa fa-users text-[#1a1a1a]"></i> {{ $acc->guest_capacity_display }} People</p>
-                                <div class="flex flex-wrap gap-2 mb-4">
-                                    <span class="amenity-icon" title="{{ $acc->bedrooms }} Bedrooms"><i class="fa fa-bed text-sm"></i></span>
-                                    <span class="amenity-icon" title="Full Kitchen"><i class="fa fa-cutlery text-sm"></i></span>
-                                    <span class="amenity-icon" title="Living Room"><i class="fa fa-television text-sm"></i></span>
-                                    <span class="amenity-icon" title="WiFi"><i class="fa fa-wifi text-sm"></i></span>
-                                    <span class="amenity-icon" title="AC"><i class="fa fa-thermometer-half text-sm"></i></span>
+
+                @php
+                    $accommodationsList = $accommodations ?? collect();
+                    $apartmentsList = $accommodationsList->where('type', 'Apartment')->values();
+                    $villasList = $accommodationsList->where('type', 'Villa')->values();
+                @endphp
+
+                {{-- Apartments section --}}
+                <div id="apartments" class="scroll-mt-24 mb-14">
+                    <h3 class="text-2xl font-bold text-[#1a1a1a] mb-6 flex items-center gap-2">
+                        <i class="fa fa-building text-[#0f7c5c]"></i>
+                        Apartment
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        @forelse($apartmentsList as $acc)
+                            @php $firstImage = $acc->images->first(); @endphp
+                            <a href="{{ route('accommodation.detail', $acc->slug) }}" class="acc-card group block bg-white rounded-xl shadow-sm overflow-hidden text-left no-underline hover:no-underline cursor-pointer">
+                                <div class="acc-card-image-wrap relative h-52 bg-stone-200">
+                                    @if($firstImage)
+                                        <img src="{{ $firstImage->url }}" alt="{{ $acc->title }}" class="acc-card-img absolute inset-0 w-full h-full object-cover">
+                                    @else
+                                        <div class="absolute inset-0 flex items-center justify-center">
+                                            <i class="fa fa-home text-5xl text-stone-400"></i>
+                                        </div>
+                                    @endif
+                                    <span class="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#1a1a1a] text-white text-xs font-medium">{{ $acc->type }}</span>
                                 </div>
-                                <p class="text-lg font-bold text-[#0f7c5c]">SAR {{ number_format($acc->price_per_night, 0) }}<span class="text-gray-500 font-normal text-sm">/night</span></p>
-                            </div>
-                        </a>
-                    @empty
-                        <p class="col-span-full text-center text-[#595959] py-8">No accommodations available at the moment.</p>
-                    @endforelse
+                                <div class="p-4 transition-colors duration-300 group-hover:bg-gray-50/50">
+                                    <h3 class="text-xl font-bold text-[#1a1a1a] mb-2 transition-colors duration-200 group-hover:text-[#0f7c5c]" style="font-family: Georgia, serif;">{{ $acc->title }}</h3>
+                                    <p class="text-sm text-[#595959] mb-1 flex items-center gap-1.5"><i class="fa fa-map-marker text-[#1a1a1a]"></i> {{ $acc->distance_display }}</p>
+                                    <p class="text-sm text-[#595959] mb-3 flex items-center gap-1.5"><i class="fa fa-users text-[#1a1a1a]"></i> {{ $acc->guest_capacity_display }} People</p>
+                                    <div class="acc-amenities mb-4">
+                                        <span class="acc-stat" title="{{ $acc->bedrooms }} Bedrooms">{{ $acc->bedrooms }} <i class="fa fa-bed"></i></span>
+                                        <span class="acc-stat" title="{{ $acc->bathrooms ?? 0 }} Bathrooms">{{ $acc->bathrooms ?? 0 }} <i class="fa fa-bath"></i></span>
+                                        <span class="amenity-icon" title="WiFi"><i class="fa fa-wifi text-sm"></i></span>
+                                        <span class="amenity-icon" title="AC"><i class="fa fa-thermometer-half text-sm"></i></span>
+                                    </div>
+                                    <p class="text-lg font-bold text-[#0f7c5c]">SAR {{ number_format($acc->price_per_night, 0) }}<span class="text-gray-500 font-normal text-sm">/night</span></p>
+                                </div>
+                            </a>
+                        @empty
+                            <p class="col-span-full text-center text-[#595959] py-8">No apartments available at the moment.</p>
+                        @endforelse
+                    </div>
+                </div>
+
+                {{-- Villas section --}}
+                <div id="villas" class="scroll-mt-24">
+                    <h3 class="text-2xl font-bold text-[#1a1a1a] mb-6 flex items-center gap-2">
+                        <i class="fa fa-flag text-[#0f7c5c]"></i>
+                        Villa
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        @forelse($villasList as $acc)
+                            @php $firstImage = $acc->images->first(); @endphp
+                            <a href="{{ route('accommodation.detail', $acc->slug) }}" class="acc-card group block bg-white rounded-xl shadow-sm overflow-hidden text-left no-underline hover:no-underline cursor-pointer">
+                                <div class="acc-card-image-wrap relative h-52 bg-stone-200">
+                                    @if($firstImage)
+                                        <img src="{{ $firstImage->url }}" alt="{{ $acc->title }}" class="acc-card-img absolute inset-0 w-full h-full object-cover">
+                                    @else
+                                        <div class="absolute inset-0 flex items-center justify-center">
+                                            <i class="fa fa-flag text-5xl text-stone-400"></i>
+                                        </div>
+                                    @endif
+                                    <span class="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#1a1a1a] text-white text-xs font-medium">{{ $acc->type }}</span>
+                                </div>
+                                <div class="p-4 transition-colors duration-300 group-hover:bg-gray-50/50">
+                                    <h3 class="text-xl font-bold text-[#1a1a1a] mb-2 transition-colors duration-200 group-hover:text-[#0f7c5c]" style="font-family: Georgia, serif;">{{ $acc->title }}</h3>
+                                    <p class="text-sm text-[#595959] mb-1 flex items-center gap-1.5"><i class="fa fa-map-marker text-[#1a1a1a]"></i> {{ $acc->distance_display }}</p>
+                                    <p class="text-sm text-[#595959] mb-3 flex items-center gap-1.5"><i class="fa fa-users text-[#1a1a1a]"></i> {{ $acc->guest_capacity_display }} People</p>
+                                    <div class="acc-amenities mb-4">
+                                        <span class="acc-stat" title="{{ $acc->bedrooms }} Bedrooms">{{ $acc->bedrooms }} <i class="fa fa-bed"></i></span>
+                                        <span class="acc-stat" title="{{ $acc->bathrooms ?? 0 }} Bathrooms">{{ $acc->bathrooms ?? 0 }} <i class="fa fa-bath"></i></span>
+                                        <span class="amenity-icon" title="WiFi"><i class="fa fa-wifi text-sm"></i></span>
+                                        <span class="amenity-icon" title="AC"><i class="fa fa-thermometer-half text-sm"></i></span>
+                                    </div>
+                                    <p class="text-lg font-bold text-[#0f7c5c]">SAR {{ number_format($acc->price_per_night, 0) }}<span class="text-gray-500 font-normal text-sm">/night</span></p>
+                                </div>
+                            </a>
+                        @empty
+                            <p class="col-span-full text-center text-[#595959] py-8">No villas available at the moment.</p>
+                        @endforelse
+                    </div>
                 </div>
             </div>
         </section>
 
         <!---------------Our Best Packages-------------->
+        @if (false)
         <div id="package" class="packages lg:max-w-[1110px] w-[90vw] mx-auto mt-3">
             <div>
                 <div class="flex flex-col items-center justify-center text-center">
@@ -753,8 +815,8 @@
                 </div>
 
             </div>
-        </div>
-
+        </div> 
+        @endif
 
         <section class="w-full py-20 bg-gradient-to-br from-emerald-50 to-teal-50">
             <div class="max-w-7xl mx-auto px-6 text-center">
@@ -1646,7 +1708,7 @@
     </div>
 @endsection
 
-@section('script')
+<!-- @section('script')
     <script type="text/javascript">
         $(document).ready(function() {
             var offset = $('#load-more-popular-tours').data('offset');
@@ -2092,4 +2154,4 @@
             });
         });
     </script>
-@endsection
+@endsection -->

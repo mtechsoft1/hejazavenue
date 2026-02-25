@@ -16,6 +16,9 @@
                         <tr>
                             <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Name</th>
                             <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Capacity</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Vehicle No.</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Model</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Color</th>
                             <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Extra Price (SAR)</th>
                             <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Default</th>
                             <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Active</th>
@@ -27,6 +30,9 @@
                             <tr class="hover:bg-gray-50 transition">
                                 <td class="px-4 py-3 text-sm font-medium text-gray-900">{{ $cs->name }}</td>
                                 <td class="px-4 py-3 text-sm text-gray-600">{{ $cs->capacity ?? '–' }}</td>
+                                <td class="px-4 py-3 text-sm text-gray-600">{{ $cs->vehicle_number ?? '–' }}</td>
+                                <td class="px-4 py-3 text-sm text-gray-600">{{ $cs->model ?? '–' }}</td>
+                                <td class="px-4 py-3 text-sm text-gray-600">{{ $cs->color ?? '–' }}</td>
                                 <td class="px-4 py-3 text-sm text-gray-600">{{ $cs->is_default ? 'Included' : number_format($cs->extra_price, 0) }}</td>
                                 <td class="px-4 py-3">
                                     @if($cs->is_default)

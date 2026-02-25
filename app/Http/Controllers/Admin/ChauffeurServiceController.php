@@ -26,12 +26,15 @@ class ChauffeurServiceController extends Controller
             'description' => 'nullable|string',
             'extra_price' => 'nullable|numeric|min:0',
             'capacity'   => 'nullable|string|max:100',
+            'vehicle_number' => 'nullable|string|max:100',
+            'model'      => 'nullable|string|max:100',
+            'color'      => 'nullable|string|max:50',
             'is_default' => 'nullable|in:0,1',
             'is_active'  => 'nullable|in:0,1',
             'sort_order' => 'nullable|integer|min:0',
         ]);
 
-        $data = $request->only(['name', 'description', 'capacity', 'is_active', 'sort_order']);
+        $data = $request->only(['name', 'description', 'capacity', 'vehicle_number', 'model', 'color', 'is_active', 'sort_order']);
         $data['extra_price'] = $request->input('extra_price', 0);
         $data['is_default'] = $request->boolean('is_default');
 
@@ -60,12 +63,15 @@ class ChauffeurServiceController extends Controller
             'description' => 'nullable|string',
             'extra_price' => 'nullable|numeric|min:0',
             'capacity'   => 'nullable|string|max:100',
+            'vehicle_number' => 'nullable|string|max:100',
+            'model'      => 'nullable|string|max:100',
+            'color'      => 'nullable|string|max:50',
             'is_default' => 'nullable|in:0,1',
             'is_active'  => 'nullable|in:0,1',
             'sort_order' => 'nullable|integer|min:0',
         ]);
 
-        $data = $request->only(['name', 'description', 'capacity', 'is_active', 'sort_order']);
+        $data = $request->only(['name', 'description', 'capacity', 'vehicle_number', 'model', 'color', 'is_active', 'sort_order']);
         $data['extra_price'] = $request->input('extra_price', 0);
         $data['is_default'] = $request->boolean('is_default');
 

@@ -41,12 +41,12 @@
                         <span>Destinations</span>
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="{{ route('admin.tours.index') }}" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors no-underline hover:no-underline {{ $isActive('admin.tours.*') ? 'border-l-4 border-primary-600 bg-primary-50 text-primary-700 pl-[11px]' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
                         <i class="fa fa-list w-5 text-center text-gray-500"></i>
                         <span>Tours</span>
                     </a>
-                </li>
+                </li> -->
                 <li>
                     <a href="{{ route('admin.bookings.index') }}" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors no-underline hover:no-underline {{ $isActive('admin.bookings.*') ? 'border-l-4 border-primary-600 bg-primary-50 text-primary-700 pl-[11px]' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
                         <i class="fa fa-list w-5 text-center text-gray-500"></i>
@@ -62,7 +62,19 @@
                 <li>
                     <a href="{{ route('admin.accommodation.index') }}" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors no-underline hover:no-underline {{ $isActive('admin.accommodation.*') ? 'border-l-4 border-primary-600 bg-primary-50 text-primary-700 pl-[11px]' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
                         <i class="fa fa-home w-5 text-center text-gray-500"></i>
-                        <span>Accommodations</span>
+                        <span>Properties</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.maid.index') }}" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors no-underline hover:no-underline {{ $isActive('admin.maid.*') ? 'border-l-4 border-primary-600 bg-primary-50 text-primary-700 pl-[11px]' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
+                        <i class="fa fa-user-circle w-5 text-center text-gray-500"></i>
+                        <span>Maids</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.driver.index') }}" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors no-underline hover:no-underline {{ $isActive('admin.driver.*') ? 'border-l-4 border-primary-600 bg-primary-50 text-primary-700 pl-[11px]' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }}">
+                        <i class="fa fa-car w-5 text-center text-gray-500"></i>
+                        <span>Drivers</span>
                     </a>
                 </li>
                 <li>

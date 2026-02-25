@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\ChauffeurServiceController;
 use App\Http\Controllers\Admin\AccommodationController;
+use App\Http\Controllers\Admin\MaidController;
+use App\Http\Controllers\Admin\DriverController;
 use App\Http\Controllers\Agency\NavigationController as AgencyNavigationController;
 use App\Http\Controllers\Agency\TourController as AgencyTourController;
 
@@ -85,6 +87,8 @@ Route::prefix('admin')->as('admin.')->middleware(['auth', 'CheckUserRole'])->gro
     Route::resource('/locations', LocationController::class);
     Route::resource('/chauffeur_service', ChauffeurServiceController::class)->names('chauffeur_service');
     Route::resource('/accommodation', AccommodationController::class)->names('accommodation');
+    Route::resource('/maids', MaidController::class)->names('maid');
+    Route::resource('/drivers', DriverController::class)->names('driver');
     Route::get('/movable_cameras', [LocationController::class, 'movable_cameras'])->name('movable_cameras');
     Route::get('/contactus_messages', [AdminNavigationController::class, 'contactus_message'])->name('contactus_message');
     Route::get('/delete_message/{id}', [AdminNavigationController::class, 'delete_message'])->name('delete_message');

@@ -14,6 +14,9 @@ class ChauffeurService extends Model
         'is_active',
         'sort_order',
         'capacity',
+        'vehicle_number',
+        'model',
+        'color',
     ];
 
     protected $casts = [

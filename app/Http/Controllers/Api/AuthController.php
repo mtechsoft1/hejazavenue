@@ -13,7 +13,6 @@ use App\Mail\SignupMail;
 use App\Mail\BookTripMail;
 use Illuminate\Support\Facades\Hash;
 use App\TourBooking;
-use App\Tour;
 use App\Notification;
 use App\Destination;
 

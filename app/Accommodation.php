@@ -16,6 +16,7 @@ class Accommodation extends Model
         'latitude',
         'longitude',
         'bedrooms',
+        'bathrooms',
         'min_guests',
         'max_guests',
         'dedicated_maid_included',
@@ -30,6 +31,7 @@ class Accommodation extends Model
     protected $casts = [
         'distance_meters' => 'integer',
         'bedrooms' => 'integer',
+        'bathrooms' => 'integer',
         'min_guests' => 'integer',
         'max_guests' => 'integer',
         'dedicated_maid_included' => 'boolean',
