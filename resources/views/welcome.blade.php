@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    Compass Tour
+    Hejazavenue
 @endsection
 @section('content')
     @php

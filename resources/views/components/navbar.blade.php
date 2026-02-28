@@ -51,7 +51,7 @@
                     <a href="{{ route('logout') }}" class="bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-6 rounded-full no-underline">Logout</a>
                 @else
                     <a href="{{ route('login') }}" class="nav-link text-white/95 hover:text-green-400 group-data-[scrolled=true]:text-slate-700 group-data-[scrolled=true]:hover:text-green-600 text-sm font-semibold no-underline">Sign In</a>
-                    <a href="{{ route('register') }}" class="register-btn bg-white hover:bg-gray-100 text-slate-900 group-data-[scrolled=true]:!bg-green-600 group-data-[scrolled=true]:!text-white group-data-[scrolled=true]:hover:!bg-green-700 text-sm font-semibold py-2.5 px-6 rounded-full shadow no-underline">Register</a>
+                    <a href="{{ route('register') }}#register-form" class="register-btn bg-white hover:bg-gray-100 text-slate-900 group-data-[scrolled=true]:!bg-green-600 group-data-[scrolled=true]:!text-white group-data-[scrolled=true]:hover:!bg-green-700 text-sm font-semibold py-2.5 px-6 rounded-full shadow no-underline">Register</a>
                 @endauth
             </div>
         </div>
@@ -89,7 +89,7 @@
                     <a href="{{ route('logout') }}" class="bg-red-600 text-white text-center py-3 rounded-full font-semibold no-underline">Logout</a>
                 @else
                     <a href="{{ route('login') }}" class="text-white/95 py-3 text-base font-semibold no-underline">Sign In</a>
-                    <a href="{{ route('register') }}" class="bg-white text-slate-900 text-center py-3 rounded-full font-semibold no-underline">Register</a>
+                    <a href="{{ route('register') }}#register-form" class="bg-white text-slate-900 text-center py-3 rounded-full font-semibold no-underline">Register</a>
                 @endauth
             </div>
         </div>

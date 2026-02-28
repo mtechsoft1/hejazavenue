@@ -32,6 +32,14 @@ class RegisterController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
+     * Redirect to intended URL (e.g. booking review) after registration when set.
+     */
+    public function redirectPath()
+    {
+        return session('url.intended', RouteServiceProvider::HOME);
+    }
+
+    /**
      * Create a new controller instance.
      *
      * @return void

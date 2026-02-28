@@ -10,6 +10,25 @@
     $placeholder = asset('images/hero.jpg');
 @endphp
 <section class="bg-[#FAFAF9]">
+    {{-- Session flash (e.g. session expired, not available) --}}
+    @if(session('error'))
+        <div class="max-w-7xl mx-auto px-6 pt-6">
+            <div class="rounded-xl bg-red-50 border border-red-200 p-4 text-red-800 text-sm" role="alert">{{ session('error') }}</div>
+        </div>
+    @endif
+    {{-- Validation errors (when redirected back from booking review) --}}
+    @if($errors->any())
+        <div class="max-w-7xl mx-auto px-6 pt-6">
+            <div class="rounded-xl bg-amber-50 border border-amber-200 p-4 text-amber-800 text-sm" role="alert">
+                <p class="font-medium">Please correct the following:</p>
+                <ul class="list-disc list-inside mt-1 space-y-0.5">
+                    @foreach($errors->all() as $err)
+                        <li>{{ $err }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    @endif
     {{-- Full-width: back + title (so card can start level with images) --}}
     <div class="max-w-7xl mx-auto px-6 pt-6 pb-2">
         <a href="{{ url()->previous() }}" class="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-medium text-sm transition-colors">
@@ -175,12 +194,20 @@
                         <div class="space-y-2">
                             <label for="checkin_date" class="text-lg font-semibold flex items-center gap-2 text-gray-800">Check-in Date</label>
                             <div class="relative">
-                                <input type="date" id="checkin_date" name="checkin_date" class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition outline-none pr-10"
-                                       placeholder="mm/dd/yyyy">
+                                <input type="date" id="checkin_date" name="checkin_date" value="{{ old('check_in_date') }}" class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition outline-none pr-10"
+                                       placeholder="mm/dd/yyyy" min="">
                                 <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-calendar-alt text-sm"></i></span>
                             </div>
                         </div>
                         <div class="space-y-2">
+                            <label for="checkout_date_main" class="text-lg font-semibold flex items-center gap-2 text-gray-800">Check-out Date</label>
+                            <div class="relative">
+                                <input type="date" id="checkout_date_main" name="check_out_date" value="{{ old('check_out_date') }}" class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition outline-none pr-10"
+                                       placeholder="mm/dd/yyyy" min="">
+                                <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-calendar-alt text-sm"></i></span>
+                            </div>
+                        </div>
+                        <div class="md:col-span-2 space-y-2">
                             <label for="flight_number" class="text-lg font-semibold flex items-center gap-2 text-gray-800">Flight Number</label>
                             <div class="relative">
                                 <input type="text" id="flight_number" name="flight_number" placeholder="e.g. EK 807"
@@ -430,56 +457,321 @@
 
         {{-- RIGHT SIDEBAR --}}
         <aside class="bg-white border rounded-3xl p-6 h-fit sticky top-20 overflow-hidden z-10">
-            <h3 class="font-semibold text-lg mb-4">
-                Reservation
-            </h3>
+            <form id="booking-form" action="{{ route('accommodation.booking.storeReview', $accommodation->slug) }}" method="POST" class="space-y-0" data-accommodation-slug="{{ $accommodation->slug }}">
+                @csrf
+                <input type="hidden" name="accommodation_id" value="{{ $accommodation->id }}">
+                <input type="hidden" name="check_in_date" id="form_check_in_date" value="">
+                <input type="hidden" name="check_out_date" id="form_check_out_date" value="">
+                <input type="hidden" name="arrival_airport" id="form_arrival_airport" value="">
+                <input type="hidden" name="flight_number" id="form_flight_number" value="">
+                <input type="hidden" name="chauffeur_service_id" id="form_chauffeur_service_id" value="{{ optional($defaultChauffeur ?? $chauffeurServices->first())->id ?? '' }}">
 
-            <p class="text-sm text-gray-600 mb-3">{{ $accommodation->city }}, Saudi Arabia</p>
-            <div class="flex gap-3 mb-4 min-w-0">
-                @php $thumb = $accommodation->images->first(); @endphp
-                <img src="{{ $thumb ? $thumb->url : asset('images/room1.jpg') }}" alt="{{ $accommodation->title }}" class="w-16 h-16 shrink-0 rounded-lg object-cover">
-                <div class="min-w-0">
-                    <p class="font-medium text-[#1a1a1a] truncate">{{ $accommodation->title }}</p>
-                    <p class="text-xs text-gray-500">{{ $accommodation->distance_display }}</p>
-                </div>
-            </div>
+                <h3 class="font-semibold text-lg mb-4">
+                    Reservation
+                </h3>
 
-            <div class="space-y-3 mb-4">
-                <div class="grid grid-cols-2 gap-2 min-w-0">
-                    <input type="text" placeholder="Check-in" class="min-w-0 w-full border border-gray-300 rounded-xl px-3 py-2 text-sm box-border" readonly onfocus="this.type='date'">
-                    <input type="text" placeholder="Check-out" class="min-w-0 w-full border border-gray-300 rounded-xl px-3 py-2 text-sm box-border" readonly onfocus="this.type='date'">
-                </div>
-            </div>
-
-            <div class="space-y-4 text-sm">
-                <div class="flex justify-between">
-                    <span>Price per night (all included)</span>
-                    <span>SAR {{ number_format($accommodation->price_per_night, 0) }}</span>
+                <p class="text-sm text-gray-600 mb-3">{{ $accommodation->city }}, Saudi Arabia</p>
+                <div class="flex gap-3 mb-4 min-w-0">
+                    @php $thumb = $accommodation->images->first(); @endphp
+                    <img src="{{ $thumb ? $thumb->url : asset('images/room1.jpg') }}" alt="{{ $accommodation->title }}" class="w-16 h-16 shrink-0 rounded-lg object-cover">
+                    <div class="min-w-0">
+                        <p class="font-medium text-[#1a1a1a] truncate">{{ $accommodation->title }}</p>
+                        <p class="text-xs text-gray-500">{{ $accommodation->distance_display }}</p>
+                    </div>
                 </div>
 
-                <div class="flex justify-between text-green-700">
-                    <span>Dedicated Maid, Driver, Chauffeur</span>
-                    <span>Included</span>
+                <div class="space-y-3 mb-4">
+                    <div class="grid grid-cols-2 gap-2 min-w-0">
+                        <input type="date" id="sidebar_checkin" name="_checkin_ui" value="{{ old('check_in_date') }}" class="min-w-0 w-full border border-gray-300 rounded-xl px-3 py-2 text-sm box-border" placeholder="Check-in" aria-label="Check-in date">
+                        <input type="date" id="sidebar_checkout" name="_checkout_ui" value="{{ old('check_out_date') }}" class="min-w-0 w-full border border-gray-300 rounded-xl px-3 py-2 text-sm box-border" placeholder="Check-out" aria-label="Check-out date">
+                    </div>
+                    <div class="guest-selector">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Guests</label>
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <div class="flex items-center gap-2">
+                                <label for="guests_adults" class="text-xs text-gray-500">Adults</label>
+                                <input type="number" id="guests_adults" name="adults" min="1" max="{{ $accommodation->max_guests }}" value="{{ old('adults', 1) }}" class="w-14 border border-gray-300 rounded-lg px-2 py-1.5 text-sm text-center">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <label for="guests_kids" class="text-xs text-gray-500">Kids</label>
+                                <input type="number" id="guests_kids" name="kids" min="0" max="{{ $accommodation->max_guests }}" value="{{ old('kids', 0) }}" class="w-14 border border-gray-300 rounded-lg px-2 py-1.5 text-sm text-center">
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Capacity: {{ $accommodation->min_guests }}–{{ $accommodation->max_guests }} guests</p>
+                    </div>
                 </div>
 
-                <hr>
+                <div id="booking-summary-msg" class="text-sm text-amber-600 mb-2 hidden" role="alert"></div>
+                <div id="booking-availability-msg" class="text-sm mb-2 hidden" role="status"></div>
 
-                <div class="flex justify-between font-semibold">
-                    <span>Total</span>
-                    <span>Inquiry</span>
+                <div class="space-y-4 text-sm">
+                    <div class="flex justify-between">
+                        <span>Price per night (all included)</span>
+                        <span>SAR <span id="price_per_night_display">{{ number_format($accommodation->price_per_night, 0) }}</span></span>
+                    </div>
+
+                    <div class="flex justify-between text-green-700">
+                        <span>Dedicated Maid, Driver, Chauffeur</span>
+                        <span>Included</span>
+                    </div>
+
+                    <hr>
+
+                    <div class="flex justify-between font-semibold">
+                        <span>Total</span>
+                        <span id="total_display">Select dates</span>
+                    </div>
+
+                    <button type="submit" id="btn_reserve" class="w-full mt-4 py-3 rounded-xl font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-gray-200 text-gray-500" disabled>
+                        Reserve My Journey
+                    </button>
+
+                    <p class="text-xs text-center text-gray-400 mt-2">
+                        Guided by Grace, Secured by Trust
+                    </p>
                 </div>
-
-                <button class="w-full mt-4 bg-gray-200 py-3 rounded-xl text-gray-500 font-medium">
-                    Reserve My Journey
-                </button>
-
-                <p class="text-xs text-center text-gray-400 mt-2">
-                    Guided by Grace, Secured by Trust
-                </p>
-            </div>
+            </form>
         </aside>
 
     </div>
 </section>
+
+{{-- Booking sidebar: date sync, live price, validation, form submit sync --}}
+<script>
+(function() {
+    var pricePerNight = {{ (float) $accommodation->price_per_night }};
+    var minGuests = {{ (int) $accommodation->min_guests }};
+    var maxGuests = {{ (int) $accommodation->max_guests }};
+    var today = new Date().toISOString().slice(0, 10);
+
+    var form = document.getElementById('booking-form');
+    var sidebarCheckin = document.getElementById('sidebar_checkin');
+    var sidebarCheckout = document.getElementById('sidebar_checkout');
+    var mainCheckin = document.getElementById('checkin_date');
+    var mainCheckout = document.getElementById('checkout_date_main');
+    var formCheckIn = document.getElementById('form_check_in_date');
+    var formCheckOut = document.getElementById('form_check_out_date');
+    var formArrival = document.getElementById('form_arrival_airport');
+    var formFlight = document.getElementById('form_flight_number');
+    var formChauffeur = document.getElementById('form_chauffeur_service_id');
+    var guestsAdults = document.getElementById('guests_adults');
+    var guestsKids = document.getElementById('guests_kids');
+    var chauffeurSelect = document.getElementById('chauffeur-select');
+    var arrivalAirport = document.getElementById('arrival_airport');
+    var flightNumber = document.getElementById('flight_number');
+    var totalDisplay = document.getElementById('total_display');
+    var summaryMsg = document.getElementById('booking-summary-msg');
+    var btnReserve = document.getElementById('btn_reserve');
+
+    function setMinDates() {
+        if (sidebarCheckin) sidebarCheckin.setAttribute('min', today);
+        if (mainCheckin) mainCheckin.setAttribute('min', today);
+        if (mainCheckout) mainCheckout.setAttribute('min', today);
+    }
+
+    function syncCheckoutMin() {
+        var ci = (sidebarCheckin && sidebarCheckin.value) || (mainCheckin && mainCheckin.value);
+        if (ci) {
+            var d = new Date(ci);
+            d.setDate(d.getDate() + 1);
+            var next = d.toISOString().slice(0, 10);
+            if (sidebarCheckout) sidebarCheckout.setAttribute('min', next);
+            if (mainCheckout) mainCheckout.setAttribute('min', next);
+        }
+    }
+
+    function syncFromMainToSidebar() {
+        if (mainCheckin && sidebarCheckin && mainCheckin.value) sidebarCheckin.value = mainCheckin.value;
+        if (mainCheckout && sidebarCheckout && mainCheckout.value) sidebarCheckout.value = mainCheckout.value;
+        syncCheckoutMin();
+        updateSummary();
+    }
+
+    function syncFromSidebarToMain() {
+        if (sidebarCheckin && mainCheckin && sidebarCheckin.value) mainCheckin.value = sidebarCheckin.value;
+        if (sidebarCheckout && mainCheckout && sidebarCheckout.value) mainCheckout.value = sidebarCheckout.value;
+        syncCheckoutMin();
+        updateSummary();
+    }
+
+    function getChauffeurExtraPerNight() {
+        if (!chauffeurSelect) return 0;
+        var opt = chauffeurSelect.options[chauffeurSelect.selectedIndex];
+        if (!opt || opt.dataset.isDefault === '1') return 0;
+        return parseFloat(opt.dataset.extraPrice || 0) || 0;
+    }
+
+    function getCheckInOut() {
+        var ci = (sidebarCheckin && sidebarCheckin.value) || (mainCheckin && mainCheckin.value);
+        var co = (sidebarCheckout && sidebarCheckout.value) || (mainCheckout && mainCheckout.value);
+        return { checkIn: ci, checkOut: co };
+    }
+
+    function parseDate(str) {
+        if (!str) return null;
+        var parts = str.split('-');
+        if (parts.length !== 3) return null;
+        return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+    }
+
+    function nightsBetween(checkIn, checkOut) {
+        var a = parseDate(checkIn);
+        var b = parseDate(checkOut);
+        if (!a || !b || b <= a) return 0;
+        return Math.round((b - a) / (1000 * 60 * 60 * 24));
+    }
+
+    function updateSummary() {
+        var msgEl = summaryMsg;
+        var totalEl = totalDisplay;
+        var btn = btnReserve;
+        var ci = (sidebarCheckin && sidebarCheckin.value) || (mainCheckin && mainCheckin.value);
+        var co = (sidebarCheckout && sidebarCheckout.value) || (mainCheckout && mainCheckout.value);
+        var adults = guestsAdults ? parseInt(guestsAdults.value, 10) : 1;
+        var kids = guestsKids ? parseInt(guestsKids.value, 10) : 0;
+        var totalGuests = adults + kids;
+
+        if (formCheckIn) formCheckIn.value = ci || '';
+        if (formCheckOut) formCheckOut.value = co || '';
+
+        var invalid = false;
+        var message = '';
+
+        if (!ci || !co) {
+            if (totalEl) totalEl.textContent = 'Select dates';
+            if (btn) btn.disabled = true;
+            return;
+        }
+        if (ci < today) {
+            invalid = true;
+            message = 'Check-in cannot be in the past.';
+        }
+        if (co <= ci) {
+            invalid = true;
+            message = 'Check-out must be after check-in.';
+        }
+        if (totalGuests < minGuests || totalGuests > maxGuests) {
+            invalid = true;
+            message = 'Total guests must be between ' + minGuests + ' and ' + maxGuests + '.';
+        }
+
+        var nights = nightsBetween(ci, co);
+        if (nights <= 0 && !invalid) {
+            invalid = true;
+            message = 'Please select valid dates.';
+        }
+
+        if (msgEl) {
+            msgEl.textContent = message;
+            msgEl.classList.toggle('hidden', !invalid);
+        }
+
+        if (invalid) {
+            if (totalEl) totalEl.textContent = '—';
+            if (btn) btn.disabled = true;
+            if (window._availabilityAbort) window._availabilityAbort.abort();
+            var availEl = document.getElementById('booking-availability-msg');
+            if (availEl) { availEl.classList.add('hidden'); availEl.textContent = ''; }
+            return;
+        }
+
+        var chauffeurExtra = getChauffeurExtraPerNight();
+        var subtotal = pricePerNight * nights;
+        var chauffeurTotal = chauffeurExtra * nights;
+        var total = subtotal + chauffeurTotal;
+
+        if (totalEl) {
+            totalEl.textContent = 'SAR ' + Math.round(total).toLocaleString();
+        }
+        if (btn) {
+            btn.disabled = false;
+            btn.classList.remove('bg-gray-200', 'text-gray-500');
+            btn.classList.add('bg-emerald-600', 'text-white', 'hover:bg-emerald-700');
+        }
+
+        fetchAvailability(ci, co);
+    }
+
+    var availabilityTimeout;
+    function fetchAvailability(checkIn, checkOut) {
+        var slug = form && form.getAttribute('data-accommodation-slug');
+        if (!slug || !checkIn || !checkOut) return;
+        clearTimeout(availabilityTimeout);
+        availabilityTimeout = setTimeout(function() {
+            if (window._availabilityAbort) window._availabilityAbort.abort();
+            window._availabilityAbort = new AbortController();
+            var url = '/accommodation/' + encodeURIComponent(slug) + '/availability?check_in=' + encodeURIComponent(checkIn) + '&check_out=' + encodeURIComponent(checkOut);
+            var availEl = document.getElementById('booking-availability-msg');
+            if (availEl) {
+                availEl.classList.remove('hidden');
+                availEl.textContent = 'Checking availability…';
+                availEl.classList.remove('text-emerald-600', 'text-red-600');
+            }
+            fetch(url, { signal: window._availabilityAbort.signal, headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (!availEl) return;
+                    availEl.classList.remove('hidden');
+                    var reserveBtn = document.getElementById('btn_reserve');
+                    if (data.available) {
+                        availEl.textContent = 'Available';
+                        availEl.classList.add('text-emerald-600');
+                        availEl.classList.remove('text-red-600');
+                        if (reserveBtn) reserveBtn.disabled = false;
+                    } else {
+                        availEl.textContent = data.message || 'Not available for these dates';
+                        availEl.classList.add('text-red-600');
+                        availEl.classList.remove('text-emerald-600');
+                        if (reserveBtn) reserveBtn.disabled = true;
+                    }
+                })
+                .catch(function() {
+                    if (availEl) { availEl.classList.add('hidden'); availEl.textContent = ''; }
+                });
+        }, 400);
+    }
+
+    function syncHiddenBeforeSubmit() {
+        if (formCheckIn) formCheckIn.value = (sidebarCheckin && sidebarCheckin.value) || (mainCheckin && mainCheckin.value) || '';
+        if (formCheckOut) formCheckOut.value = (sidebarCheckout && sidebarCheckout.value) || (mainCheckout && mainCheckout.value) || '';
+        if (formArrival && arrivalAirport) formArrival.value = arrivalAirport.value || '';
+        if (formFlight && flightNumber) formFlight.value = flightNumber.value || '';
+        if (formChauffeur && chauffeurSelect) formChauffeur.value = chauffeurSelect.value || '';
+    }
+
+    if (sidebarCheckin) {
+        sidebarCheckin.addEventListener('change', syncFromSidebarToMain);
+        sidebarCheckin.addEventListener('input', syncFromSidebarToMain);
+    }
+    if (sidebarCheckout) {
+        sidebarCheckout.addEventListener('change', syncFromSidebarToMain);
+        sidebarCheckout.addEventListener('input', syncFromSidebarToMain);
+    }
+    if (mainCheckin) {
+        mainCheckin.addEventListener('change', syncFromMainToSidebar);
+        mainCheckin.addEventListener('input', syncFromMainToSidebar);
+    }
+    if (mainCheckout) {
+        mainCheckout.addEventListener('change', syncFromMainToSidebar);
+        mainCheckout.addEventListener('input', syncFromMainToSidebar);
+    }
+    if (guestsAdults) { guestsAdults.addEventListener('change', updateSummary); guestsAdults.addEventListener('input', updateSummary); }
+    if (guestsKids) { guestsKids.addEventListener('input', updateSummary); guestsKids.addEventListener('change', updateSummary); }
+    if (chauffeurSelect) chauffeurSelect.addEventListener('change', function() {
+        if (formChauffeur) formChauffeur.value = chauffeurSelect.value || '';
+        updateSummary();
+    });
+
+    if (form) {
+        form.addEventListener('submit', function() {
+            syncHiddenBeforeSubmit();
+        });
+    }
+
+    setMinDates();
+    syncCheckoutMin();
+    updateSummary();
+})();
+</script>
 
 @endsection

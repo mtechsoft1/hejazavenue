@@ -70,6 +70,11 @@ class Accommodation extends Model
         return $this->belongsTo(ChauffeurService::class, 'chauffeur_service_id');
     }
 
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
     /** Guest capacity display e.g. "4-6" or "8-10" */
     public function getGuestCapacityDisplayAttribute(): string
     {

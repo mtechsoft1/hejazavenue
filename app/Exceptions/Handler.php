@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -51,5 +53,30 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         return parent::render($request, $exception);
+    }
+
+    /**
+     * When unauthenticated user hits a protected route, redirect to login.
+     * For accommodation booking confirm: send them back to the review page after login
+     * so they can confirm again without losing session data.
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
+        }
+
+        $loginUrl = route('login');
+
+        if ($request->routeIs('accommodation.booking.confirm')) {
+            $slug = session('accommodation_booking_review_slug')
+                ?? (session('accommodation_booking_review')['slug'] ?? null);
+            if ($slug) {
+                session(['url.intended' => route('accommodation.booking.review', ['slug' => $slug])]);
+                return redirect($loginUrl);
+            }
+        }
+
+        return redirect()->guest($loginUrl);
     }
 }

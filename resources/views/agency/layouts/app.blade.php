@@ -191,7 +191,7 @@
                 </div>
                 <ul class="flex items-center gap-2 p-0">
                     <li>
-                        <a href="https://hejaz avenue.com/compass/public"
+                        <a href="https://hejazavenue.com/compass/public"
                             class="p-2 rounded-full text-decoration-none border-1 border-white text-sm flex gap-1 hover:text-white items-center ">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-4 h-4">
