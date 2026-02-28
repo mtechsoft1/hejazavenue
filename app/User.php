@@ -28,6 +28,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Tour::class);
     }
 
+    public function accommodationBookings()
+    {
+        return $this->hasMany(Booking::class, 'user_id');
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

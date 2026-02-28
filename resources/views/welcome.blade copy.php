@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    Compass Tour
+    Hejaz Avenue
 @endsection
 @section('content')
     <script src="https://cdn.tailwindcss.com"></script>

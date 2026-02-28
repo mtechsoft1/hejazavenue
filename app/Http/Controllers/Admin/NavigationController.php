@@ -9,6 +9,7 @@ use App\ContactUs;
 use App\UserReviews;
 use App\Maid;
 use App\Driver;
+use App\Booking;
 use DB;
 
 class NavigationController extends Controller
@@ -23,7 +24,14 @@ class NavigationController extends Controller
         $countdriver = Driver::count();
         $countbookings = DB::table('tour_bookings')->count();
 
-        return view('admin.dashboard', compact('countuser', 'countprovider', 'countreviews', 'countmessages', 'countmaid', 'countdriver', 'countbookings'));
+        $accommodationBookingsTotal = Booking::count();
+        $accommodationBookingsPending = Booking::where('status', Booking::STATUS_PENDING)->count();
+        $accommodationBookingsConfirmed = Booking::where('status', Booking::STATUS_CONFIRMED)->count();
+
+        return view('admin.dashboard', compact(
+            'countuser', 'countprovider', 'countreviews', 'countmessages', 'countmaid', 'countdriver', 'countbookings',
+            'accommodationBookingsTotal', 'accommodationBookingsPending', 'accommodationBookingsConfirmed'
+        ));
     }
 
     public function contactus_message()
